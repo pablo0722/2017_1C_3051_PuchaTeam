@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGC.Group", "TGC.Group\TGC.Group.csproj", "{6CB42457-A2B1-4472-846E-1AB760B3226B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PvZTD", "PvZTD\PvZTD.csproj", "{6CB42457-A2B1-4472-846E-1AB760B3226B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
