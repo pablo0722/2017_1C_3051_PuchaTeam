@@ -58,7 +58,8 @@ namespace TGC.Group.Model
             j_Box.Position = new Vector3(-25, 0, 0);
 
             //Cargo el unico mesh que tiene la escena.
-            j_Mesh = new TgcSceneLoader().loadSceneFromFile(MediaDir + "LogoTGC-TgcScene.xml").Meshes[0];
+            var pathMeshTgc = MediaDir + Game.Default.MeshTgc;
+            j_Mesh = new TgcSceneLoader().loadSceneFromFile(pathMeshTgc).Meshes[0];
             //Defino una escala en el modelo logico del mesh que es muy grande.
             j_Mesh.Scale = new Vector3(0.5f, 0.5f, 0.5f);
 

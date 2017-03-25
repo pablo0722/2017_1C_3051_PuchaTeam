@@ -11,14 +11,23 @@
     <Setting Name="MediaDirectory" Type="System.String" Scope="User">
       <Value Profile="(Default)">..\..\Media\</Value>
     </Setting>
-    <Setting Name="TexturaCaja" Type="System.String" Scope="User">
-      <Value Profile="(Default)">cajaMadera4.jpg</Value>
-    </Setting>
     <Setting Name="Category" Type="System.String" Scope="User">
       <Value Profile="(Default)">D'Angelo, Pablo Rodrigo - Virgili José María</Value>
     </Setting>
     <Setting Name="Description" Type="System.String" Scope="User">
       <Value Profile="(Default)">Plantas vs Zombies Tower Defense</Value>
+    </Setting>
+    <Setting Name="MeshTgc" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\LogoTGC-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="TexturaCaja" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Texturas\cajaMadera4.jpg</Value>
+    </Setting>
+    <Setting Name="MeshRaziel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\BolaRaziel-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="MeshCielo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\cielo-TgcScene.xml</Value>
     </Setting>
   </Settings>
 </SettingsFile>

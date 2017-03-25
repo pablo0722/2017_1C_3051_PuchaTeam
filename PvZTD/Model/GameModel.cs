@@ -19,6 +19,17 @@ namespace TGC.Group.Model
     /// </summary>
     public partial class GameModel : TgcExample
     {
+        private const double PI = 3.14159;
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         ///     Constructor del juego.
         /// </summary>
@@ -40,8 +51,8 @@ namespace TGC.Group.Model
         public override void Init()
         {
             //Device de DirectX para crear primitivas.
-            var d3dDevice = D3DDevice.Instance.Device;
-
+            //var d3dDevice = D3DDevice.Instance.Device;
+            
             pablo_init();
             jose_init();
         }

@@ -61,18 +61,6 @@ namespace TGC.Group {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("cajaMadera4.jpg")]
-        public string TexturaCaja {
-            get {
-                return ((string)(this["TexturaCaja"]));
-            }
-            set {
-                this["TexturaCaja"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("D\'Angelo, Pablo Rodrigo - Virgili José María")]
         public string Category {
             get {
@@ -92,6 +80,54 @@ namespace TGC.Group {
             }
             set {
                 this["Description"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\LogoTGC-TgcScene.xml")]
+        public string MeshTgc {
+            get {
+                return ((string)(this["MeshTgc"]));
+            }
+            set {
+                this["MeshTgc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\cajaMadera4.jpg")]
+        public string TexturaCaja {
+            get {
+                return ((string)(this["TexturaCaja"]));
+            }
+            set {
+                this["TexturaCaja"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\BolaRaziel-TgcScene.xml")]
+        public string MeshRaziel {
+            get {
+                return ((string)(this["MeshRaziel"]));
+            }
+            set {
+                this["MeshRaziel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\cielo-TgcScene.xml")]
+        public string MeshCielo {
+            get {
+                return ((string)(this["MeshCielo"]));
+            }
+            set {
+                this["MeshCielo"] = value;
             }
         }
     }

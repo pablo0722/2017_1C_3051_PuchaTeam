@@ -86,6 +86,7 @@
     </Compile>
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\Jose\JoseClass.cs" />
+    <Compile Include="Model\MyCamara.cs" />
     <Compile Include="Model\Pablo\PabloClass.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
