@@ -41,6 +41,9 @@ namespace TGC.Group.Model
         private TgcMesh p_Mesh { get; set; }        // Bola Raziel
         private TgcMesh p_MeshCielo { get; set; }   // TgcLogo
 
+        private System.Collections.Generic.List<TgcMesh> p_MeshGirasol { get; set; } // Girasol
+        private System.Collections.Generic.List<TgcMesh> p_MeshMina { get; set; }    // Mina
+
         //      OBJETOS
         private TgcBox p_Box { get; set; }          //Caja que se muestra en el ejemplo
 
@@ -61,7 +64,7 @@ namespace TGC.Group.Model
 
         private void pablo_init()
         {
-            /*
+            //*
             // Cargar una textura
             var pathTexturaCaja = MediaDir + Game.Default.TexturaCaja;
             var texture = TgcTexture.createTexture(pathTexturaCaja);
@@ -76,6 +79,7 @@ namespace TGC.Group.Model
             //Cargo el unico mesh que tiene la escena.
             var pathMeshTgc = MediaDir + Game.Default.MeshRaziel;
             p_Mesh = new TgcSceneLoader().loadSceneFromFile(pathMeshTgc).Meshes[0];
+            p_Mesh.Scale = new Vector3((float)0.5, (float)0.5, (float)0.5);
             p_Mesh.move(-2, 7, 0);
 
             var PathMeshCielo = MediaDir + Game.Default.MeshCielo;
@@ -83,11 +87,29 @@ namespace TGC.Group.Model
             p_MeshCielo.Scale = new Vector3((float) 1, (float) 1, (float) 1);
             p_MeshCielo.rotateZ((float) -PI/2);
 
+            var PathMeshGirasol = MediaDir + Game.Default.MeshGirasol;
+            p_MeshGirasol = new TgcSceneLoader().loadSceneFromFile(PathMeshGirasol).Meshes;
+            for (int i = 0; i < p_MeshGirasol.Count; i++)
+            {
+                p_MeshGirasol[i].Scale = new Vector3((float) 0.05, (float) 0.05, (float) 0.05);
+                p_MeshGirasol[i].rotateY((float)PI);
+                p_MeshGirasol[i].Position = new Vector3((float)10, (float)0, (float)-50);
+            }
+
+            var PathMeshMina = MediaDir + Game.Default.MeshMina;
+            p_MeshMina = new TgcSceneLoader().loadSceneFromFile(PathMeshMina).Meshes;
+            for(int i=0; i<p_MeshMina.Count; i++)
+            {
+                p_MeshMina[i].Scale = new Vector3((float)0.15, (float)0.15, (float)0.15);
+                p_MeshMina[i].rotateY((float)PI);
+                p_MeshMina[i].Position = new Vector3((float)-10, (float)0, (float)-50);
+            }
+
 
             //Camara
             camaraInterna = new MyCamara(p_Mesh.Position, (float)10, (float)50);
             Camara = camaraInterna;
-            */
+            //*/
         }
 
 
@@ -105,15 +127,14 @@ namespace TGC.Group.Model
 
         private void pablo_update()
         {
-            /*
+            //*
             p_Mesh.rotateY((float) 0.01);
 
             if (Input.keyDown(Key.W))
             {
-                p_Mesh.move(0, 0, -vel*ElapsedTime);
+                p_Mesh.move(0, 0, -vel * ElapsedTime);
 
                 camaraInterna.Target = p_Mesh.Position;
-                p_MeshCielo.Position = Camara.Position;
             }
 
             if (Input.keyDown(Key.S))
@@ -121,11 +142,12 @@ namespace TGC.Group.Model
                 p_Mesh.move(0, 0, vel * ElapsedTime);
 
                 camaraInterna.Target = p_Mesh.Position;
-                p_MeshCielo.Position = Camara.Position;
             }
 
+            p_MeshCielo.Position = Camara.Position;
+
             p_MeshCielo.rotateY((float) 0.00005);
-            */
+            //*/
         }
 
 
@@ -143,13 +165,13 @@ namespace TGC.Group.Model
 
         private void pablo_render()
         {
-            /*
+            //*
             //Siempre antes de renderizar el modelo necesitamos actualizar la matriz de transformacion.
             //Debemos recordar el orden en cual debemos multiplicar las matrices, en caso de tener modelos jerárquicos, tenemos control total.
             p_Box.Transform = Matrix.Scaling(p_Box.Scale) *
                             Matrix.RotationYawPitchRoll(p_Box.Rotation.Y, p_Box.Rotation.X, p_Box.Rotation.Z) *
                             Matrix.Translation(p_Box.Position);
-            
+
             //A modo ejemplo realizamos toda las multiplicaciones, pero aquí solo nos hacia falta la traslación.
             //Finalmente invocamos al render de la caja
             p_Box.render();
@@ -163,11 +185,24 @@ namespace TGC.Group.Model
             p_MeshCielo.UpdateMeshTransform();
             p_MeshCielo.render();
 
+            for (int i = 0; i < p_MeshGirasol.Count; i++)
+            {
+                p_MeshGirasol[i].UpdateMeshTransform();
+                p_MeshGirasol[i].render();
+            }
+
+            for (int i = 0; i < p_MeshMina.Count; i++)
+            {
+                p_MeshMina[i].UpdateMeshTransform();
+                p_MeshMina[i].render();
+            }
+
+
             //Render de BoundingBox, muy útil para debug de colisiones.
-            p_Box.BoundingBox.render();
-            p_Mesh.BoundingBox.render();
-            p_MeshCielo.BoundingBox.render();
-            */
+            //p_Box.BoundingBox.render();
+            //p_Mesh.BoundingBox.render();
+            //p_MeshCielo.BoundingBox.render();
+            //*/
         }
 
 
@@ -185,7 +220,7 @@ namespace TGC.Group.Model
 
         private void pablo_dispose()
         {
-            /*
+            //*
             //Dispose de la caja.
             p_Box.dispose();
 
@@ -194,7 +229,18 @@ namespace TGC.Group.Model
             //Dispose del mesh.
 
             p_MeshCielo.dispose();
-            */
+
+            for (int i = 0; i < p_MeshGirasol.Count; i++)
+            {
+                p_MeshGirasol[i].dispose();
+            }
+
+            for (int i = 0; i < p_MeshMina.Count; i++)
+            {
+                p_MeshMina[i].dispose();
+            }
+            
+            //*/
         }
     }
 }

@@ -61,7 +61,7 @@ namespace TGC.Group.Model
             var pathMeshTgc = MediaDir + Game.Default.MeshTgc;
             j_Mesh = new TgcSceneLoader().loadSceneFromFile(pathMeshTgc).Meshes[0];
             //Defino una escala en el modelo logico del mesh que es muy grande.
-            j_Mesh.Scale = new Vector3(0.5f, 0.5f, 0.5f);
+            j_Mesh.Scale = new Vector3(0.25f, 0.25f, 0.25f);
 
             //Suelen utilizarse objetos que manejan el comportamiento de la camara.
             //Lo que en realidad necesitamos gráficamente es una matriz de View.

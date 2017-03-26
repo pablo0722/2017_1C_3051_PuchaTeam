@@ -130,5 +130,65 @@ namespace TGC.Group {
                 this["MeshCielo"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Girasol-TgcScene.xml")]
+        public string MeshGirasol {
+            get {
+                return ((string)(this["MeshGirasol"]));
+            }
+            set {
+                this["MeshGirasol"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\mina-TgcScene.xml")]
+        public string MeshMina {
+            get {
+                return ((string)(this["MeshMina"]));
+            }
+            set {
+                this["MeshMina"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\mina_maceta-TgcScene.xml")]
+        public string MeshMina2 {
+            get {
+                return ((string)(this["MeshMina2"]));
+            }
+            set {
+                this["MeshMina2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\mina_palo-TgcScene.xml")]
+        public string MeshMina3 {
+            get {
+                return ((string)(this["MeshMina3"]));
+            }
+            set {
+                this["MeshMina3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\mina_bola-TgcScene.xml")]
+        public string MeshMina4 {
+            get {
+                return ((string)(this["MeshMina4"]));
+            }
+            set {
+                this["MeshMina4"] = value;
+            }
+        }
     }
 }
