@@ -1,14 +1,14 @@
 ﻿using Microsoft.DirectX;
 using Microsoft.DirectX.DirectInput;
 using System.Drawing;
-using TGC.Core.Direct3D;
 using TGC.Core.Example;
 using TGC.Core.Geometry;
-using TGC.Core.Input;
 using TGC.Core.SceneLoader;
 using TGC.Core.Textures;
 using TGC.Core.Utils;
-using TGC.Core.SkeletalAnimation;
+using System.Collections.Generic;
+using TGC.Examples.Lights;
+
 
 namespace TGC.Group.Model
 {
@@ -18,10 +18,16 @@ namespace TGC.Group.Model
          *                 CONSTANTES - Deben comenzar con "p_"
          ******************************************************************************************/
 
-        private const float vel = 10;
+        private const float p_CharVel = 10;
+        private const float p_CharRot = 1;
+        private const float p_CieloRot = (float)0.005;
 
-
-
+        private const float p_CamPosXInit = 20;
+        private const float p_CamPosYInit = 20;
+        private const float p_CamPosZInit = 0;
+        private const float p_CamVel = 50;
+        private const float p_CamJump = 50;
+        private const float p_CamRot = (float)0.02;
 
 
 
@@ -35,17 +41,28 @@ namespace TGC.Group.Model
 
         //      CAMARAS
         // Camara con movimiento
-        private MyCamara camaraInterna;
+        private MyCamara1Persona p_CamaraInterna;
 
         //      MESHES
-        private TgcMesh p_Mesh { get; set; }        // Bola Raziel
-        private TgcMesh p_MeshCielo { get; set; }   // TgcLogo
+        private TgcMesh p_Mesh_BolaRaziel { get; set; }         // Bola Raziel
+        private TgcMesh p_Mesh_Cielo { get; set; }              // TgcLogo
+        private TgcMesh p_Mesh_plano { get; set; }              // Escenario
+        private TgcMesh p_Mesh_zombie { get; set; }             // Zombie
+        private TgcBox  p_Mesh_BoxCollision;                    // Punto rojo colision
+        private TgcBox  p_Mesh_BoxHUD1 { get; set; }            // Caja HUD 1
+        private TgcBox  p_Mesh_BoxHUD2 { get; set; }            // Caja HUD 2
+        private TgcBox  p_Mesh_BoxHUD3 { get; set; }            // Caja HUD 3
 
-        private System.Collections.Generic.List<TgcMesh> p_MeshGirasol { get; set; } // Girasol
-        private System.Collections.Generic.List<TgcMesh> p_MeshMina { get; set; }    // Mina
+        private List<TgcMesh> p_Meshes_Girasol { get; set; }    // Girasol (Lista)
+        private List<TgcMesh> p_Meshes_Mina { get; set; }       // Mina (Lista)
 
-        //      OBJETOS
-        private TgcBox p_Box { get; set; }          //Caja que se muestra en el ejemplo
+        //      ESPECIALES
+        private TgcPickingRay p_PickingRay;
+
+        //      OTRAS VARIABLES
+        private bool p_is_CamPicado = false;
+        private TgcBox  p_Mesh_BoxPicked;
+        private Vector3 p_PickPos;
 
 
 
@@ -65,51 +82,63 @@ namespace TGC.Group.Model
         private void pablo_init()
         {
             //*
+
+            //Iniciarlizar PickingRay
+            p_PickingRay = new TgcPickingRay(Input);
+            p_Mesh_BoxCollision = TgcBox.fromSize(new Vector3((float)0.5, (float)0.5, (float)0.5), Color.Red);
+            p_Mesh_BoxCollision.AutoTransformEnable = true;
+
             // Cargar una textura
             var pathTexturaCaja = MediaDir + Game.Default.TexturaCaja;
             var texture = TgcTexture.createTexture(pathTexturaCaja);
 
             //Creamos una caja 3D ubicada de dimensiones (5, 10, 5) y la textura como color.
-            var size = new Vector3(5, 10, 5);
-            var pos = new Vector3(25, 0, 0);
+            var size = new Vector3(5, 5, 5);
             //Construimos una caja según los parámetros, por defecto la misma se crea con centro en el origen y se recomienda así para facilitar las transformaciones.
-            p_Box = TgcBox.fromSize(pos, size, texture);
-            
+            p_Mesh_BoxHUD1 = TgcBox.fromSize(new Vector3(-50, 50, 20), size, texture);
+            p_Mesh_BoxHUD2 = TgcBox.fromSize(new Vector3(-60, 50, 20), size, texture);
+            p_Mesh_BoxHUD3 = TgcBox.fromSize(new Vector3(-70, 50, 20), size, texture);
 
             //Cargo el unico mesh que tiene la escena.
             var pathMeshTgc = MediaDir + Game.Default.MeshRaziel;
-            p_Mesh = new TgcSceneLoader().loadSceneFromFile(pathMeshTgc).Meshes[0];
-            p_Mesh.Scale = new Vector3((float)0.5, (float)0.5, (float)0.5);
-            p_Mesh.move(-2, 7, 0);
+            p_Mesh_BolaRaziel = new TgcSceneLoader().loadSceneFromFile(pathMeshTgc).Meshes[0];
+            p_Mesh_BolaRaziel.Scale = new Vector3((float)0.5, (float)0.5, (float)0.5);
+            p_Mesh_BolaRaziel.move(0, 12, -3);
 
             var PathMeshCielo = MediaDir + Game.Default.MeshCielo;
-            p_MeshCielo = new TgcSceneLoader().loadSceneFromFile(PathMeshCielo).Meshes[0];
-            p_MeshCielo.Scale = new Vector3((float) 1, (float) 1, (float) 1);
-            p_MeshCielo.rotateZ((float) -PI/2);
+            p_Mesh_Cielo = new TgcSceneLoader().loadSceneFromFile(PathMeshCielo).Meshes[0];
+            p_Mesh_Cielo.rotateZ((float) -PI/2);
+
+            var PathMeshPlano = MediaDir + Game.Default.MeshPlano;
+            p_Mesh_plano = new TgcSceneLoader().loadSceneFromFile(PathMeshPlano).Meshes[0];
+
+            var PathMeshZombie = MediaDir + Game.Default.MeshZombie;
+            p_Mesh_zombie = new TgcSceneLoader().loadSceneFromFile(PathMeshZombie).Meshes[0];
+            p_Mesh_zombie.Scale = new Vector3((float)0.25, (float)0.25, (float)0.25);
 
             var PathMeshGirasol = MediaDir + Game.Default.MeshGirasol;
-            p_MeshGirasol = new TgcSceneLoader().loadSceneFromFile(PathMeshGirasol).Meshes;
-            for (int i = 0; i < p_MeshGirasol.Count; i++)
+            p_Meshes_Girasol = new TgcSceneLoader().loadSceneFromFile(PathMeshGirasol).Meshes;
+            for (int i = 0; i < p_Meshes_Girasol.Count; i++)
             {
-                p_MeshGirasol[i].Scale = new Vector3((float) 0.05, (float) 0.05, (float) 0.05);
-                p_MeshGirasol[i].rotateY((float)PI);
-                p_MeshGirasol[i].Position = new Vector3((float)10, (float)0, (float)-50);
+                p_Meshes_Girasol[i].Scale = new Vector3((float) 0.05, (float) 0.05, (float) 0.05);
+                p_Meshes_Girasol[i].rotateY((float)PI);
+                p_Meshes_Girasol[i].Position = new Vector3((float)10, (float)0, (float)-50);
             }
 
             var PathMeshMina = MediaDir + Game.Default.MeshMina;
-            p_MeshMina = new TgcSceneLoader().loadSceneFromFile(PathMeshMina).Meshes;
-            for(int i=0; i<p_MeshMina.Count; i++)
+            p_Meshes_Mina = new TgcSceneLoader().loadSceneFromFile(PathMeshMina).Meshes;
+            for(int i=0; i< p_Meshes_Mina.Count; i++)
             {
-                p_MeshMina[i].Scale = new Vector3((float)0.15, (float)0.15, (float)0.15);
-                p_MeshMina[i].rotateY((float)PI);
-                p_MeshMina[i].Position = new Vector3((float)-10, (float)0, (float)-50);
+                p_Meshes_Mina[i].Scale = new Vector3((float)0.15, (float)0.15, (float)0.15);
+                p_Meshes_Mina[i].rotateY((float)PI);
+                p_Meshes_Mina[i].Position = new Vector3(-10, 0, -50);
             }
 
 
             //Camara
-            camaraInterna = new MyCamara(p_Mesh.Position, (float)10, (float)50);
-            Camara = camaraInterna;
-            //*/
+            p_CamaraInterna = new MyCamara1Persona(new Vector3(p_CamPosXInit, p_CamPosYInit, p_CamPosZInit), 
+                p_CamVel, p_CamJump, p_CamRot, Input);
+            Camara = p_CamaraInterna;
         }
 
 
@@ -128,25 +157,68 @@ namespace TGC.Group.Model
         private void pablo_update()
         {
             //*
-            p_Mesh.rotateY((float) 0.01);
+            if (!p_is_CamPicado)
+                p_CamaraInterna.UpdateCamera(ElapsedTime);
 
-            if (Input.keyDown(Key.W))
+            p_Mesh_BolaRaziel.rotateY(p_CharRot* ElapsedTime);
+            p_Mesh_Cielo.Position = Camara.Position;
+            p_Mesh_Cielo.rotateY(p_CieloRot * ElapsedTime);
+
+            if (Input.keyPressed(Key.H))
             {
-                p_Mesh.move(0, 0, -vel * ElapsedTime);
+                p_is_CamPicado = !p_is_CamPicado;
 
-                camaraInterna.Target = p_Mesh.Position;
+                if (p_is_CamPicado)
+                {
+                    Camara = new Core.Camara.TgcCamera();
+                    Camara.SetCamera(new Vector3(-100, 100, 0), Vector3.Empty, new Vector3(1, (float)1, 0));
+                }
+                else
+                {
+                    Camara = p_CamaraInterna;
+                }
             }
 
-            if (Input.keyDown(Key.S))
+            if (p_is_CamPicado)
             {
-                p_Mesh.move(0, 0, vel * ElapsedTime);
+                if (Input.buttonPressed(TGC.Core.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT))
+                {
+                    //Actualizar Ray de colision en base a posicion del mouse
+                    p_PickingRay.updateRay();
 
-                camaraInterna.Target = p_Mesh.Position;
+                    p_Mesh_BoxPicked = p_Mesh_BoxCollision;
+
+                    var aabb = p_Mesh_BoxHUD1.BoundingBox;
+                    //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
+                    var selected = TGC.Core.Collision.TgcCollisionUtils.intersectRayAABB(p_PickingRay.Ray, aabb, out p_PickPos);
+                    if (selected)
+                    {
+                        p_Mesh_BoxPicked = p_Mesh_BoxHUD1;
+                    }
+                    else
+                    {
+
+                        aabb = p_Mesh_BoxHUD2.BoundingBox;
+                        //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
+                        selected = TGC.Core.Collision.TgcCollisionUtils.intersectRayAABB(p_PickingRay.Ray, aabb, out p_PickPos);
+                        if (selected)
+                        {
+                            p_Mesh_BoxPicked = p_Mesh_BoxHUD2;
+                        }
+                        else
+                        {
+
+                            aabb = p_Mesh_BoxHUD3.BoundingBox;
+                            //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
+                            selected = TGC.Core.Collision.TgcCollisionUtils.intersectRayAABB(p_PickingRay.Ray, aabb, out p_PickPos);
+                            if (selected)
+                            {
+                                p_Mesh_BoxPicked = p_Mesh_BoxHUD3;
+                            }
+                        }
+                    }
+                }
             }
-
-            p_MeshCielo.Position = Camara.Position;
-
-            p_MeshCielo.rotateY((float) 0.00005);
             //*/
         }
 
@@ -168,33 +240,78 @@ namespace TGC.Group.Model
             //*
             //Siempre antes de renderizar el modelo necesitamos actualizar la matriz de transformacion.
             //Debemos recordar el orden en cual debemos multiplicar las matrices, en caso de tener modelos jerárquicos, tenemos control total.
-            p_Box.Transform = Matrix.Scaling(p_Box.Scale) *
-                            Matrix.RotationYawPitchRoll(p_Box.Rotation.Y, p_Box.Rotation.X, p_Box.Rotation.Z) *
-                            Matrix.Translation(p_Box.Position);
+            p_Mesh_BoxHUD1.Transform = Matrix.Scaling(p_Mesh_BoxHUD1.Scale) *
+                            Matrix.RotationYawPitchRoll(p_Mesh_BoxHUD1.Rotation.Y, p_Mesh_BoxHUD1.Rotation.X, p_Mesh_BoxHUD1.Rotation.Z) *
+                            Matrix.Translation(p_Mesh_BoxHUD1.Position);
 
-            //A modo ejemplo realizamos toda las multiplicaciones, pero aquí solo nos hacia falta la traslación.
-            //Finalmente invocamos al render de la caja
-            p_Box.render();
+            p_Mesh_BoxHUD2.Transform = Matrix.Scaling(p_Mesh_BoxHUD2.Scale) *
+                            Matrix.RotationYawPitchRoll(p_Mesh_BoxHUD2.Rotation.Y, p_Mesh_BoxHUD2.Rotation.X, p_Mesh_BoxHUD2.Rotation.Z) *
+                            Matrix.Translation(p_Mesh_BoxHUD2.Position);
+
+            p_Mesh_BoxHUD3.Transform = Matrix.Scaling(p_Mesh_BoxHUD3.Scale) *
+                            Matrix.RotationYawPitchRoll(p_Mesh_BoxHUD3.Rotation.Y, p_Mesh_BoxHUD3.Rotation.X, p_Mesh_BoxHUD3.Rotation.Z) *
+                            Matrix.Translation(p_Mesh_BoxHUD3.Position);
+
+            if (p_is_CamPicado)
+            {
+                p_Mesh_BoxHUD1.render();
+                p_Mesh_BoxHUD2.render();
+                p_Mesh_BoxHUD3.render();
+
+                if (p_Mesh_BoxPicked == p_Mesh_BoxHUD1)
+                {
+                    p_Mesh_BoxHUD1.BoundingBox.render();
+
+                    //Dibujar caja que representa el punto de colision
+                    p_Mesh_BoxCollision.render();
+
+                    p_Mesh_BoxCollision.Position = p_PickPos;
+                }
+                else if (p_Mesh_BoxPicked == p_Mesh_BoxHUD2)
+                {
+                    p_Mesh_BoxHUD2.BoundingBox.render();
+
+                    //Dibujar caja que representa el punto de colision
+                    p_Mesh_BoxCollision.render();
+
+                    p_Mesh_BoxCollision.Position = p_PickPos;
+                }
+                else if (p_Mesh_BoxPicked == p_Mesh_BoxHUD3)
+                {
+                    p_Mesh_BoxHUD3.BoundingBox.render();
+
+                    //Dibujar caja que representa el punto de colision
+                    p_Mesh_BoxCollision.render();
+
+                    p_Mesh_BoxCollision.Position = p_PickPos;
+                }
+            }
 
             //Cuando tenemos modelos mesh podemos utilizar un método que hace la matriz de transformación estándar.
             //Es útil cuando tenemos transformaciones simples, pero OJO cuando tenemos transformaciones jerárquicas o complicadas.
-            p_Mesh.UpdateMeshTransform();
+            p_Mesh_BolaRaziel.UpdateMeshTransform();
             //Render del mesh
-            p_Mesh.render();
+            p_Mesh_BolaRaziel.render();
 
-            p_MeshCielo.UpdateMeshTransform();
-            p_MeshCielo.render();
+            p_Mesh_plano.UpdateMeshTransform();
+            p_Mesh_plano.render();
 
-            for (int i = 0; i < p_MeshGirasol.Count; i++)
+            p_Mesh_Cielo.UpdateMeshTransform();
+            p_Mesh_Cielo.render();
+
+            p_Mesh_zombie.UpdateMeshTransform();
+            p_Mesh_zombie.render();
+
+            for (int i = 0; i < p_Meshes_Girasol.Count; i++)
             {
-                p_MeshGirasol[i].UpdateMeshTransform();
-                p_MeshGirasol[i].render();
+                p_Meshes_Girasol[i].UpdateMeshTransform();
+                p_Meshes_Girasol[i].render();
             }
 
-            for (int i = 0; i < p_MeshMina.Count; i++)
+            for (int i = 0; i < p_Meshes_Mina.Count; i++)
             {
-                p_MeshMina[i].UpdateMeshTransform();
-                p_MeshMina[i].render();
+                p_Meshes_Mina[i].UpdateMeshTransform();
+                p_Meshes_Mina[i].render();
             }
 
 
@@ -221,25 +338,27 @@ namespace TGC.Group.Model
         private void pablo_dispose()
         {
             //*
-            //Dispose de la caja.
-            p_Box.dispose();
 
-            //Dispose del mesh.
-            p_Mesh.dispose();
-            //Dispose del mesh.
+            //Dispose de los meshes
+            p_Mesh_BolaRaziel.dispose();
+            p_Mesh_Cielo.dispose();
+            p_Mesh_plano.dispose();
+            p_Mesh_zombie.dispose();
+            p_Mesh_BoxCollision.dispose();
+            p_Mesh_BoxHUD1.dispose();
+            p_Mesh_BoxHUD2.dispose();
+            p_Mesh_BoxHUD3.dispose();
 
-            p_MeshCielo.dispose();
-
-            for (int i = 0; i < p_MeshGirasol.Count; i++)
+            for (int i = 0; i < p_Meshes_Girasol.Count; i++)
             {
-                p_MeshGirasol[i].dispose();
+                p_Meshes_Girasol[i].dispose();
             }
 
-            for (int i = 0; i < p_MeshMina.Count; i++)
+            for (int i = 0; i < p_Meshes_Mina.Count; i++)
             {
-                p_MeshMina[i].dispose();
+                p_Meshes_Mina[i].dispose();
             }
-            
+
             //*/
         }
     }

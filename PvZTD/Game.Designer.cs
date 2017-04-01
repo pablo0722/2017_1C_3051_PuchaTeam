@@ -157,37 +157,25 @@ namespace TGC.Group {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\mina_maceta-TgcScene.xml")]
-        public string MeshMina2 {
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\plano-TgcScene.xml")]
+        public string MeshPlano {
             get {
-                return ((string)(this["MeshMina2"]));
+                return ((string)(this["MeshPlano"]));
             }
             set {
-                this["MeshMina2"] = value;
+                this["MeshPlano"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\mina_palo-TgcScene.xml")]
-        public string MeshMina3 {
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\zombie-TgcScene.xml")]
+        public string MeshZombie {
             get {
-                return ((string)(this["MeshMina3"]));
+                return ((string)(this["MeshZombie"]));
             }
             set {
-                this["MeshMina3"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\mina_bola-TgcScene.xml")]
-        public string MeshMina4 {
-            get {
-                return ((string)(this["MeshMina4"]));
-            }
-            set {
-                this["MeshMina4"] = value;
+                this["MeshZombie"] = value;
             }
         }
     }
