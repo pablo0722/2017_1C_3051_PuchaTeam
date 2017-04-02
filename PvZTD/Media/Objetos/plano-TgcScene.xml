@@ -1,6 +1,6 @@
 <tgcScene>
 	<name>plano</name>
-	<texturesExport enabled='true' dir='Textures'/>
+	<texturesExport enabled='true' dir='..\Texturas'/>
 	<lightmapExport enabled='false' dir='LightMaps'/>
 	<sceneBoundingBox min='[-50,0,-50]' max='[50,0,50]'/>
 	<materials count='1'>

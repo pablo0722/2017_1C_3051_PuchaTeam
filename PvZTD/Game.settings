@@ -20,8 +20,8 @@
     <Setting Name="MeshTgc" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\LogoTGC-TgcScene.xml</Value>
     </Setting>
-    <Setting Name="TexturaCaja" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Texturas\cajaMadera4.jpg</Value>
+    <Setting Name="TexturaHUDGirasol" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Texturas\HUD_Girasol.jpg</Value>
     </Setting>
     <Setting Name="MeshRaziel" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\BolaRaziel-TgcScene.xml</Value>
@@ -40,6 +40,12 @@
     </Setting>
     <Setting Name="MeshZombie" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\zombie-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="MeshCaja" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\caja-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="MeshPasto" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\Pasto-TgcScene.xml</Value>
     </Setting>
   </Settings>
 </SettingsFile>

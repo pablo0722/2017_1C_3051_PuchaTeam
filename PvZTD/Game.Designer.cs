@@ -97,13 +97,13 @@ namespace TGC.Group {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\cajaMadera4.jpg")]
-        public string TexturaCaja {
+        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\HUD_Girasol.jpg")]
+        public string TexturaHUDGirasol {
             get {
-                return ((string)(this["TexturaCaja"]));
+                return ((string)(this["TexturaHUDGirasol"]));
             }
             set {
-                this["TexturaCaja"] = value;
+                this["TexturaHUDGirasol"] = value;
             }
         }
         
@@ -176,6 +176,30 @@ namespace TGC.Group {
             }
             set {
                 this["MeshZombie"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\caja-TgcScene.xml")]
+        public string MeshCaja {
+            get {
+                return ((string)(this["MeshCaja"]));
+            }
+            set {
+                this["MeshCaja"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Pasto-TgcScene.xml")]
+        public string MeshPasto {
+            get {
+                return ((string)(this["MeshPasto"]));
+            }
+            set {
+                this["MeshPasto"] = value;
             }
         }
     }

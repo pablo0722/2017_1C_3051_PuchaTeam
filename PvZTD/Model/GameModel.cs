@@ -19,7 +19,7 @@ namespace TGC.Group.Model
     /// </summary>
     public partial class GameModel : TgcExample
     {
-        private const double PI = 3.14159;
+        private const float PI = (float) 3.14159;
 
 
 
