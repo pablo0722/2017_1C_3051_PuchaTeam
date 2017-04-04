@@ -5,9 +5,9 @@ using TGC.Core.Example;
 using TGC.Core.Geometry;
 using TGC.Core.SceneLoader;
 using TGC.Core.Textures;
-using TGC.Core.Utils;
+
 using System.Collections.Generic;
-using TGC.Examples.Lights;
+
 
 
 namespace TGC.Group.Model

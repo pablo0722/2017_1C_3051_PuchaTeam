@@ -193,7 +193,7 @@ namespace TGC.Group {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Pasto-TgcScene.xml")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Pastofinal-TgcScene.xml")]
         public string MeshPasto {
             get {
                 return ((string)(this["MeshPasto"]));

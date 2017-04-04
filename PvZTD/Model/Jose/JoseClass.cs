@@ -8,6 +8,7 @@ using TGC.Core.Input;
 using TGC.Core.SceneLoader;
 using TGC.Core.Textures;
 using TGC.Core.Utils;
+using System.Collections.Generic;
 
 namespace TGC.Group.Model
 {
@@ -16,11 +17,13 @@ namespace TGC.Group.Model
         /******************************************************************************************
          *                 VARIABLES - Deben comenzar con "j_"
          ******************************************************************************************/
-         
+        //      MESHES
+        private List<TgcMesh> j_meshsPasto { get; set; }    // Suelo con pasto(Lista)
 
 
-
-
+        private float posX = 15;
+        private float posY = -10;
+        private float posZ = 35;
 
 
 
@@ -32,6 +35,15 @@ namespace TGC.Group.Model
 
         private void jose_init()
         {
+            var PathMeshsPasto = MediaDir + Game.Default.MeshPasto;
+            j_meshsPasto = new TgcSceneLoader().loadSceneFromFile(PathMeshsPasto).Meshes;
+
+            for (int i = 0; i < j_meshsPasto.Count; i++)
+            {
+                j_meshsPasto[i].Scale = new Vector3((float)1, (float)1, (float)1);
+                j_meshsPasto[i].Position = new Vector3((float)posX, (float)posY, (float)posZ);
+            }
+
         }
 
 
@@ -49,6 +61,10 @@ namespace TGC.Group.Model
 
         private void jose_update()
         {
+
+
+
+
         }
 
 
@@ -66,6 +82,20 @@ namespace TGC.Group.Model
 
         private void jose_render()
         {
+            posZ = 35;
+            for (int cVertical = 0; cVertical < 10; cVertical++, posZ -= 7.5F)
+            {
+                posX = 15;
+                for (int j = 0; j < 5; j++, posX -= 7.5F)
+                {
+                    for (int i = 0; i < j_meshsPasto.Count; i++)
+                    {
+                        j_meshsPasto[i].UpdateMeshTransform();
+                        j_meshsPasto[i].render();
+                        j_meshsPasto[i].Position = new Vector3((float)posX, (float)posY, (float)posZ);
+                    }
+                }
+            }
         }
 
 
@@ -83,6 +113,11 @@ namespace TGC.Group.Model
 
         private void jose_dispose()
         {
+
+            for (int i = 0; i < j_meshsPasto.Count; i++)
+            {
+                j_meshsPasto[i].dispose();
+            }
         }
     }
 }
