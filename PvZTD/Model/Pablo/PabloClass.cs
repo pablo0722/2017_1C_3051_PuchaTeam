@@ -262,7 +262,7 @@ namespace TGC.Group.Model
 
             p_Func_MeshRender(p_Mesh_BolaRaziel);
             p_Func_MeshRender(p_Mesh_plano);
-            p_Func_MeshRender(p_Mesh_Cielo);
+           // p_Func_MeshRender(p_Mesh_Cielo);
             p_Func_MeshRender(p_Mesh_zombie);
 
             p_Func_MeshesRender(p_Meshes_Mina);

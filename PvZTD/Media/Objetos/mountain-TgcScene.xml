@@ -1,0 +1,17 @@
+<tgcScene>
+	<name>Scene01</name>
+	<texturesExport enabled='true' dir='Textures'/>
+	<lightmapExport enabled='false' dir='LightMaps'/>
+	<sceneBoundingBox min='[12.4138,6.79279,-15.5807]' max='[27.1056,18.1516,-8.88859]'/>
+	<materials count='1'>
+		<m name='Material #25' type='Standardmaterial'>
+			<ambient>[149.94,149.94,149.94,255.0]</ambient>
+			<diffuse>[149.94,149.94,149.94,255.0]</diffuse>
+			<specular>[229.5,229.5,229.5,255.0]</specular>
+			<opacity>100.0</opacity>
+			<alphaBlendEnable>false</alphaBlendEnable>
+		</m>
+	</materials>
+	<meshes count='1' >
+		<mesh name='default' layer='0' type='Original' matId='0' color='[134.0,6.0,6.0]' visibility='1.0' lightmap=''>
+			<boundingBox min='[12.4138,6.79279,-15.5807]' max='[27.1056,18.1516,-8.88859]'/>
