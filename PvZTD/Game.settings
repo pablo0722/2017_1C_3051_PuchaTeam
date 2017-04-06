@@ -20,7 +20,7 @@
     <Setting Name="MeshTgc" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\LogoTGC-TgcScene.xml</Value>
     </Setting>
-    <Setting Name="TexturaHUDGirasol" Type="System.String" Scope="User">
+    <Setting Name="TexturaHUDGirasolOff" Type="System.String" Scope="User">
       <Value Profile="(Default)">Texturas\HUD_Girasol.jpg</Value>
     </Setting>
     <Setting Name="MeshRaziel" Type="System.String" Scope="User">
@@ -52,6 +52,21 @@
     </Setting>
     <Setting Name="TexturasSkyBox" Type="System.String" Scope="User">
       <Value Profile="(Default)">Texturas\skyBox\</Value>
+    </Setting>
+    <Setting Name="TexturaHUDPatatapumOff" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Texturas\HUD_Patatapum.jpg</Value>
+    </Setting>
+    <Setting Name="TexturaHUDPeashooterOff" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Texturas\HUD_Peashooter.jpg</Value>
+    </Setting>
+    <Setting Name="TexturaHUDPatatapumOn" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Texturas\HUD_Patatapum_sel.jpg</Value>
+    </Setting>
+    <Setting Name="TexturaHUDPeashooterOn" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Texturas\HUD_Peashooter_sel.jpg</Value>
+    </Setting>
+    <Setting Name="TexturaHUDGirasolOn" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Texturas\HUD_Girasol_sel.jpg</Value>
     </Setting>
   </Settings>
 </SettingsFile>

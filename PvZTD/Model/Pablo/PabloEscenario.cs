@@ -33,7 +33,6 @@ namespace TGC.Group.Model
         private void p_Func_Init_Escenario()
         {
             p_Mesh_mountain = new TgcSceneLoader().loadSceneFromFile(MediaDir + Game.Default.MeshMountain).Meshes[0];
-            p_Mesh_mountain.move(-100, 0, 0);
 
             var PathMeshPlano = MediaDir + Game.Default.MeshPlano;
             p_Mesh_plano = new TgcSceneLoader().loadSceneFromFile(PathMeshPlano).Meshes[0];
@@ -55,7 +54,33 @@ namespace TGC.Group.Model
         private void p_Func_Render_Escenario()
         {
             Func_MeshRender(p_Mesh_plano);
+
+            p_Mesh_mountain.Position = new Vector3(-100, 0, 0);
             Func_MeshRender(p_Mesh_mountain);
+
+            p_Mesh_mountain.Position = new Vector3(-125, 0, 50);
+            Func_MeshRender(p_Mesh_mountain);
+
+            p_Mesh_mountain.Position = new Vector3(-125, 0, -50);
+            Func_MeshRender(p_Mesh_mountain);
+        }
+
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************
+         *                                      RENDERIZACION
+         ******************************************************************************************/
+        private void p_Func_Dispose_Escenario()
+        {
+            p_Mesh_plano.dispose();
+            p_Mesh_mountain.dispose();
         }
     }
 }

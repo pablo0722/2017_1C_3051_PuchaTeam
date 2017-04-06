@@ -98,12 +98,12 @@ namespace TGC.Group {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\HUD_Girasol.jpg")]
-        public string TexturaHUDGirasol {
+        public string TexturaHUDGirasolOff {
             get {
-                return ((string)(this["TexturaHUDGirasol"]));
+                return ((string)(this["TexturaHUDGirasolOff"]));
             }
             set {
-                this["TexturaHUDGirasol"] = value;
+                this["TexturaHUDGirasolOff"] = value;
             }
         }
         
@@ -224,6 +224,66 @@ namespace TGC.Group {
             }
             set {
                 this["TexturasSkyBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\HUD_Patatapum.jpg")]
+        public string TexturaHUDPatatapumOff {
+            get {
+                return ((string)(this["TexturaHUDPatatapumOff"]));
+            }
+            set {
+                this["TexturaHUDPatatapumOff"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\HUD_Peashooter.jpg")]
+        public string TexturaHUDPeashooterOff {
+            get {
+                return ((string)(this["TexturaHUDPeashooterOff"]));
+            }
+            set {
+                this["TexturaHUDPeashooterOff"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\HUD_Patatapum_sel.jpg")]
+        public string TexturaHUDPatatapumOn {
+            get {
+                return ((string)(this["TexturaHUDPatatapumOn"]));
+            }
+            set {
+                this["TexturaHUDPatatapumOn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\HUD_Peashooter_sel.jpg")]
+        public string TexturaHUDPeashooterOn {
+            get {
+                return ((string)(this["TexturaHUDPeashooterOn"]));
+            }
+            set {
+                this["TexturaHUDPeashooterOn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\HUD_Girasol_sel.jpg")]
+        public string TexturaHUDGirasolOn {
+            get {
+                return ((string)(this["TexturaHUDGirasolOn"]));
+            }
+            set {
+                this["TexturaHUDGirasolOn"] = value;
             }
         }
     }

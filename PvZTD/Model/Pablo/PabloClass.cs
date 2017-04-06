@@ -77,22 +77,47 @@ namespace TGC.Group.Model
                 {
                     p_Pos_PlantaActual = new Vector3(Input.Ypos / P_HEIGHT * 100 - 50, 0, Input.Xpos / P_WIDTH * 100 - 50);
                 }
+                else
+                {
+                    p_Func_Init_HUDBoxes();
+
+                    if (Func_IsMeshPicked(p_HUDPlanta_Patatapum.Mesh_box))
+                    {
+                        p_Func_HUDBoxTexturaOn(ref p_HUDPlanta_Patatapum);
+                    }
+                    else if (Func_IsMeshPicked(p_HUDPlanta_Peashooter.Mesh_box))
+                    {
+                        p_Func_HUDBoxTexturaOn(ref p_HUDPlanta_Peashooter);
+                    }
+                    else if (Func_IsMeshPicked(p_HUDPlanta_Girasol.Mesh_box))
+                    {
+                        p_Func_HUDBoxTexturaOn(ref p_HUDPlanta_Girasol);
+                    }
+                }
 
                 if (Input.buttonPressed(TGC.Core.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT))
                 {
-                    if (!Func_IsMeshPicked(p_Mesh_HUDPlant3))
+                    Mesh_BoxPicked = Mesh_BoxCollision;
+                    Mesh_BoxPickedPrev = Mesh_BoxCollision;
+
+                    if (Func_IsMeshPicked(p_HUDPlanta_Patatapum.Mesh_box))
                     {
-                        if (!Func_IsMeshPicked(p_Mesh_HUDPlant2))
-                        {
-                            if (!Func_IsMeshPicked(p_Mesh_HUDPlant1))
-                            {
-                            }
-                        }
+                        Mesh_BoxPicked = p_HUDPlanta_Patatapum.Mesh_box;
+                    }
+                    else if (Func_IsMeshPicked(p_HUDPlanta_Peashooter.Mesh_box))
+                    {
+                        Mesh_BoxPicked = p_HUDPlanta_Peashooter.Mesh_box;
+                    }
+                    else if (Func_IsMeshPicked(p_HUDPlanta_Girasol.Mesh_box))
+                    {
+                        Mesh_BoxPicked = p_HUDPlanta_Girasol.Mesh_box;
                     }
                 }
 
                 if (Input.buttonUp(TGC.Core.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT))
                 {
+                    p_Func_Init_HUDBoxes();
+
                     Mesh_BoxPickedPrev = Mesh_BoxPicked;
                     Mesh_BoxPicked = Mesh_BoxCollision;
                 }
@@ -126,22 +151,28 @@ namespace TGC.Group.Model
 
                 if (Mesh_BoxPicked == Mesh_BoxCollision)
                 {
-                    if (Mesh_BoxPickedPrev == p_Mesh_HUDPlant1)
+                    if (Mesh_BoxPickedPrev == p_HUDPlanta_Girasol.Mesh_box)
                     {
                         p_Pos_Girasol.Add(p_Pos_PlantaActual);
+                    }
+                    if (Mesh_BoxPickedPrev == p_HUDPlanta_Patatapum.Mesh_box)
+                    {
+                        p_Pos_Patatapum.Add(p_Pos_PlantaActual);
                     }
 
                     Mesh_BoxPickedPrev = Mesh_BoxCollision;
                 }
-                else if (Mesh_BoxPicked == p_Mesh_HUDPlant1)
+                else if (Mesh_BoxPicked == p_HUDPlanta_Girasol.Mesh_box)
                 {
                     Func_MeshesPos(p_Meshes_Girasol, p_Pos_PlantaActual.X, p_Pos_PlantaActual.Y, p_Pos_PlantaActual.Z);
                     Func_MeshesRender(p_Meshes_Girasol);
                 }
-                else if (Mesh_BoxPicked == p_Mesh_HUDPlant2)
+                else if (Mesh_BoxPicked == p_HUDPlanta_Patatapum.Mesh_box)
                 {
+                    Func_MeshesPos(p_Meshes_Patatapum, p_Pos_PlantaActual.X, p_Pos_PlantaActual.Y, p_Pos_PlantaActual.Z);
+                    Func_MeshesRender(p_Meshes_Patatapum);
                 }
-                else if (Mesh_BoxPicked == p_Mesh_HUDPlant3)
+                else if (Mesh_BoxPicked == p_HUDPlanta_Peashooter.Mesh_box)
                 {
                 }
             }
@@ -166,23 +197,10 @@ namespace TGC.Group.Model
 
         private void pablo_dispose()
         {
-            //Dispose de los meshes
-            p_Mesh_plano.dispose();
-            p_Mesh_zombie.dispose();
-            p_Mesh_HUDPlant1.dispose();
-            p_Mesh_HUDPlant2.dispose();
-            p_Mesh_HUDPlant3.dispose();
-            p_Mesh_mountain.dispose();
-
-            for (int i = 0; i < p_Meshes_Girasol.Count; i++)
-            {
-                p_Meshes_Girasol[i].dispose();
-            }
-
-            for (int i = 0; i < p_Meshes_Mina.Count; i++)
-            {
-                p_Meshes_Mina[i].dispose();
-            }
+            p_Func_Dispose_Escenario();
+            p_Func_Dispose_Zombies();
+            p_Func_Dispose_Plantas();
+            p_Func_Dispose_HUD();
         }
     }
 }

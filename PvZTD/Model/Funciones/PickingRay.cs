@@ -20,16 +20,12 @@ namespace TGC.Group.Model
             //Actualizar Ray de colision en base a posicion del mouse
             PickingRay.updateRay();
 
-            Mesh_BoxPicked = Mesh_BoxCollision;
-            Mesh_BoxPickedPrev = Mesh_BoxCollision;
-
             var aabb = mesh.BoundingBox;
 
             //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
             var selected = TGC.Core.Collision.TgcCollisionUtils.intersectRayAABB(PickingRay.Ray, aabb, out PickRay_Pos);
             if (selected)
             {
-                Mesh_BoxPicked = mesh;
 
                 return true;
             }
