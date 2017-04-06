@@ -15,7 +15,7 @@ namespace TGC.Group.Model
         /******************************************************************************************
          *                                      VARIABLES
          ******************************************************************************************/
-        private TgcMesh p_Mesh_zombie { get; set; }             // Zombie
+        private List<TgcMesh> p_Mesh_zombie { get; set; }             // Zombie
 
 
 
@@ -31,8 +31,13 @@ namespace TGC.Group.Model
          ******************************************************************************************/
         private void p_Func_Init_Zombies()
         {
-            p_Mesh_zombie = new TgcSceneLoader().loadSceneFromFile(MediaDir + Game.Default.MeshZombie).Meshes[0];
-            p_Mesh_zombie.Scale = new Vector3((float)0.25, (float)0.25, (float)0.25);
+            p_Mesh_zombie = new TgcSceneLoader().loadSceneFromFile(MediaDir + Game.Default.MeshZombie).Meshes;
+  
+
+            for (int i = 0; i < p_Mesh_zombie.Count; i++)
+            {
+                p_Mesh_zombie[i].Scale = new Vector3((float)0.25, (float)0.25, (float)0.25);
+            }
         }
 
 
@@ -49,7 +54,7 @@ namespace TGC.Group.Model
          ******************************************************************************************/
         private void p_Func_Render_Zombies()
         {
-            Func_MeshRender(p_Mesh_zombie);
+            Func_MeshesRender(p_Mesh_zombie);
         }
     }
 }

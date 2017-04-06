@@ -47,14 +47,15 @@ namespace TGC.Group.Model
 
             for (int i = 0; i < j_meshPea.Count; i++)
             {
-                j_meshPea[i].Position = new Vector3((float)15, (float)0, (float)0);
+                j_meshPea[i].Position = new Vector3((float)15, (float)120, (float)0);
                 j_meshPea[i].Scale = new Vector3((float)0.05, (float)0.05, (float)0.05);
+                j_meshPea[i].rotateY(PI);
             }
 
             for (int i = 0; i < j_meshBrain.Count; i++)
             {
-                j_meshBrain[i].Position = new Vector3((float)15, (float)0, (float)-35);
-                j_meshBrain[i].Scale = new Vector3((float)0.05, (float)0.05, (float)0.05);
+                j_meshBrain[i].Position = new Vector3((float)15, (float)5, (float)-35);
+                j_meshBrain[i].Scale = new Vector3((float)0.03, (float)0.03, (float)0.03);
             }
 
             var PathCasa = MediaDir + Game.Default.CasitaDave;

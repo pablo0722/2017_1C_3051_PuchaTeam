@@ -168,7 +168,6 @@ namespace TGC.Group.Model
         {
             //Dispose de los meshes
             p_Mesh_plano.dispose();
-            p_Mesh_zombie.dispose();
             p_Mesh_HUDPlant1.dispose();
             p_Mesh_HUDPlant2.dispose();
             p_Mesh_HUDPlant3.dispose();
@@ -183,6 +182,13 @@ namespace TGC.Group.Model
             {
                 p_Meshes_Mina[i].dispose();
             }
+
+            for (int i = 0; i < p_Mesh_zombie.Count; i++)
+            {
+                 p_Mesh_zombie[i].dispose();
+            }
+
+
         }
     }
 }
