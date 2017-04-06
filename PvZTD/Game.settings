@@ -65,5 +65,8 @@
     <Setting Name="MeshBrain" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\Brain-TgcScene.xml</Value>
     </Setting>
+    <Setting Name="MeshPea" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\Pea-TgcScene.xml</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

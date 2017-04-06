@@ -274,5 +274,17 @@ namespace TGC.Group {
                 this["MeshBrain"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Pea-TgcScene.xml")]
+        public string MeshPea {
+            get {
+                return ((string)(this["MeshPea"]));
+            }
+            set {
+                this["MeshPea"] = value;
+            }
+        }
     }
 }
