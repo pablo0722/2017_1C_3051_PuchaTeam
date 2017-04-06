@@ -20,17 +20,21 @@ namespace TGC.Group.Model
          ******************************************************************************************/
         //      MESHES
         private List<TgcMesh> j_meshsPasto { get; set; }    // Suelo con pasto(Lista)
-        private TgcMesh j_meshMountain { get; set; }
+        private TgcMesh j_meshsPastoClaro { get; set; }
+        private TgcMesh j_meshsPastoMedio { get; set; }
+        private TgcMesh j_meshsPastoOscuro { get; set; }
         private TgcSkyBox skyBox;
         private List<TgcMesh> j_meshCasa { get; set; }
         private List<TgcMesh> j_meshBrain { get; set; }
         private List<TgcMesh> j_meshPea { get; set; }
 
 
-        private float posX = 15;
-        private float posY = -10;
-        private float posZ = 35;
-        private const float RAZON_PASTO = 7.5F;
+        private float posX = INICIAL_X;
+        private float posY = -18;
+        private float posZ = INICIAL_Z;
+        private const float RAZON_PASTO = 18;
+        private const float INICIAL_X = 70;
+        private const float INICIAL_Z = -50;
         /******************************************************************************************
          *                 INIT - Se ejecuta una vez sola al comienzo
          ******************************************************************************************/
@@ -38,7 +42,7 @@ namespace TGC.Group.Model
         private void jose_init()
         {
             initSkyBox();
-
+            initPasto();
             var PathBrain= MediaDir + Game.Default.MeshBrain;
             j_meshBrain = new TgcSceneLoader().loadSceneFromFile(PathBrain).Meshes;
 
@@ -63,7 +67,7 @@ namespace TGC.Group.Model
 
             for (int i = 0; i < j_meshCasa.Count; i++)
             {
-                j_meshCasa[i].Position = new Vector3((float)0, (float)0, (float)-75);
+                j_meshCasa[i].Position = new Vector3((float)15, (float)0, (float)-100);
                 j_meshCasa[i].Scale = new Vector3((float)0.5, (float)0.5, (float)0.5);
                 j_meshCasa[i].rotateY(PI/2);
             }
@@ -109,8 +113,8 @@ namespace TGC.Group.Model
 
         private void jose_render()
         {
-
-            for (int i = 0; i < j_meshCasa.Count; i++)
+            renderPasto();
+            for (int i = 0; i < j_meshCasa.Count; i++) 
             {
                 j_meshCasa[i].render();
             }
@@ -159,36 +163,78 @@ namespace TGC.Group.Model
             }
             skyBox.dispose();
 
+
+            j_meshsPastoClaro.dispose();
+            j_meshsPastoMedio.dispose();
+            j_meshsPastoOscuro.dispose();
+
         }
 
         private void initPasto()
         {
-            var PathMeshsPasto = MediaDir + Game.Default.MeshPasto;
-            j_meshsPasto = new TgcSceneLoader().loadSceneFromFile(PathMeshsPasto).Meshes;
 
-            for (int i = 0; i < j_meshsPasto.Count; i++)
-            {
-                j_meshsPasto[i].Scale = new Vector3((float)1, (float)1, (float)1);
-                j_meshsPasto[i].Position = new Vector3((float)posX, (float)posY, (float)posZ);
-            }
+            var PathPastoClaro = MediaDir + Game.Default.MeshPastoClaro;
+            j_meshsPastoClaro = new TgcSceneLoader().loadSceneFromFile(PathPastoClaro).Meshes[0];
+            j_meshsPastoClaro.Scale = new Vector3((RAZON_PASTO/10)*1.6F, (float)RAZON_PASTO/10, (float)RAZON_PASTO/10);
+
+            var PathPastoMedio = MediaDir + Game.Default.MeshPastoMedio;
+            j_meshsPastoMedio = new TgcSceneLoader().loadSceneFromFile(PathPastoMedio).Meshes[0];
+            j_meshsPastoMedio.Scale = new Vector3((RAZON_PASTO / 10) * 1.6F, (float)RAZON_PASTO / 10, (float)RAZON_PASTO / 10);
+
+
+            var PathPastoOscuro = MediaDir + Game.Default.MeshPastoOscuro;
+            j_meshsPastoOscuro = new TgcSceneLoader().loadSceneFromFile(PathPastoOscuro).Meshes[0];
+            j_meshsPastoOscuro.Scale = new Vector3((RAZON_PASTO / 10) * 1.6F, (float)RAZON_PASTO / 10, (float)RAZON_PASTO / 10);
+
         }
+
         private void renderPasto()
         {
-            posZ = 35;
-            for (int cVertical = 0; cVertical < 10; cVertical++, posZ -= RAZON_PASTO)
+            posZ = INICIAL_Z;
+            for (int i = 0; i < 6 ; i++)
             {
-                posX = 15;
-                for (int j = 0; j < 5; j++, posX -= RAZON_PASTO)
-                {
-                    for (int i = 0; i < j_meshsPasto.Count; i++)
-                    {
-                        j_meshsPasto[i].UpdateMeshTransform();
-                        j_meshsPasto[i].render();
-                        j_meshsPasto[i].Position = new Vector3((float)posX, (float)posY, (float)posZ);
-                    }
-                }
-
+                renderFilaMedioClara();
+                posZ = posZ + RAZON_PASTO;
+                renderFilaMedioOscura();
+                posZ = posZ + RAZON_PASTO;
             }
+        }
+
+        private void renderFilaMedioClara()
+        {
+            j_meshsPastoMedio.Position = new Vector3((float)posX, (float)posY, (float)posZ);
+            j_meshsPastoMedio.render();
+            posX = posX - (RAZON_PASTO*1.6F);
+            j_meshsPastoClaro.Position = new Vector3((float)posX, (float)posY, (float)posZ);
+            j_meshsPastoClaro.render();
+            posX = posX - (RAZON_PASTO * 1.6F);
+            j_meshsPastoMedio.Position = new Vector3((float)posX, (float)posY, (float)posZ);
+            j_meshsPastoMedio.render();
+            posX = posX - (RAZON_PASTO * 1.6F);
+            j_meshsPastoClaro.Position = new Vector3((float)posX, (float)posY, (float)posZ);
+            j_meshsPastoClaro.render();
+            posX = posX - (RAZON_PASTO * 1.6F);
+            j_meshsPastoMedio.Position = new Vector3((float)posX, (float)posY, (float)posZ);
+            j_meshsPastoMedio.render();
+            posX = INICIAL_X;
+        }
+        private void renderFilaMedioOscura()
+        {
+            j_meshsPastoOscuro.Position = new Vector3((float)posX, (float)posY, (float)posZ);
+            j_meshsPastoOscuro.render();
+            posX = posX - (RAZON_PASTO * 1.6F);
+            j_meshsPastoMedio.Position = new Vector3((float)posX, (float)posY, (float)posZ);
+            j_meshsPastoMedio.render();
+            posX = posX - (RAZON_PASTO * 1.6F);
+            j_meshsPastoOscuro.Position = new Vector3((float)posX, (float)posY, (float)posZ);
+            j_meshsPastoOscuro.render();
+            posX = posX - (RAZON_PASTO * 1.6F);
+            j_meshsPastoMedio.Position = new Vector3((float)posX, (float)posY, (float)posZ);
+            j_meshsPastoMedio.render();
+            posX = posX - (RAZON_PASTO * 1.6F);
+            j_meshsPastoOscuro.Position = new Vector3((float)posX, (float)posY, (float)posZ);
+            j_meshsPastoOscuro.render();
+            posX = INICIAL_X;
         }
 
 

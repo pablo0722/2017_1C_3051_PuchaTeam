@@ -286,5 +286,41 @@ namespace TGC.Group {
                 this["MeshPea"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\PastoClaro-TgcScene.xml")]
+        public string MeshPastoClaro {
+            get {
+                return ((string)(this["MeshPastoClaro"]));
+            }
+            set {
+                this["MeshPastoClaro"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\PastoMedio-TgcScene.xml")]
+        public string MeshPastoMedio {
+            get {
+                return ((string)(this["MeshPastoMedio"]));
+            }
+            set {
+                this["MeshPastoMedio"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\PastoOscuro-TgcScene.xml")]
+        public string MeshPastoOscuro {
+            get {
+                return ((string)(this["MeshPastoOscuro"]));
+            }
+            set {
+                this["MeshPastoOscuro"] = value;
+            }
+        }
     }
 }
