@@ -45,7 +45,13 @@
       <Value Profile="(Default)">Objetos\caja-TgcScene.xml</Value>
     </Setting>
     <Setting Name="MeshPasto" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Objetos\Pasto-TgcScene.xml</Value>
+      <Value Profile="(Default)">Objetos\Pastofinal-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="MeshMountain" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\mountain-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="TexturasSkyBox" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Texturas\skyBox\</Value>
     </Setting>
     <Setting Name="MeshMountain" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\Mountain-TgcScene.xml</Value>

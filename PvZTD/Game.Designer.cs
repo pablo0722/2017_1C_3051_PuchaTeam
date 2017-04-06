@@ -193,7 +193,7 @@ namespace TGC.Group {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Pasto-TgcScene.xml")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Pastofinal-TgcScene.xml")]
         public string MeshPasto {
             get {
                 return ((string)(this["MeshPasto"]));
@@ -205,7 +205,7 @@ namespace TGC.Group {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Mountain-TgcScene.xml")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\mountain-TgcScene.xml")]
         public string MeshMountain {
             get {
                 return ((string)(this["MeshMountain"]));
@@ -217,13 +217,13 @@ namespace TGC.Group {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\tierra.jpg")]
-        public string TexturaMountain {
+        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\skyBox\\")]
+        public string TexturasSkyBox {
             get {
-                return ((string)(this["TexturaMountain"]));
+                return ((string)(this["TexturasSkyBox"]));
             }
             set {
-                this["TexturaMountain"] = value;
+                this["TexturasSkyBox"] = value;
             }
         }
     }

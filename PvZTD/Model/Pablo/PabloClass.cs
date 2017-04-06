@@ -5,9 +5,9 @@ using TGC.Core.Example;
 using TGC.Core.Geometry;
 using TGC.Core.SceneLoader;
 using TGC.Core.Textures;
-using TGC.Core.Utils;
+
 using System.Collections.Generic;
-using TGC.Examples.Lights;
+
 
 
 namespace TGC.Group.Model
@@ -134,9 +134,9 @@ namespace TGC.Group.Model
             p_Mesh_BolaRaziel.Scale = new Vector3((float)0.5, (float)0.5, (float)0.5);
             p_Mesh_BolaRaziel.move(0, 12, -3);
             
-            p_Mesh_mountain = new TgcSceneLoader().loadSceneFromFile(MediaDir + Game.Default.MeshMountain).Meshes[0];
-            p_Mesh_mountain.rotateX(PI / 2);
-            p_Mesh_mountain.Scale = new Vector3(20, 20, 20);
+            //p_Mesh_mountain = new TgcSceneLoader().loadSceneFromFile(MediaDir + Game.Default.MeshMountain).Meshes[0];
+            //p_Mesh_mountain.rotateX(PI / 2);
+            //p_Mesh_mountain.Scale = new Vector3(20, 20, 20);
 
             var PathMeshCielo = MediaDir + Game.Default.MeshCielo;
             p_Mesh_Cielo = new TgcSceneLoader().loadSceneFromFile(PathMeshCielo).Meshes[0];
@@ -291,9 +291,9 @@ namespace TGC.Group.Model
 
             p_Func_MeshRender(p_Mesh_BolaRaziel);
             p_Func_MeshRender(p_Mesh_plano);
-            p_Func_MeshRender(p_Mesh_Cielo);
+            //p_Func_MeshRender(p_Mesh_Cielo);
             p_Func_MeshRender(p_Mesh_zombie);
-            p_Func_MeshRender(p_Mesh_mountain);
+            //p_Func_MeshRender(p_Mesh_mountain);
 
 
             p_Func_MeshesRender(p_Meshes_Mina);
