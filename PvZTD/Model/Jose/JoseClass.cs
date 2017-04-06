@@ -22,14 +22,15 @@ namespace TGC.Group.Model
         private List<TgcMesh> j_meshsPasto { get; set; }    // Suelo con pasto(Lista)
         private TgcMesh j_meshMountain { get; set; }
         private TgcSkyBox skyBox;
-
+        private List<TgcMesh> j_meshCasa { get; set; }
+        private List<TgcMesh> j_meshBrain { get; set; }
 
 
 
         private float posX = 15;
         private float posY = -10;
         private float posZ = 35;
-
+        private const float RAZON_PASTO = 7.5F;
         /******************************************************************************************
          *                 INIT - Se ejecuta una vez sola al comienzo
          ******************************************************************************************/
@@ -38,9 +39,26 @@ namespace TGC.Group.Model
         {
             initSkyBox();
             initPasto();
-            //   var PathMeshMountain = MediaDir + Game.Default.MeshMountain;
-            //  j_meshMountain = new TgcSceneLoader().loadSceneFromFile(PathMeshMountain).Meshes[0];
-            //  j_meshMountain.Position = new Vector3((float)45, (float)-30, (float)35);
+
+            var PathBrain= MediaDir + Game.Default.MeshBrain;
+            j_meshBrain = new TgcSceneLoader().loadSceneFromFile(PathBrain).Meshes;
+
+            for (int i = 0; i < j_meshBrain.Count; i++)
+            {
+                j_meshBrain[i].Position = new Vector3((float)15, (float)0, (float)-35);
+                j_meshBrain[i].Scale = new Vector3((float)0.05, (float)0.05, (float)0.05);
+            }
+
+            var PathCasa = MediaDir + Game.Default.CasitaDave;
+            j_meshCasa = new TgcSceneLoader().loadSceneFromFile(PathCasa).Meshes;
+
+            for (int i = 0; i < j_meshCasa.Count; i++)
+            {
+                j_meshCasa[i].Position = new Vector3((float)0, (float)0, (float)-75);
+                j_meshCasa[i].Scale = new Vector3((float)0.5, (float)0.5, (float)0.5);
+                j_meshCasa[i].rotateY(PI/2);
+            }
+            
         }
 
 
@@ -58,8 +76,11 @@ namespace TGC.Group.Model
 
         private void jose_update()
         {
-
-
+            for (int i = 0; i < j_meshBrain.Count; i++)
+            {
+                
+                j_meshBrain[i].rotateY(0.01F * PI);
+            }
 
 
         }
@@ -79,10 +100,26 @@ namespace TGC.Group.Model
 
         private void jose_render()
         {
+
+                for (int i = 0; i < j_meshCasa.Count; i++)
+                {
+                    j_meshCasa[i].render();
+                }
+
+            for (int j = 0; j < 5; j++)
+            {
+                for (int i = 0; i < j_meshBrain.Count; i++)
+                {
+                    j_meshBrain[i].render();
+                    j_meshBrain[i].move(-RAZON_PASTO, 0,0);
+                }
+
+            }
+            j_meshBrain[0].move(RAZON_PASTO * 5, 0, 0);
+            j_meshBrain[1].move(RAZON_PASTO * 5, 0, 0);
+
             skyBox.render();
-            //enderPasto();
-            //j_meshMountain.UpdateMeshTransform();
-            //j_meshMountain.render();
+            renderPasto();
 
 
 
@@ -94,8 +131,18 @@ namespace TGC.Group.Model
 
         private void jose_dispose()
         {
+            for (int i = 0; i < j_meshBrain.Count; i++)
+            {
+
+                j_meshBrain[i].dispose();
+            }
+            for (int i = 0; i < j_meshCasa.Count; i++)
+            {
+                j_meshCasa[i].dispose();
+
+            }
             skyBox.dispose();
-            //j_meshMountain.dispose();
+
             for (int i = 0; i < j_meshsPasto.Count; i++)
             {
                 j_meshsPasto[i].dispose();
@@ -116,10 +163,10 @@ namespace TGC.Group.Model
         private void renderPasto()
         {
             posZ = 35;
-            for (int cVertical = 0; cVertical < 10; cVertical++, posZ -= 7.5F)
+            for (int cVertical = 0; cVertical < 10; cVertical++, posZ -= RAZON_PASTO)
             {
                 posX = 15;
-                for (int j = 0; j < 5; j++, posX -= 7.5F)
+                for (int j = 0; j < 5; j++, posX -= RAZON_PASTO)
                 {
                     for (int i = 0; i < j_meshsPasto.Count; i++)
                     {
@@ -152,21 +199,6 @@ namespace TGC.Group.Model
 
             skyBox.Init();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
     }
 

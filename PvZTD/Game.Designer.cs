@@ -205,7 +205,43 @@ namespace TGC.Group {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\mountain-TgcScene.xml")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\skyBox\\")]
+        public string TexturasSkyBox {
+            get {
+                return ((string)(this["TexturasSkyBox"]));
+            }
+            set {
+                this["TexturasSkyBox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Mountain-TgcScene.xml")]
+        public string MeshMountain1 {
+            get {
+                return ((string)(this["MeshMountain1"]));
+            }
+            set {
+                this["MeshMountain1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\tierra.jpg")]
+        public string TexturaMountain {
+            get {
+                return ((string)(this["TexturaMountain"]));
+            }
+            set {
+                this["TexturaMountain"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Mountain-TgcScene.xml")]
         public string MeshMountain {
             get {
                 return ((string)(this["MeshMountain"]));
@@ -217,13 +253,25 @@ namespace TGC.Group {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\skyBox\\")]
-        public string TexturasSkyBox {
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\CasaDave-TgcScene.xml")]
+        public string CasitaDave {
             get {
-                return ((string)(this["TexturasSkyBox"]));
+                return ((string)(this["CasitaDave"]));
             }
             set {
-                this["TexturasSkyBox"] = value;
+                this["CasitaDave"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Brain-TgcScene.xml")]
+        public string MeshBrain {
+            get {
+                return ((string)(this["MeshBrain"]));
+            }
+            set {
+                this["MeshBrain"] = value;
             }
         }
     }
