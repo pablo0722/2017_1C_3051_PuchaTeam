@@ -50,6 +50,7 @@
     <Setting Name="TexturasSkyBox" Type="System.String" Scope="User">
       <Value Profile="(Default)">Texturas\skyBox\</Value>
     </Setting>
+<<<<<<< HEAD
     <Setting Name="MeshMountain1" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\Mountain-TgcScene.xml</Value>
     </Setting>
@@ -68,5 +69,7 @@
     <Setting Name="MeshPea" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\Pea-TgcScene.xml</Value>
     </Setting>
+=======
+>>>>>>> 236f7e6ee67d03a432e022effd8fc444dc447f82
   </Settings>
 </SettingsFile>

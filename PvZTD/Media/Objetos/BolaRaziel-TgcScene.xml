@@ -1,6 +1,6 @@
 <tgcScene>
 	<name>BolaRaziel</name>
-	<texturesExport enabled='true' dir='..\Texturas'/>
+	<texturesExport enabled='true' dir='../Texturas'/>
 	<lightmapExport enabled='false' dir='LightMaps'/>
 	<sceneBoundingBox min='[-5.65369,-5.65369,-5.65369]' max='[5.65369,5.65369,5.65369]'/>
 	<materials count='1'>
