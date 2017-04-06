@@ -15,8 +15,8 @@ namespace TGC.Group.Model
         /******************************************************************************************
          *                                      VARIABLES
          ******************************************************************************************/
-        private TgcMesh p_Mesh_plano { get; set; }              // Escenario
-        private TgcMesh p_Mesh_mountain { get; set; }           // Mountain
+        private Objeto3D p_Obj_Plano;
+        private Objeto3D p_Obj_Mountain;
 
 
 
@@ -32,11 +32,18 @@ namespace TGC.Group.Model
          ******************************************************************************************/
         private void p_Func_Init_Escenario()
         {
-            p_Mesh_mountain = new TgcSceneLoader().loadSceneFromFile(MediaDir + Game.Default.MeshMountain).Meshes[0];
+            p_Obj_Mountain = new Objeto3D(MediaDir + Game.Default.MeshMountain);
 
-            var PathMeshPlano = MediaDir + Game.Default.MeshPlano;
-            p_Mesh_plano = new TgcSceneLoader().loadSceneFromFile(PathMeshPlano).Meshes[0];
-            p_Mesh_plano.Scale = new Vector3(2, 1, 1);
+            p_Obj_Mountain.Inst_Create(-122, 0, 100);
+            p_Obj_Mountain.Inst_Create(-124, 0, 50);
+            p_Obj_Mountain.Inst_Create(-100, 0, 0);
+            p_Obj_Mountain.Inst_Create(-121, 0, -50);
+            p_Obj_Mountain.Inst_Create(-123, 0, -100);
+
+            p_Obj_Plano = new Objeto3D(MediaDir + Game.Default.MeshPlano);
+            p_Obj_Plano.Size(2, 1, 2);
+
+            p_Obj_Plano.Inst_Create(0, 0, 0);
         }
 
 
@@ -53,34 +60,8 @@ namespace TGC.Group.Model
          ******************************************************************************************/
         private void p_Func_Render_Escenario()
         {
-            Func_MeshRender(p_Mesh_plano);
-
-            p_Mesh_mountain.Position = new Vector3(-100, 0, 0);
-            Func_MeshRender(p_Mesh_mountain);
-
-            p_Mesh_mountain.Position = new Vector3(-125, 0, 50);
-            Func_MeshRender(p_Mesh_mountain);
-
-            p_Mesh_mountain.Position = new Vector3(-125, 0, -50);
-            Func_MeshRender(p_Mesh_mountain);
-        }
-
-
-
-
-
-
-
-
-
-
-        /******************************************************************************************
-         *                                      RENDERIZACION
-         ******************************************************************************************/
-        private void p_Func_Dispose_Escenario()
-        {
-            p_Mesh_plano.dispose();
-            p_Mesh_mountain.dispose();
+            p_Obj_Plano.Render();
+            p_Obj_Mountain.Render();
         }
     }
 }

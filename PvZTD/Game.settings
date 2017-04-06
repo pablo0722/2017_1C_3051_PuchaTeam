@@ -32,7 +32,7 @@
     <Setting Name="MeshGirasol" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\Girasol-TgcScene.xml</Value>
     </Setting>
-    <Setting Name="MeshMina" Type="System.String" Scope="User">
+    <Setting Name="MeshPatatapum" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\mina-TgcScene.xml</Value>
     </Setting>
     <Setting Name="MeshPlano" Type="System.String" Scope="User">
@@ -67,6 +67,9 @@
     </Setting>
     <Setting Name="TexturaHUDGirasolOn" Type="System.String" Scope="User">
       <Value Profile="(Default)">Texturas\HUD_Girasol_sel.jpg</Value>
+    </Setting>
+    <Setting Name="MeshSol" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\sol-TgcScene.xml</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -15,7 +15,7 @@ namespace TGC.Group.Model
         /******************************************************************************************
          *                                      VARIABLES
          ******************************************************************************************/
-        private TgcMesh p_Mesh_zombie { get; set; }             // Zombie
+        private Objeto3D p_Obj_Zombie;
 
 
 
@@ -31,8 +31,14 @@ namespace TGC.Group.Model
          ******************************************************************************************/
         private void p_Func_Init_Zombies()
         {
-            p_Mesh_zombie = new TgcSceneLoader().loadSceneFromFile(MediaDir + Game.Default.MeshZombie).Meshes[0];
-            p_Mesh_zombie.Scale = new Vector3((float)0.25, (float)0.25, (float)0.25);
+            p_Obj_Zombie = new Objeto3D(MediaDir + Game.Default.MeshZombie);
+            p_Obj_Zombie.Size((float)0.25, (float)0.25, (float)0.25);
+
+            p_Obj_Zombie.Inst_Create(20, 0, 50);
+            p_Obj_Zombie.Inst_Create(10, 0, 50);
+            p_Obj_Zombie.Inst_Create(0, 0, 50);
+            p_Obj_Zombie.Inst_Create(-10, 0, 50);
+            p_Obj_Zombie.Inst_Create(-20, 0, 50);
         }
 
 
@@ -49,24 +55,7 @@ namespace TGC.Group.Model
          ******************************************************************************************/
         private void p_Func_Render_Zombies()
         {
-            Func_MeshRender(p_Mesh_zombie);
-        }
-
-
-
-
-
-
-
-
-
-
-        /******************************************************************************************
-         *                                      DISPOSE
-         ******************************************************************************************/
-        private void p_Func_Dispose_Zombies()
-        {
-            p_Mesh_zombie.dispose();
+            p_Obj_Zombie.Render();
         }
     }
 }

@@ -54,6 +54,7 @@ namespace TGC.Group.Model
             p_Func_Init_Zombies();
             p_Func_Init_Plantas();
             p_Func_Init_HUD();
+            p_Func_Init_Soles();
         }
 
 
@@ -71,6 +72,8 @@ namespace TGC.Group.Model
 
         private void pablo_update()
         {
+            p_Func_RotarSoles();
+
             if (Is_CamPicado)
             {
                 if (Input.buttonDown(TGC.Core.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT))
@@ -103,6 +106,7 @@ namespace TGC.Group.Model
                     if (Func_IsMeshPicked(p_HUDPlanta_Patatapum.Mesh_box))
                     {
                         Mesh_BoxPicked = p_HUDPlanta_Patatapum.Mesh_box;
+                        p_Obj_Patatapum.Inst_CreateAndSelect(p_Pos_PlantaActual);
                     }
                     else if (Func_IsMeshPicked(p_HUDPlanta_Peashooter.Mesh_box))
                     {
@@ -111,6 +115,7 @@ namespace TGC.Group.Model
                     else if (Func_IsMeshPicked(p_HUDPlanta_Girasol.Mesh_box))
                     {
                         Mesh_BoxPicked = p_HUDPlanta_Girasol.Mesh_box;
+                        p_Obj_Girasol.Inst_CreateAndSelect(p_Pos_PlantaActual);
                     }
                 }
 
@@ -142,6 +147,7 @@ namespace TGC.Group.Model
             p_Func_Render_Escenario();
             p_Func_Render_Plantas();
             p_Func_Render_Zombies();
+            p_Func_Render_Soles();
 
             if (Is_CamPicado)
             {
@@ -151,26 +157,18 @@ namespace TGC.Group.Model
 
                 if (Mesh_BoxPicked == Mesh_BoxCollision)
                 {
-                    if (Mesh_BoxPickedPrev == p_HUDPlanta_Girasol.Mesh_box)
-                    {
-                        p_Pos_Girasol.Add(p_Pos_PlantaActual);
-                    }
-                    if (Mesh_BoxPickedPrev == p_HUDPlanta_Patatapum.Mesh_box)
-                    {
-                        p_Pos_Patatapum.Add(p_Pos_PlantaActual);
-                    }
 
                     Mesh_BoxPickedPrev = Mesh_BoxCollision;
                 }
                 else if (Mesh_BoxPicked == p_HUDPlanta_Girasol.Mesh_box)
                 {
-                    Func_MeshesPos(p_Meshes_Girasol, p_Pos_PlantaActual.X, p_Pos_PlantaActual.Y, p_Pos_PlantaActual.Z);
-                    Func_MeshesRender(p_Meshes_Girasol);
+                    p_Obj_Girasol.Inst_Position(p_Pos_PlantaActual.X, p_Pos_PlantaActual.Y, p_Pos_PlantaActual.Z);
+                    p_Obj_Girasol.Render();
                 }
                 else if (Mesh_BoxPicked == p_HUDPlanta_Patatapum.Mesh_box)
                 {
-                    Func_MeshesPos(p_Meshes_Patatapum, p_Pos_PlantaActual.X, p_Pos_PlantaActual.Y, p_Pos_PlantaActual.Z);
-                    Func_MeshesRender(p_Meshes_Patatapum);
+                    p_Obj_Patatapum.Inst_Position(p_Pos_PlantaActual.X, p_Pos_PlantaActual.Y, p_Pos_PlantaActual.Z);
+                    p_Obj_Patatapum.Render();
                 }
                 else if (Mesh_BoxPicked == p_HUDPlanta_Peashooter.Mesh_box)
                 {
@@ -197,9 +195,6 @@ namespace TGC.Group.Model
 
         private void pablo_dispose()
         {
-            p_Func_Dispose_Escenario();
-            p_Func_Dispose_Zombies();
-            p_Func_Dispose_Plantas();
             p_Func_Dispose_HUD();
         }
     }

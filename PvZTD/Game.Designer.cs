@@ -146,12 +146,12 @@ namespace TGC.Group {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\mina-TgcScene.xml")]
-        public string MeshMina {
+        public string MeshPatatapum {
             get {
-                return ((string)(this["MeshMina"]));
+                return ((string)(this["MeshPatatapum"]));
             }
             set {
-                this["MeshMina"] = value;
+                this["MeshPatatapum"] = value;
             }
         }
         
@@ -284,6 +284,18 @@ namespace TGC.Group {
             }
             set {
                 this["TexturaHUDGirasolOn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\sol-TgcScene.xml")]
+        public string MeshSol {
+            get {
+                return ((string)(this["MeshSol"]));
+            }
+            set {
+                this["MeshSol"] = value;
             }
         }
     }
