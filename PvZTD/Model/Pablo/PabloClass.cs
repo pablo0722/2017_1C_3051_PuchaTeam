@@ -71,6 +71,7 @@ namespace TGC.Group.Model
         private TgcMesh p_Mesh_Cielo { get; set; }              // TgcLogo
         private TgcMesh p_Mesh_plano { get; set; }              // Escenario
         private TgcMesh p_Mesh_zombie { get; set; }             // Zombie
+        private TgcMesh p_Mesh_mountain { get; set; }           // Mountain
 
         private TgcBox p_Mesh_BoxCollision;                    // Punto rojo colision
         private TgcBox p_Mesh_HUDPlant1 { get; set; }          // Caja Planta HUD 1
@@ -80,12 +81,17 @@ namespace TGC.Group.Model
         private List<TgcMesh> p_Meshes_Girasol { get; set; }    // Girasol (Lista)
         private List<TgcMesh> p_Meshes_Mina { get; set; }       // Mina (Lista)
 
+        //      POSICION DE LOS MESHES
+        private Vector3 p_Pos_PlantaActual { get; set; }       // Posicion Planta Actual
+        private List<Vector3> p_Pos_Girasol { get; set; }       // Posicion Girasol
+
         //      RAY PICKING
         private TgcPickingRay p_PickingRay;
 
         //      OTRAS VARIABLES
         private bool p_Is_CamPicado = false;
         private TgcBox p_Mesh_BoxPicked;
+        private TgcBox p_Mesh_BoxPickedPrev;
         private Vector3 p_PickRay_Pos;
 
 
@@ -122,12 +128,15 @@ namespace TGC.Group.Model
             p_Mesh_HUDPlant2.rotateZ(P_BOX_HUD_ROT);
             p_Mesh_HUDPlant3 = TgcBox.fromSize(new Vector3(P_BOX_HUD_POS_X, P_BOX_HUD_POS_Y, P_BOX_HUD_POS_Z + P_BOX_HUD_SIZE * 2), size, texture);
             p_Mesh_HUDPlant3.rotateZ(P_BOX_HUD_ROT);
-
-            //Cargo el unico mesh que tiene la escena.
+            
             var pathMeshTgc = MediaDir + Game.Default.MeshRaziel;
             p_Mesh_BolaRaziel = new TgcSceneLoader().loadSceneFromFile(pathMeshTgc).Meshes[0];
             p_Mesh_BolaRaziel.Scale = new Vector3((float)0.5, (float)0.5, (float)0.5);
             p_Mesh_BolaRaziel.move(0, 12, -3);
+            
+            p_Mesh_mountain = new TgcSceneLoader().loadSceneFromFile(MediaDir + Game.Default.MeshMountain).Meshes[0];
+            p_Mesh_mountain.rotateX(PI / 2);
+            p_Mesh_mountain.Scale = new Vector3(20, 20, 20);
 
             var PathMeshCielo = MediaDir + Game.Default.MeshCielo;
             p_Mesh_Cielo = new TgcSceneLoader().loadSceneFromFile(PathMeshCielo).Meshes[0];
@@ -156,6 +165,8 @@ namespace TGC.Group.Model
                 p_Meshes_Mina[i].rotateY((float)PI);
                 p_Meshes_Mina[i].Position = new Vector3(-10, 0, -50);
             }
+
+            p_Pos_Girasol = new List<Vector3>();
 
 
             //          CAMARAS
@@ -195,6 +206,11 @@ namespace TGC.Group.Model
 
             if (p_Is_CamPicado)
             {
+                if (Input.buttonDown(TGC.Core.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT))
+                {
+                    p_Pos_PlantaActual = new Vector3(Input.Ypos / P_HEIGHT * 100 - 50, 0, Input.Xpos / P_WIDTH * 100 - 50);
+                }
+
                 if (Input.buttonPressed(TGC.Core.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT))
                 {
                     if (!p_Func_IsMeshPicked(p_Mesh_HUDPlant3))
@@ -210,6 +226,7 @@ namespace TGC.Group.Model
 
                 if (Input.buttonUp(TGC.Core.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT))
                 {
+                    p_Mesh_BoxPickedPrev = p_Mesh_BoxPicked;
                     p_Mesh_BoxPicked = p_Mesh_BoxCollision;
                 }
             }
@@ -232,20 +249,32 @@ namespace TGC.Group.Model
         private void pablo_render()
         {
             //*
+            for (int i = 0; i < p_Pos_Girasol.Count; i++)
+            {
+                p_Func_MeshesPos(p_Meshes_Girasol, p_Pos_Girasol[i].X, p_Pos_Girasol[i].Y, p_Pos_Girasol[i].Z);
+                p_Func_MeshesRender(p_Meshes_Girasol);
+            }
+            
             if (p_Is_CamPicado)
             {
-                p_Func_Text("H Para cambiar a Camara Aerea", 10, 80);
+                p_Func_Text("H Para cambiar a Camara Primera Persona", 10, 80);
 
                 p_Func_BoxRender(p_Mesh_HUDPlant1);
                 p_Func_BoxRender(p_Mesh_HUDPlant2);
                 p_Func_BoxRender(p_Mesh_HUDPlant3);
 
-                if (p_Mesh_BoxPicked == p_Mesh_HUDPlant1)
+                if(p_Mesh_BoxPicked == p_Mesh_BoxCollision)
                 {
-                    for (int i = 0; i < p_Meshes_Girasol.Count; i++)
+                    if (p_Mesh_BoxPickedPrev == p_Mesh_HUDPlant1)
                     {
-                        p_Meshes_Girasol[i].Position = new Vector3(Input.Ypos/P_HEIGHT*100-50, 0, Input.Xpos/P_WIDTH*100-50);
+                        p_Pos_Girasol.Add(p_Pos_PlantaActual);
                     }
+
+                    p_Mesh_BoxPickedPrev = p_Mesh_BoxCollision;
+                }
+                else if (p_Mesh_BoxPicked == p_Mesh_HUDPlant1)
+                {
+                    p_Func_MeshesPos(p_Meshes_Girasol, p_Pos_PlantaActual.X, p_Pos_PlantaActual.Y, p_Pos_PlantaActual.Z);
                     p_Func_MeshesRender(p_Meshes_Girasol);
                 }
                 else if (p_Mesh_BoxPicked == p_Mesh_HUDPlant2)
@@ -257,13 +286,15 @@ namespace TGC.Group.Model
             }
             else
             {
-                p_Func_Text("H Para cambiar a Camara Primera Persona", 10, 80);
+                p_Func_Text("H Para cambiar a Camara Aérea", 10, 80);
             }
 
             p_Func_MeshRender(p_Mesh_BolaRaziel);
             p_Func_MeshRender(p_Mesh_plano);
             p_Func_MeshRender(p_Mesh_Cielo);
             p_Func_MeshRender(p_Mesh_zombie);
+            p_Func_MeshRender(p_Mesh_mountain);
+
 
             p_Func_MeshesRender(p_Meshes_Mina);
         }
@@ -327,6 +358,7 @@ namespace TGC.Group.Model
             p_PickingRay.updateRay();
 
             p_Mesh_BoxPicked = p_Mesh_BoxCollision;
+            p_Mesh_BoxPickedPrev = p_Mesh_BoxCollision;
 
             var aabb = mesh.BoundingBox;
 
@@ -334,7 +366,7 @@ namespace TGC.Group.Model
             var selected = TGC.Core.Collision.TgcCollisionUtils.intersectRayAABB(p_PickingRay.Ray, aabb, out p_PickRay_Pos);
             if (selected)
             {
-                   p_Mesh_BoxPicked = mesh;
+                p_Mesh_BoxPicked = mesh;
 
                 return true;
             }
@@ -389,6 +421,13 @@ namespace TGC.Group.Model
                 //Es útil cuando tenemos transformaciones simples, pero OJO cuando tenemos transformaciones jerárquicas o complicadas.
                 meshes[i].UpdateMeshTransform();
                 meshes[i].render();
+            }
+        }
+        private void p_Func_MeshesPos(List<TgcMesh> meshes, float X, float Y, float Z)
+        {
+            for (int i = 0; i < meshes.Count; i++)
+            {
+                p_Meshes_Girasol[i].Position = new Vector3(X, Y, Z);
             }
         }
 

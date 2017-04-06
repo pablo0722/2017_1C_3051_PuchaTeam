@@ -47,5 +47,11 @@
     <Setting Name="MeshPasto" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\Pasto-TgcScene.xml</Value>
     </Setting>
+    <Setting Name="MeshMountain" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\Mountain-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="TexturaMountain" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Texturas\tierra.jpg</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

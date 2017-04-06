@@ -202,5 +202,29 @@ namespace TGC.Group {
                 this["MeshPasto"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Mountain-TgcScene.xml")]
+        public string MeshMountain {
+            get {
+                return ((string)(this["MeshMountain"]));
+            }
+            set {
+                this["MeshMountain"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\tierra.jpg")]
+        public string TexturaMountain {
+            get {
+                return ((string)(this["TexturaMountain"]));
+            }
+            set {
+                this["TexturaMountain"] = value;
+            }
+        }
     }
 }
