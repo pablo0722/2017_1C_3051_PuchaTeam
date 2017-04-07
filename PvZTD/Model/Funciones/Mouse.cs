@@ -1,25 +1,97 @@
-﻿using Microsoft.DirectX;
-using Microsoft.DirectX.DirectInput;
-using System.Drawing;
-using TGC.Core.Example;
-using TGC.Core.Geometry;
-using TGC.Core.SceneLoader;
-using TGC.Core.Textures;
+﻿using TGC.Core.Example;
+using TGC.Core.Input;
 
-using System.Collections.Generic;
 
 namespace TGC.Group.Model
 {
-    public partial class GameModel : TgcExample
+    public class t_Mouse
     {
-        private void Func_MouseClickIzq_Down()
+        /******************************************************************************************/
+        /*                                  VARIABLES
+        /******************************************************************************************/
+        private TgcExample _example;
+
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************/
+        /*                                  CONSTRUCTOR
+        /******************************************************************************************/
+        public t_Mouse(TgcExample example)
         {
+            _example = example;
         }
-        private void Func_MouseClickIzq_Up()
+
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************/
+        /*                              ESTADOS DE BOTONES
+        /******************************************************************************************/
+        // BOTON IZQUIERDO
+        public bool ClickIzq_Down()
         {
+            return _example.Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT);
         }
-        private void Func_MouseClickIzq_RisingDown()
+        public bool ClickIzq_Up()
         {
+            return !_example.Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT);
+        }
+        public bool ClickIzq_RisingDown()
+        {
+            return _example.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT);
+        }
+        public bool ClickIzq_RisingUp()
+        {
+            return _example.Input.buttonUp(TgcD3dInput.MouseButtons.BUTTON_LEFT);
+        }
+
+        // BOTON DERECHO
+        public bool ClickDer_Down()
+        {
+            return _example.Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_RIGHT);
+        }
+        public bool ClickDer_Up()
+        {
+            return !_example.Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_RIGHT);
+        }
+        public bool ClickDer_RisingDown()
+        {
+            return _example.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_RIGHT);
+        }
+        public bool ClickDer_RisingUp()
+        {
+            return _example.Input.buttonUp(TgcD3dInput.MouseButtons.BUTTON_RIGHT);
+        }
+
+        // BOTON MEDIO (RUEDA)
+        public bool ClickMid_Down()
+        {
+            return _example.Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_MIDDLE);
+        }
+        public bool ClickMid_Up()
+        {
+            return !_example.Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_MIDDLE);
+        }
+        public bool ClickMid_RisingDown()
+        {
+            return _example.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_MIDDLE);
+        }
+        public bool ClickMid_RisingUp()
+        {
+            return _example.Input.buttonUp(TgcD3dInput.MouseButtons.BUTTON_MIDDLE);
         }
     }
 }

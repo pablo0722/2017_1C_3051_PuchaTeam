@@ -12,38 +12,9 @@ namespace TGC.Group.Model
 {
     public partial class GameModel : TgcExample
     {
-        /******************************************************************************************
-         *                                  RENDERIZA MESHES
-         ******************************************************************************************/
-        private void Func_MeshRender(TgcMesh mesh)
-        {
-            //Cuando tenemos modelos mesh podemos utilizar un método que hace la matriz de transformación estándar.
-            //Es útil cuando tenemos transformaciones simples, pero OJO cuando tenemos transformaciones jerárquicas o complicadas.
-            mesh.UpdateMeshTransform();
-            mesh.render();
-        }
-
-        private void Func_MeshesRender(List<TgcMesh> meshes)
-        {
-            for (int i = 0; i < meshes.Count; i++)
-            {
-                meshes[i].UpdateMeshTransform();
-                meshes[i].render();
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-        /******************************************************************************************
-         *                                  RENDERIZA BOXES
-         ******************************************************************************************/
+        /******************************************************************************************/
+        /*                                  RENDERIZA BOXES
+        /******************************************************************************************/
         private void Func_BoxRender(TgcBox box)
         {
             //Siempre antes de renderizar el modelo necesitamos actualizar la matriz de transformacion.
@@ -64,9 +35,9 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                                  TEXTO
-         ******************************************************************************************/
+        /******************************************************************************************/
+        /*                                  TEXTO
+        /******************************************************************************************/
         private void Func_Text(string text, int x, int y)
         {
             DrawText.drawText(text, x, y, Color.White);

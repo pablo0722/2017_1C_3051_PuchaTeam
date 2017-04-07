@@ -12,9 +12,9 @@ namespace TGC.Group.Model
 {
     public partial class GameModel : TgcExample
     {
-        /******************************************************************************************
-         *                                      ESTRUCTURAS
-         ******************************************************************************************/
+        /******************************************************************************************/
+        /*                                      ESTRUCTURAS
+        /******************************************************************************************/
         private struct p_s_HUDPlanta
         {
             public int n;
@@ -32,9 +32,9 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                                      CONSTANTES
-         ******************************************************************************************/
+        /******************************************************************************************/
+        /*                                      CONSTANTES
+        /******************************************************************************************/
         // Tamaños y posiciones
         private const float P_HUD_BOX_SIZE = 5;
         private const float P_HUD_BOX_POS_X = 20;
@@ -59,9 +59,9 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                                      VARIABLES HUD (Head-Up Display)
-         ******************************************************************************************/
+        /******************************************************************************************/
+        /*                              VARIABLES HUD (Head-Up Display)
+        /******************************************************************************************/
         private p_s_HUDPlanta p_HUDPlanta_Girasol;
         private p_s_HUDPlanta p_HUDPlanta_Peashooter;
         private p_s_HUDPlanta p_HUDPlanta_Patatapum;
@@ -77,10 +77,10 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                                      INICIALIZACION
-         ******************************************************************************************/
-        private void p_Func_Init_HUD()
+        /******************************************************************************************/
+        /*                                      INICIALIZACION
+        /******************************************************************************************/
+        private void p_Func_HUD_Init()
         {
             HUDSize = new Vector3(P_HUD_BOX_SIZE, P_HUD_BOX_SIZE, P_HUD_BOX_SIZE);
 
@@ -100,15 +100,15 @@ namespace TGC.Group.Model
             p_HUDPlanta_Peashooter.Mesh_box = new TgcBox();
             p_HUDPlanta_Patatapum.Mesh_box = new TgcBox();
 
-            p_Func_Init_HUDBoxes();
+            p_Func_HUD_BoxesTexturaOff();
         }
 
         // Inicializa todas las texturas
-        private void p_Func_Init_HUDBoxes()
+        private void p_Func_HUD_BoxesTexturaOff()
         {
-            p_Func_HUDBoxTexturaOff(ref p_HUDPlanta_Girasol);
-            p_Func_HUDBoxTexturaOff(ref p_HUDPlanta_Peashooter);
-            p_Func_HUDBoxTexturaOff(ref p_HUDPlanta_Patatapum);
+            p_Func_HUD_BoxTexturaOff(ref p_HUDPlanta_Girasol);
+            p_Func_HUD_BoxTexturaOff(ref p_HUDPlanta_Peashooter);
+            p_Func_HUD_BoxTexturaOff(ref p_HUDPlanta_Patatapum);
         }
 
 
@@ -120,20 +120,20 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                                      TEXTURAS
-         ******************************************************************************************/
-        private void p_Func_HUDBoxTexturaOn(ref p_s_HUDPlanta box)
+        /******************************************************************************************/
+        /*                                      TEXTURAS
+        /******************************************************************************************/
+        private void p_Func_HUD_BoxTexturaOn(ref p_s_HUDPlanta box)
         {
             bool change_actual = false;
             bool change_prev = false;
 
-            if (Mesh_BoxPicked == box.Mesh_box)
+            if (_Mesh_BoxPicked == box.Mesh_box)
             {
                 change_actual = true;
             }
 
-            if (Mesh_BoxPickedPrev == box.Mesh_box)
+            if (_Mesh_BoxPickedPrev == box.Mesh_box)
             {
                 change_prev = true;
             }
@@ -143,26 +143,26 @@ namespace TGC.Group.Model
 
             if(change_actual)
             {
-                Mesh_BoxPicked = box.Mesh_box;
+                _Mesh_BoxPicked = box.Mesh_box;
             }
 
             if (change_prev)
             {
-                Mesh_BoxPickedPrev = box.Mesh_box;
+                _Mesh_BoxPickedPrev = box.Mesh_box;
             }
         }
 
-        private void p_Func_HUDBoxTexturaOff(ref p_s_HUDPlanta box)
+        private void p_Func_HUD_BoxTexturaOff(ref p_s_HUDPlanta box)
         {
             bool change_actual = false;
             bool change_prev = false;
 
-            if (Mesh_BoxPicked == box.Mesh_box)
+            if (_Mesh_BoxPicked == box.Mesh_box)
             {
                 change_actual = true;
             }
 
-            if (Mesh_BoxPickedPrev == box.Mesh_box)
+            if (_Mesh_BoxPickedPrev == box.Mesh_box)
             {
                 change_prev = true;
             }
@@ -172,12 +172,12 @@ namespace TGC.Group.Model
 
             if (change_actual)
             {
-                Mesh_BoxPicked = box.Mesh_box;
+                _Mesh_BoxPicked = box.Mesh_box;
             }
 
             if (change_prev)
             {
-                Mesh_BoxPickedPrev = box.Mesh_box;
+                _Mesh_BoxPickedPrev = box.Mesh_box;
             }
         }
 
@@ -190,10 +190,26 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                                      RENDERIZACION
-         ******************************************************************************************/
-        private void p_Func_Render_HUD()
+        /******************************************************************************************/
+        /*                                      UPDATE
+        /******************************************************************************************/
+        private void p_Func_HUD_Update()
+        {
+        }
+
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************/
+        /*                                      RENDERIZACION
+        /******************************************************************************************/
+        private void p_Func_HUD_Render()
         {
             Func_BoxRender(p_HUDPlanta_Girasol.Mesh_box);
             Func_BoxRender(p_HUDPlanta_Peashooter.Mesh_box);
@@ -209,9 +225,9 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                                      DISPOSE
-         ******************************************************************************************/
+        /******************************************************************************************/
+        /*                                          DISPOSE
+        /******************************************************************************************/
         private void p_Func_Dispose_HUD()
         {
             p_HUDPlanta_Girasol.Mesh_box.dispose();

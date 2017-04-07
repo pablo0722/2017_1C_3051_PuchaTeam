@@ -15,7 +15,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      VARIABLES
         /******************************************************************************************/
-        private Objeto3D p_Obj_Sol;
+        private t_Objeto3D p_Obj_Sol;
 
 
 
@@ -29,9 +29,9 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      INICIALIZACION
         /******************************************************************************************/
-        private void p_Func_Init_Soles()
+        private void p_Func_Soles_Init()
         {
-            p_Obj_Sol = new Objeto3D(MediaDir + Game.Default.MeshSol);
+            p_Obj_Sol = new t_Objeto3D(MediaDir + Game.Default.MeshSol);
             p_Obj_Sol.Transform(0, 0, 0,
                                 (float)0.075, (float)0.075, (float)0.075,
                                 0, 0, 0);
@@ -54,7 +54,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      UPDATE
         /******************************************************************************************/
-        private void p_Func_RotarSoles()
+        private void p_Func_Soles_Update()
         {
             p_Obj_Sol.Inst_RotateAll(ElapsedTime / PI, 0, 0);
         }
@@ -71,7 +71,7 @@ namespace TGC.Group.Model
             /******************************************************************************************/
             /*                                      RENDERIZACION
             /******************************************************************************************/
-            private void p_Func_Render_Soles()
+            private void p_Func_Soles_Render()
         {
             p_Obj_Sol.Render();
         }

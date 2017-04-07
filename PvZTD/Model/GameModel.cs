@@ -19,31 +19,27 @@ namespace TGC.Group.Model
     /// </summary>
     public partial class GameModel : TgcExample
     {
-        private const float PI = (float) 3.14159;
+        /******************************************************************************************/
+        /*                                  CONSTANTES
+        /******************************************************************************************/
+        private const float PI = 3.14159F;
 
 
 
 
-        //      CAMARAS
-        // Camara Libre
-        private MyCamara1Persona Camara1Persona;
-        // Camara Plano Picado
-        private Core.Camara.TgcCamera CamaraPicado;
-        // Camara esta en modo Plano Picado?
-        private bool Is_CamPicado;
 
 
 
-        //      RAY PICKING
-        private TgcPickingRay PickingRay;
-        private TgcBox Mesh_BoxPicked;
-        private TgcBox Mesh_BoxPickedPrev;
-        private Vector3 PickRay_Pos;
 
 
 
-        //      MESHES
-        private TgcBox Mesh_BoxCollision;                    // Punto rojo colision
+        /******************************************************************************************/
+        /*                                  VARIABLES
+        /******************************************************************************************/
+        // CAMARA
+        t_Camara _camara;
+        t_Mouse _mouse;
+        t_Colision _colision;
 
 
 
@@ -73,9 +69,9 @@ namespace TGC.Group.Model
             //Device de DirectX para crear primitivas.
             //var d3dDevice = D3DDevice.Instance.Device;
 
-            Func_Init_PickingRay();
-
-            Func_Init_Camara();
+            _camara = new t_Camara(this);
+            _mouse = new t_Mouse(this);
+            _colision = new t_Colision(this);
 
             pablo_init();
             jose_init();
@@ -90,7 +86,7 @@ namespace TGC.Group.Model
         {
             PreUpdate();
 
-            Func_Update_Cam();
+            _camara.Update(ElapsedTime);
 
             pablo_update();
             jose_update();
@@ -120,8 +116,6 @@ namespace TGC.Group.Model
         /// </summary>
         public override void Dispose()
         {
-            Func_Dispose_PickingRay();
-
             pablo_dispose();
             jose_dispose();
         }

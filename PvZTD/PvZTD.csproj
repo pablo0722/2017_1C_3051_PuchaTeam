@@ -96,15 +96,15 @@
       <DependentUpon>Game.settings</DependentUpon>
     </Compile>
     <Compile Include="Model\Funciones\Camara.cs" />
+    <Compile Include="Model\Pablo\PabloCamara.cs" />
     <Compile Include="Model\Funciones\Mouse.cs" />
     <Compile Include="Model\Funciones\Objeto3D.cs" />
-    <Compile Include="Model\Funciones\PickingRay.cs" />
-    <Compile Include="Model\Funciones\Transformaciones.cs" />
+    <Compile Include="Model\Funciones\Colision.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\Jose\JoseClass.cs" />
     <Compile Include="Model\MyCamara1Persona.cs" />
     <Compile Include="Model\MyCamara3Persona.cs" />
-    <Compile Include="Model\Pablo\PabloClass.cs" />
+    <Compile Include="Model\Pablo\PabloMain.cs" />
     <Compile Include="Model\Funciones\Renderizado.cs" />
     <Compile Include="Model\Pablo\PabloHUD.cs" />
     <Compile Include="Model\Pablo\PabloEscenario.cs" />

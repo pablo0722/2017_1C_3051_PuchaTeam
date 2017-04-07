@@ -10,24 +10,24 @@ using System.Collections.Generic;
 
 namespace TGC.Group.Model
 {
-    public class Objeto3D
+    public class t_Objeto3D
     {
         /******************************************************************************************/
         /*                                      ESTRUCTURAS
         /******************************************************************************************/
-        private class c_instancia
+        private class t_instancia
         {
             public Vector3 pos;
             public Vector3 rot;
             public Vector3 size;
 
-            public c_instancia()
+            public t_instancia()
             {
                 pos = new Vector3(0, 0, 0);
                 rot = new Vector3(0, 0, 0);
                 size = new Vector3(1, 1, 1);
             }
-            public c_instancia(c_instancia inst)
+            public t_instancia(t_instancia inst)
             {
                 pos = new Vector3(inst.pos.X, inst.pos.Y, inst.pos.Z);
                 rot = new Vector3(inst.rot.X, inst.rot.Y, inst.rot.Z);
@@ -48,8 +48,8 @@ namespace TGC.Group.Model
         /*                                      VARIABLES
         /******************************************************************************************/
         private List<TgcMesh> _meshes;
-        private List<c_instancia> _instancias;
-        private c_instancia _InstanciaBase;     // Todas las instancias se crean como copias de la _InstanciaBase
+        private List<t_instancia> _instancias;
+        private t_instancia _InstanciaBase;     // Todas las instancias se crean como copias de la _InstanciaBase
         private int _InstSel; //Instancia seleccionada
 
 
@@ -64,12 +64,12 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        public Objeto3D(string path)
+        public t_Objeto3D(string path)
         {
             _InstSel = -1;
             _meshes = new TgcSceneLoader().loadSceneFromFile(path).Meshes;
-            _instancias = new List<c_instancia>();
-            _InstanciaBase = new c_instancia();
+            _instancias = new List<t_instancia>();
+            _InstanciaBase = new t_instancia();
         }
 
 
@@ -84,7 +84,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      DESTRUCTOR
         /******************************************************************************************/
-        ~Objeto3D()
+        ~t_Objeto3D()
         {
             for (int i = 0; i < _meshes.Count; i++)
             {
@@ -144,7 +144,7 @@ namespace TGC.Group.Model
         //  CREACION DE INSTANCIAS
         public int Inst_Create()
         {
-            c_instancia inst = new c_instancia(_InstanciaBase);
+            t_instancia inst = new t_instancia(_InstanciaBase);
 
             _instancias.Add(inst);
 
@@ -153,7 +153,7 @@ namespace TGC.Group.Model
 
         public int Inst_Create(float PosX, float PosY, float PosZ)
         {
-            c_instancia inst = new c_instancia(_InstanciaBase);
+            t_instancia inst = new t_instancia(_InstanciaBase);
 
             inst.pos = new Vector3(PosX, PosY, PosZ);
 
@@ -164,7 +164,7 @@ namespace TGC.Group.Model
 
         public int Inst_Create(Vector3 Pos)
         {
-            c_instancia inst = new c_instancia(_InstanciaBase);
+            t_instancia inst = new t_instancia(_InstanciaBase);
 
             inst.pos = new Vector3(Pos.X, Pos.Y, Pos.Z);
 
@@ -173,6 +173,7 @@ namespace TGC.Group.Model
             return _instancias.Count - 1;
         }
 
+        //  CREACION Y SELECCION DE INSTANCIAS
         public int Inst_CreateAndSelect()
         {
             return _InstSel = Inst_Create();
@@ -194,7 +195,7 @@ namespace TGC.Group.Model
             _InstSel = i;
         }
 
-        //  MOVIMIENTO DE INSTANCIAS
+        //  POSICION DE INSTANCIAS
         public void Inst_Position(float PosX, float PosY, float PosZ)
         {
             if (_InstSel < 0) return;
@@ -223,7 +224,7 @@ namespace TGC.Group.Model
             _instancias[_InstSel].pos = new Vector3(_instancias[_InstSel].pos.X, _instancias[_InstSel].pos.Y, PosZ);
         }
 
-        //  ROTACION DE INSTANCIAS
+        //  ROTAR DE INSTANCIAS
         public void Inst_RotateAll(float RotX, float RotY, float RotZ)
         {
             for (int i = 0; i < _instancias.Count; i++)

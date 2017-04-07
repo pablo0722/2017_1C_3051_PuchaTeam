@@ -1,35 +1,23 @@
 ﻿using Microsoft.DirectX;
 using Microsoft.DirectX.DirectInput;
-using System.Drawing;
 using TGC.Core.Example;
-using TGC.Core.Geometry;
-using TGC.Core.SceneLoader;
-using TGC.Core.Textures;
+using TGC.Core.Input;
+using TGC.Core.Camara;
 
 using System.Collections.Generic;
 
 namespace TGC.Group.Model
 {
-    public partial class GameModel : TgcExample
+    public class t_Camara
     {
-        /******************************************************************************************
-         *                                  CONSTANTES
-         ******************************************************************************************/
-        // Camara Libre
-        private const float P_CAM_POS_X_INIT = 20;
-        private const float P_CAM_POS_Y_INIT = 20;
-        private const float P_CAM_POS_Z_INIT = 0;
-        private const float P_CAM_VEL = 50;
-        private const float P_CAM_JUMP = 50;
-        private const float P_CAM_ROT = (float)0.02;
+        /******************************************************************************************/
+        /*                                  VARIABLES
+        /******************************************************************************************/
+        private MyCamara1Persona _CamaraLibre;   // Camara Libre
+        private TgcCamera _CamaraAerea;          // Camara Plano Picado
+        private TgcExample _example;
 
-        // Camara Plano Picado
-        private const float P_CAM_PICADO_X = 100;
-        private const float P_CAM_PICADO_Y = 100;
-        private const float P_CAM_PICADO_Z = 0;
-        private const float P_CAM_UP_X = -1;
-        private const float P_CAM_UP_Y = 1;
-        private const float P_CAM_UP_Z = 0;
+        private bool _Is_CamAerea;               // En modo Camara aerea?
 
 
 
@@ -40,22 +28,27 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                                  INICIALIZA CAMARA
-         ******************************************************************************************/
-        private void Func_Init_Camara()
+
+        /******************************************************************************************/
+        /*                                  CONSTRUCTOR
+        /******************************************************************************************/
+        public t_Camara(TgcExample example)
         {
+            _example = example;
+
             // Camara Picado
-            CamaraPicado = new Core.Camara.TgcCamera();
-            CamaraPicado.SetCamera(new Vector3(P_CAM_PICADO_X, P_CAM_PICADO_Y, P_CAM_PICADO_Z),
-                Vector3.Empty, new Vector3(P_CAM_UP_X, P_CAM_UP_Y, P_CAM_UP_Z));
+            _CamaraAerea = new TgcCamera();
+            _CamaraAerea.SetCamera( new Vector3(0, 0, 1),
+                                    Vector3.Empty, new Vector3(0, 1, 0));
 
             // Camara Primera Persona
-            Camara1Persona = new MyCamara1Persona(new Vector3(P_CAM_POS_X_INIT, P_CAM_POS_Y_INIT, P_CAM_POS_Z_INIT),
-                P_CAM_VEL, P_CAM_JUMP, P_CAM_ROT, Input);
+            _CamaraLibre = new MyCamara1Persona(new Vector3(0, 0, 1),
+                                                10, 10, 0.01F, _example.Input);
+            _CamaraLibre.SetCamera( new Vector3(0, 0, 1),
+                                    Vector3.Empty, new Vector3(0, 1, 0));
 
-            Is_CamPicado = true;
-            Camara = CamaraPicado;
+            _Is_CamAerea = true;
+            example.Camara = _CamaraAerea;
         }
 
 
@@ -67,27 +60,131 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                                  ACTUALIZA CAMARA
-         ******************************************************************************************/
-        private void Func_Update_Cam()
+        /******************************************************************************************/
+        /*                                  MODO DE CAMARA
+        /******************************************************************************************/
+        public bool Modo_Is_CamaraAerea()
         {
-            if (!Is_CamPicado)
-                Camara1Persona.UpdateCamera(ElapsedTime);
+            return _Is_CamAerea;
+        }
 
-            if (Input.keyPressed(Key.H))
+        public void Modo_Change()
+        {
+            _Is_CamAerea = !_Is_CamAerea;
+
+            if (_Is_CamAerea)
             {
-                Is_CamPicado = !Is_CamPicado;
-
-                if (Is_CamPicado)
-                {
-                    Camara = CamaraPicado;
-                }
-                else
-                {
-                    Camara = Camara1Persona;
-                }
+                _example.Camara = _CamaraAerea;
             }
+            else
+            {
+                _example.Camara = _CamaraLibre;
+            }
+        }
+
+        public void Modo_Aerea()
+        {
+            _Is_CamAerea = true;
+            
+            _example.Camara = _CamaraAerea;
+        }
+
+        public void Modo_Libre()
+        {
+            _Is_CamAerea = false;
+            
+            _example.Camara = _CamaraLibre;
+        }
+
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************/
+        /*                                  CAMARA AEREA CONFIG
+        /******************************************************************************************/
+        public void Aerea_Posicion(float X, float Y, float Z)
+        {
+            _CamaraAerea.SetCamera( new Vector3(X, Y, Z),
+                                    _CamaraAerea.LookAt,
+                                    _CamaraAerea.UpVector);
+        }
+
+        public void Aerea_LookAt(float X, float Y, float Z)
+        {
+            _CamaraAerea.SetCamera( _CamaraAerea.Position,
+                                    new Vector3(X, Y, Z),
+                                    _CamaraAerea.UpVector);
+        }
+
+        public void Aerea_Up(float X, float Y, float Z)
+        {
+            _CamaraAerea.SetCamera( _CamaraAerea.Position,
+                                    _CamaraAerea.LookAt, 
+                                    new Vector3(X, Y, Z));
+        }
+
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************/
+        /*                                  CAMARA LIBRE CONFIG
+        /******************************************************************************************/
+        public void Libre_Posicion(float X, float Y, float Z)
+        {
+            _CamaraLibre = new MyCamara1Persona(new Vector3(X, Y, Z),
+                                                _CamaraLibre.MovementSpeed, _CamaraLibre.JumpSpeed, _CamaraLibre.RotationSpeed,
+                                                _example.Input);
+        }
+
+        public void Libre_MoveSpeed(float speed)
+        {
+            _CamaraLibre = new MyCamara1Persona(_CamaraLibre.Position,
+                                                speed, _CamaraLibre.JumpSpeed, _CamaraLibre.RotationSpeed,
+                                                _example.Input);
+        }
+
+        public void Libre_JumpSpeed(float speed)
+        {
+            _CamaraLibre = new MyCamara1Persona(_CamaraLibre.Position,
+                                                _CamaraLibre.MovementSpeed, speed, _CamaraLibre.RotationSpeed,
+                                                _example.Input);
+        }
+
+        public void Libre_RotationSpeed(float speed)
+        {
+            _CamaraLibre = new MyCamara1Persona(_CamaraLibre.Position,
+                                                _CamaraLibre.MovementSpeed, _CamaraLibre.JumpSpeed, speed,
+                                                _example.Input);
+        }
+
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************/
+        /*                                  UPDATE
+        /******************************************************************************************/
+        public void Update(float ElapsedTime)
+        {
+            if (!_Is_CamAerea)
+                _CamaraLibre.UpdateCamera(ElapsedTime);
         }
     }
 }

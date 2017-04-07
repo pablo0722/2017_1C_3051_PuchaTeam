@@ -17,7 +17,6 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                 CONSTANTES - Deben comenzar con "p_"
         /******************************************************************************************/
-
         //      SCREEN
         private const float P_WIDTH = 1360;
         private const float P_HEIGHT = 768;
@@ -28,12 +27,14 @@ namespace TGC.Group.Model
 
 
 
+
+
+
         /******************************************************************************************/
         /*                 VARIABLES - Deben comenzar con "p_"
         /******************************************************************************************/
-            
-
-
+        private TgcBox _Mesh_BoxPicked;
+        private TgcBox _Mesh_BoxPickedPrev;
 
 
 
@@ -50,11 +51,12 @@ namespace TGC.Group.Model
 
         private void pablo_init()
         {
-            p_Func_Init_Escenario();
-            p_Func_Init_Zombies();
-            p_Func_Init_Plantas();
-            p_Func_Init_HUD();
-            p_Func_Init_Soles();
+            p_Func_Camara_Init();
+            p_Func_Escenario_Init();
+            p_Func_HUD_Init();
+            p_Func_Zombies_Init();
+            p_Func_Plantas_Init();
+            p_Func_Soles_Init();
         }
 
 
@@ -72,66 +74,66 @@ namespace TGC.Group.Model
 
         private void pablo_update()
         {
-            p_Func_RotarSoles();
-
-            if (Is_CamPicado)
+            p_Func_Camara_Update();
+            p_Func_Escenario_Update();
+            p_Func_HUD_Update();
+            p_Func_Zombies_Update();
+            p_Func_Plantas_Update();
+            p_Func_Soles_Update();
+            
+            if (_camara.Modo_Is_CamaraAerea())
             {
-                if (Input.buttonDown(TGC.Core.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT))
+                if (_mouse.ClickIzq_Down())
                 {
                     p_Pos_PlantaActual = new Vector3(Input.Ypos / P_HEIGHT * 110 - 40, 0, Input.Xpos / P_WIDTH * 150 - 75);
                 }
-                else
+                if (_mouse.ClickIzq_Up())
                 {
-                    p_Func_Init_HUDBoxes();
+                    p_Func_HUD_BoxesTexturaOff();
 
-                    if (Func_IsMeshPicked(p_HUDPlanta_Patatapum.Mesh_box))
+                    _Mesh_BoxPickedPrev = _Mesh_BoxPicked;
+                    _Mesh_BoxPicked = null;
+
+                    if (_colision.MouseBox(p_HUDPlanta_Patatapum.Mesh_box))
                     {
-                        p_Func_HUDBoxTexturaOn(ref p_HUDPlanta_Patatapum);
+                        p_Func_HUD_BoxTexturaOn(ref p_HUDPlanta_Patatapum);
                     }
-                    else if (Func_IsMeshPicked(p_HUDPlanta_Peashooter.Mesh_box))
+                    else if (_colision.MouseBox(p_HUDPlanta_Peashooter.Mesh_box))
                     {
-                        p_Func_HUDBoxTexturaOn(ref p_HUDPlanta_Peashooter);
+                        p_Func_HUD_BoxTexturaOn(ref p_HUDPlanta_Peashooter);
                     }
-                    else if (Func_IsMeshPicked(p_HUDPlanta_Girasol.Mesh_box))
+                    else if (_colision.MouseBox(p_HUDPlanta_Girasol.Mesh_box))
                     {
-                        p_Func_HUDBoxTexturaOn(ref p_HUDPlanta_Girasol);
+                        p_Func_HUD_BoxTexturaOn(ref p_HUDPlanta_Girasol);
                     }
                 }
 
-                if (Input.buttonPressed(TGC.Core.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT))
+                if (_mouse.ClickIzq_RisingDown())
                 {
-                    Mesh_BoxPicked = Mesh_BoxCollision;
-                    Mesh_BoxPickedPrev = Mesh_BoxCollision;
+                    _Mesh_BoxPicked = null;
+                    _Mesh_BoxPickedPrev = null;
 
-                    if (Func_IsMeshPicked(p_HUDPlanta_Patatapum.Mesh_box))
+                    if (_colision.MouseBox(p_HUDPlanta_Patatapum.Mesh_box))
                     {
-                        Mesh_BoxPicked = p_HUDPlanta_Patatapum.Mesh_box;
+                        _Mesh_BoxPicked = p_HUDPlanta_Patatapum.Mesh_box;
                         p_Obj_Patatapum.Inst_CreateAndSelect();
                         p_Obj_Patatapum.Inst_PositionX(p_Pos_PlantaActual.X);
                         p_Obj_Patatapum.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     }
-                    else if (Func_IsMeshPicked(p_HUDPlanta_Peashooter.Mesh_box))
+                    else if (_colision.MouseBox(p_HUDPlanta_Peashooter.Mesh_box))
                     {
-                        Mesh_BoxPicked = p_HUDPlanta_Peashooter.Mesh_box;
+                        _Mesh_BoxPicked = p_HUDPlanta_Peashooter.Mesh_box;
                         p_Obj_Peashooter.Inst_CreateAndSelect();
                         p_Obj_Peashooter.Inst_PositionX(p_Pos_PlantaActual.X);
                         p_Obj_Peashooter.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     }
-                    else if (Func_IsMeshPicked(p_HUDPlanta_Girasol.Mesh_box))
+                    else if (_colision.MouseBox(p_HUDPlanta_Girasol.Mesh_box))
                     {
-                        Mesh_BoxPicked = p_HUDPlanta_Girasol.Mesh_box;
+                        _Mesh_BoxPicked = p_HUDPlanta_Girasol.Mesh_box;
                         p_Obj_Girasol.Inst_CreateAndSelect();
                         p_Obj_Girasol.Inst_PositionX(p_Pos_PlantaActual.X);
                         p_Obj_Girasol.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     }
-                }
-
-                if (Input.buttonUp(TGC.Core.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT))
-                {
-                    p_Func_Init_HUDBoxes();
-
-                    Mesh_BoxPickedPrev = Mesh_BoxPicked;
-                    Mesh_BoxPicked = Mesh_BoxCollision;
                 }
             }
         }
@@ -151,35 +153,35 @@ namespace TGC.Group.Model
 
         private void pablo_render()
         {
-            p_Func_Render_Escenario();
-            p_Func_Render_Plantas();
-            p_Func_Render_Zombies();
-            p_Func_Render_Soles();
+            p_Func_Escenario_Render();
+            p_Func_Plantas_Render();
+            p_Func_Zombies_Render();
+            p_Func_Soles_Render();
 
-            if (Is_CamPicado)
+            if (_camara.Modo_Is_CamaraAerea())
             {
                 Func_Text("H Para cambiar a Camara Primera Persona", 10, 80);
 
-                p_Func_Render_HUD();
+                p_Func_HUD_Render();
 
-                if (Mesh_BoxPicked == Mesh_BoxCollision)
+                if (_Mesh_BoxPicked == null)
                 {
 
-                    Mesh_BoxPickedPrev = Mesh_BoxCollision;
+                    _Mesh_BoxPickedPrev = null;
                 }
-                else if (Mesh_BoxPicked == p_HUDPlanta_Girasol.Mesh_box)
+                else if (_Mesh_BoxPicked == p_HUDPlanta_Girasol.Mesh_box)
                 {
                     p_Obj_Girasol.Inst_PositionX(p_Pos_PlantaActual.X);
                     p_Obj_Girasol.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     p_Obj_Girasol.Render();
                 }
-                else if (Mesh_BoxPicked == p_HUDPlanta_Peashooter.Mesh_box)
+                else if (_Mesh_BoxPicked == p_HUDPlanta_Peashooter.Mesh_box)
                 {
                     p_Obj_Peashooter.Inst_PositionX(p_Pos_PlantaActual.X);
                     p_Obj_Peashooter.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     p_Obj_Peashooter.Render();
                 }
-                else if (Mesh_BoxPicked == p_HUDPlanta_Patatapum.Mesh_box)
+                else if (_Mesh_BoxPicked == p_HUDPlanta_Patatapum.Mesh_box)
                 {
                     p_Obj_Patatapum.Inst_PositionX(p_Pos_PlantaActual.X);
                     p_Obj_Patatapum.Inst_PositionZ(p_Pos_PlantaActual.Z);
