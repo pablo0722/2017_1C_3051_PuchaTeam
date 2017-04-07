@@ -30,7 +30,7 @@ namespace TGC.Group.Model
         // Camara Plano Picado
         private Core.Camara.TgcCamera CamaraPicado;
         // Camara esta en modo Plano Picado?
-        private bool Is_CamPicado = false;
+        private bool Is_CamPicado;
 
 
 

@@ -42,18 +42,14 @@ namespace TGC.Group.Model
                                     0, (float)PI, 0);
 
             p_Obj_Peashooter = new Objeto3D(MediaDir + Game.Default.MeshPea);
-            p_Obj_Peashooter.Transform(0, 120, 0,
+            p_Obj_Peashooter.Transform(0, 3, 0,
                                     (float)0.05, (float)0.05, (float)0.05,
                                     0, (float)PI, 0);
 
             p_Obj_Patatapum = new Objeto3D(MediaDir + Game.Default.MeshPatatapum);
-            p_Obj_Patatapum.Transform(  0, 0, 0,
+            p_Obj_Patatapum.Transform(  0, -5, 0,
                                         (float)0.15, (float)0.15, (float)0.15,
                                         0, (float)PI, 0);
-
-            p_Obj_Girasol.Inst_Create();
-            p_Obj_Peashooter.Inst_Create();
-            p_Obj_Patatapum.Inst_Create();
         }
 
 

@@ -106,17 +106,23 @@ namespace TGC.Group.Model
                     if (Func_IsMeshPicked(p_HUDPlanta_Patatapum.Mesh_box))
                     {
                         Mesh_BoxPicked = p_HUDPlanta_Patatapum.Mesh_box;
-                        p_Obj_Patatapum.Inst_CreateAndSelect(p_Pos_PlantaActual);
+                        p_Obj_Patatapum.Inst_CreateAndSelect();
+                        p_Obj_Patatapum.Inst_PositionX(p_Pos_PlantaActual.X);
+                        p_Obj_Patatapum.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     }
                     else if (Func_IsMeshPicked(p_HUDPlanta_Peashooter.Mesh_box))
                     {
                         Mesh_BoxPicked = p_HUDPlanta_Peashooter.Mesh_box;
-                        p_Obj_Peashooter.Inst_CreateAndSelect(p_Pos_PlantaActual);
+                        p_Obj_Peashooter.Inst_CreateAndSelect();
+                        p_Obj_Peashooter.Inst_PositionX(p_Pos_PlantaActual.X);
+                        p_Obj_Peashooter.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     }
                     else if (Func_IsMeshPicked(p_HUDPlanta_Girasol.Mesh_box))
                     {
                         Mesh_BoxPicked = p_HUDPlanta_Girasol.Mesh_box;
-                        p_Obj_Girasol.Inst_CreateAndSelect(p_Pos_PlantaActual);
+                        p_Obj_Girasol.Inst_CreateAndSelect();
+                        p_Obj_Girasol.Inst_PositionX(p_Pos_PlantaActual.X);
+                        p_Obj_Girasol.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     }
                 }
 
@@ -163,17 +169,20 @@ namespace TGC.Group.Model
                 }
                 else if (Mesh_BoxPicked == p_HUDPlanta_Girasol.Mesh_box)
                 {
-                    p_Obj_Girasol.Inst_Position(p_Pos_PlantaActual.X, p_Pos_PlantaActual.Y, p_Pos_PlantaActual.Z);
+                    p_Obj_Girasol.Inst_PositionX(p_Pos_PlantaActual.X);
+                    p_Obj_Girasol.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     p_Obj_Girasol.Render();
                 }
                 else if (Mesh_BoxPicked == p_HUDPlanta_Peashooter.Mesh_box)
                 {
-                    p_Obj_Peashooter.Inst_Position(p_Pos_PlantaActual.X, p_Pos_PlantaActual.Y, p_Pos_PlantaActual.Z);
+                    p_Obj_Peashooter.Inst_PositionX(p_Pos_PlantaActual.X);
+                    p_Obj_Peashooter.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     p_Obj_Peashooter.Render();
                 }
                 else if (Mesh_BoxPicked == p_HUDPlanta_Patatapum.Mesh_box)
                 {
-                    p_Obj_Patatapum.Inst_Position(p_Pos_PlantaActual.X, p_Pos_PlantaActual.Y, p_Pos_PlantaActual.Z);
+                    p_Obj_Patatapum.Inst_PositionX(p_Pos_PlantaActual.X);
+                    p_Obj_Patatapum.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     p_Obj_Patatapum.Render();
                 }
             }

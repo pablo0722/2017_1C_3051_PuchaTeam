@@ -173,6 +173,11 @@ namespace TGC.Group.Model
             return _instancias.Count - 1;
         }
 
+        public int Inst_CreateAndSelect()
+        {
+            return _InstSel = Inst_Create();
+        }
+
         public int Inst_CreateAndSelect(float PosX, float PosY, float PosZ)
         {
             return _InstSel = Inst_Create(PosX, PosY, PosZ);
@@ -195,6 +200,27 @@ namespace TGC.Group.Model
             if (_InstSel < 0) return;
 
             _instancias[_InstSel].pos = new Vector3(PosX, PosY, PosZ);
+        }
+
+        public void Inst_PositionX(float PosX)
+        {
+            if (_InstSel < 0) return;
+
+            _instancias[_InstSel].pos = new Vector3(PosX, _instancias[_InstSel].pos.Y, _instancias[_InstSel].pos.Z);
+        }
+
+        public void Inst_PositionY(float PosY)
+        {
+            if (_InstSel < 0) return;
+
+            _instancias[_InstSel].pos = new Vector3(_instancias[_InstSel].pos.X, PosY, _instancias[_InstSel].pos.Z);
+        }
+
+        public void Inst_PositionZ(float PosZ)
+        {
+            if (_InstSel < 0) return;
+
+            _instancias[_InstSel].pos = new Vector3(_instancias[_InstSel].pos.X, _instancias[_InstSel].pos.Y, PosZ);
         }
 
         //  ROTACION DE INSTANCIAS
