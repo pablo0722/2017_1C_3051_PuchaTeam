@@ -30,11 +30,11 @@ namespace TGC.Group.Model
 
 
         private float posX = INICIAL_X;
-        private float posY = -10;
+        private float posY = -13;
         private float posZ = INICIAL_Z;
-        private const float RAZON_PASTO = 12;
-        private const float INICIAL_X = 70;
-        private const float INICIAL_Z = -90;
+        private const float RAZON_PASTO = 13;
+        private const float INICIAL_X = 50;
+        private const float INICIAL_Z = -70;
         /******************************************************************************************
          *                 INIT - Se ejecuta una vez sola al comienzo
          ******************************************************************************************/
@@ -58,7 +58,7 @@ namespace TGC.Group.Model
 
             for (int i = 0; i < j_meshBrain.Count; i++)
             {
-                j_meshBrain[i].Position = new Vector3((float)15, (float)5, (float)-35);
+                j_meshBrain[i].Position = new Vector3((float)INICIAL_X, (float)5, (float)INICIAL_Z);
                 j_meshBrain[i].Scale = new Vector3((float)0.03, (float)0.03, (float)0.03);
             }
 
@@ -67,7 +67,7 @@ namespace TGC.Group.Model
 
             for (int i = 0; i < j_meshCasa.Count; i++)
             {
-                j_meshCasa[i].Position = new Vector3((float)15, (float)-7, (float)-140);
+                j_meshCasa[i].Position = new Vector3((float)7.5, (float)-7, (float)-115);
                 j_meshCasa[i].Scale = new Vector3((float)0.5, (float)0.5, (float)0.5);
                 j_meshCasa[i].rotateY(PI/2);
             }
@@ -118,21 +118,17 @@ namespace TGC.Group.Model
             {
                 j_meshCasa[i].render();
             }
-            for (int i = 0; i < j_meshPea.Count; i++)
-            {
-                j_meshPea[i].render();
-            }
+
             for (int j = 0; j < 5; j++)
             {
                 for (int i = 0; i < j_meshBrain.Count; i++)
                 {
                     j_meshBrain[i].render();
-                    j_meshBrain[i].move(-RAZON_PASTO, 0,0);
+                    j_meshBrain[i].move(-RAZON_PASTO*1.6F, 0,0);
                 }
-
             }
-            j_meshBrain[0].move(RAZON_PASTO * 5, 0, 0);
-            j_meshBrain[1].move(RAZON_PASTO * 5, 0, 0);
+            j_meshBrain[0].move(RAZON_PASTO * 1.6F * 5, 0, 0);
+            j_meshBrain[1].move(RAZON_PASTO * 1.6F * 5, 0, 0);
 
             skyBox.render();
 
@@ -146,11 +142,7 @@ namespace TGC.Group.Model
 
         private void jose_dispose()
         {
-            for (int i = 0; i < j_meshPea.Count; i++)
-            {
 
-                j_meshPea[i].dispose();
-            }
             for (int i = 0; i < j_meshBrain.Count; i++)
             {
 
