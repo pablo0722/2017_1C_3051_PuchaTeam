@@ -12,13 +12,13 @@ namespace TGC.Group.Model
 {
     public partial class GameModel : TgcExample
     {
-        private Func_MouseClickIzqPresionado()
+        private void Func_MouseClickIzq_Down()
         {
         }
-        private Func_MouseClickIzqPresionado()
+        private void Func_MouseClickIzq_Up()
         {
         }
-        private Func_MouseClickIzqPresionado()
+        private void Func_MouseClickIzq_RisingDown()
         {
         }
     }

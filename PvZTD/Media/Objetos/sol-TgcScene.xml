@@ -10,7 +10,7 @@
 			<specular>[229.5,229.5,229.5,255.0]</specular>
 			<opacity>100.0</opacity>
 			<alphaBlendEnable>false</alphaBlendEnable>
-			<bitmap uvTiling='[1.0,1.0]' uvOffset='[0.0,0.0]'>the-background-1017060_960_720_2.jpg</bitmap>
+			<bitmap uvTiling='[1.0,1.0]' uvOffset='[0.0,0.0]'>sol.jpg</bitmap>
 		</m>
 	</materials>
 	<meshes count='1' >

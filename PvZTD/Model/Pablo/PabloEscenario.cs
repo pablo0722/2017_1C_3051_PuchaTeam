@@ -33,7 +33,7 @@ namespace TGC.Group.Model
         private void p_Func_Init_Escenario()
         {
             p_Obj_Mountain = new Objeto3D(MediaDir + Game.Default.MeshMountain);
-
+            
             p_Obj_Mountain.Inst_Create(-122, 0, 100);
             p_Obj_Mountain.Inst_Create(-124, 0, 50);
             p_Obj_Mountain.Inst_Create(-100, 0, 0);

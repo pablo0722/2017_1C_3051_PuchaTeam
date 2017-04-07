@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Name" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Grupo 99</Value>
+      <Value Profile="(Default)">PuchaTeam</Value>
     </Setting>
     <Setting Name="ShadersDirectory" Type="System.String" Scope="User">
       <Value Profile="(Default)">..\..\Shaders\</Value>
@@ -47,9 +47,6 @@
     <Setting Name="MeshPasto" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\Pastofinal-TgcScene.xml</Value>
     </Setting>
-    <Setting Name="MeshMountain" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Objetos\mountain-TgcScene.xml</Value>
-    </Setting>
     <Setting Name="TexturasSkyBox" Type="System.String" Scope="User">
       <Value Profile="(Default)">Texturas\skyBox\</Value>
     </Setting>
@@ -70,6 +67,30 @@
     </Setting>
     <Setting Name="MeshSol" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\sol-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="TexturaMountain" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Texturas\tierra.jpg</Value>
+    </Setting>
+    <Setting Name="MeshMountain" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\Mountain-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="CasitaDave" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\CasaDave-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="MeshBrain" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\Brain-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="MeshPea" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\Pea-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="MeshPastoClaro" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\PastoClaro-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="MeshPastoMedio" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\PastoMedio-TgcScene.xml</Value>
+    </Setting>
+    <Setting Name="MeshPastoOscuro" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Objetos\PastoOscuro-TgcScene.xml</Value>
     </Setting>
   </Settings>
 </SettingsFile>

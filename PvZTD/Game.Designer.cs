@@ -25,7 +25,7 @@ namespace TGC.Group {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Grupo 99")]
+        [global::System.Configuration.DefaultSettingValueAttribute("PuchaTeam")]
         public string Name {
             get {
                 return ((string)(this["Name"]));
@@ -205,18 +205,6 @@ namespace TGC.Group {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\mountain-TgcScene.xml")]
-        public string MeshMountain {
-            get {
-                return ((string)(this["MeshMountain"]));
-            }
-            set {
-                this["MeshMountain"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\skyBox\\")]
         public string TexturasSkyBox {
             get {
@@ -296,6 +284,102 @@ namespace TGC.Group {
             }
             set {
                 this["MeshSol"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\tierra.jpg")]
+        public string TexturaMountain {
+            get {
+                return ((string)(this["TexturaMountain"]));
+            }
+            set {
+                this["TexturaMountain"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Mountain-TgcScene.xml")]
+        public string MeshMountain {
+            get {
+                return ((string)(this["MeshMountain"]));
+            }
+            set {
+                this["MeshMountain"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\CasaDave-TgcScene.xml")]
+        public string CasitaDave {
+            get {
+                return ((string)(this["CasitaDave"]));
+            }
+            set {
+                this["CasitaDave"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Brain-TgcScene.xml")]
+        public string MeshBrain {
+            get {
+                return ((string)(this["MeshBrain"]));
+            }
+            set {
+                this["MeshBrain"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Pea-TgcScene.xml")]
+        public string MeshPea {
+            get {
+                return ((string)(this["MeshPea"]));
+            }
+            set {
+                this["MeshPea"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\PastoClaro-TgcScene.xml")]
+        public string MeshPastoClaro {
+            get {
+                return ((string)(this["MeshPastoClaro"]));
+            }
+            set {
+                this["MeshPastoClaro"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\PastoMedio-TgcScene.xml")]
+        public string MeshPastoMedio {
+            get {
+                return ((string)(this["MeshPastoMedio"]));
+            }
+            set {
+                this["MeshPastoMedio"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\PastoOscuro-TgcScene.xml")]
+        public string MeshPastoOscuro {
+            get {
+                return ((string)(this["MeshPastoOscuro"]));
+            }
+            set {
+                this["MeshPastoOscuro"] = value;
             }
         }
     }

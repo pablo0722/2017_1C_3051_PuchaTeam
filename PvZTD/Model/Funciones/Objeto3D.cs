@@ -20,6 +20,19 @@ namespace TGC.Group.Model
             public Vector3 pos;
             public Vector3 rot;
             public Vector3 size;
+
+            public c_instancia()
+            {
+                pos = new Vector3(0, 0, 0);
+                rot = new Vector3(0, 0, 0);
+                size = new Vector3(1, 1, 1);
+            }
+            public c_instancia(c_instancia inst)
+            {
+                pos = new Vector3(inst.pos.X, inst.pos.Y, inst.pos.Z);
+                rot = new Vector3(inst.rot.X, inst.rot.Y, inst.rot.Z);
+                size = new Vector3(inst.size.X, inst.size.Y, inst.size.Z);
+            }
         };
 
 
@@ -35,7 +48,7 @@ namespace TGC.Group.Model
         /*                                      VARIABLES
         /******************************************************************************************/
         private List<TgcMesh> _meshes;
-        private List<c_instancia> _instancia;
+        private List<c_instancia> _instancias;
         private c_instancia _InstanciaBase;     // Todas las instancias se crean como copias de la _InstanciaBase
         private int _InstSel; //Instancia seleccionada
 
@@ -55,7 +68,8 @@ namespace TGC.Group.Model
         {
             _InstSel = -1;
             _meshes = new TgcSceneLoader().loadSceneFromFile(path).Meshes;
-            _instancia = new List<c_instancia>();
+            _instancias = new List<c_instancia>();
+            _InstanciaBase = new c_instancia();
         }
 
 
@@ -130,19 +144,34 @@ namespace TGC.Group.Model
         //  CREACION DE INSTANCIAS
         public int Inst_Create(float PosX, float PosY, float PosZ)
         {
-            c_instancia inst = new c_instancia();
-            inst.pos = new Vector3(_InstanciaBase.pos.X, _InstanciaBase.pos.Y, _InstanciaBase.pos.Z);
-            inst.rot = new Vector3(_InstanciaBase.rot.X, _InstanciaBase.rot.Y, _InstanciaBase.rot.Z);
-            inst.size = new Vector3(_InstanciaBase.size.X, _InstanciaBase.size.Y, _InstanciaBase.size.Z);
+            c_instancia inst = new c_instancia(_InstanciaBase);
 
-            _instancia.Add(inst);
+            inst.pos = new Vector3(PosX, PosY, PosZ);
 
-            return _instancia.Count - 1;
+            _instancias.Add(inst);
+
+            return _instancias.Count - 1;
+        }
+
+        public int Inst_Create(Vector3 Pos)
+        {
+            c_instancia inst = new c_instancia(_InstanciaBase);
+
+            inst.pos = new Vector3(Pos.X, Pos.Y, Pos.Z);
+
+            _instancias.Add(inst);
+
+            return _instancias.Count - 1;
         }
 
         public int Inst_CreateAndSelect(float PosX, float PosY, float PosZ)
         {
             return _InstSel = Inst_Create(PosX, PosY, PosZ);
+        }
+
+        public int Inst_CreateAndSelect(Vector3 Pos)
+        {
+            return _InstSel = Inst_Create(Pos);
         }
 
         //  SELECCION DE INSTANCIAS
@@ -156,17 +185,16 @@ namespace TGC.Group.Model
         {
             if (_InstSel < 0) return;
 
-
-            _instancia[_InstSel].pos = new Vector3(0, 0, 0);
-            _position[_InstSel] = new Vector3(PosX, PosY, PosZ);
+            _instancias[_InstSel].pos = new Vector3(PosX, PosY, PosZ);
         }
 
         //  ROTACION DE INSTANCIAS
         public void Inst_RotateAll(float RotX, float RotY, float RotZ)
         {
-            for (int i = 0; i < _rotation.Count; i++)
+            for (int i = 0; i < _instancias.Count; i++)
             {
-                _rotation[i] = new Vector3(_rotation[i].X + RotX, _rotation[i].Y + RotY, _rotation[i].Z + RotZ);
+                Vector3 RotAux = _instancias[i].rot;
+                _instancias[i].rot = new Vector3(RotAux.X + RotX, RotAux.Y + RotY, RotAux.Z + RotZ);
             }
         }
 
@@ -185,12 +213,13 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public void Render()
         {
-            for (int i = 0; i < _position.Count; i++)
+            for (int i = 0; i < _instancias.Count; i++)
             {
                 for (int j = 0; j < _meshes.Count; j++)
                 {
-                    _meshes[j].Position = _position[i];
-                    _meshes[j].Rotation = _rotation[i];
+                    _meshes[j].Position = _instancias[i].pos;
+                    _meshes[j].Rotation = _instancias[i].rot;
+                    _meshes[j].Scale = _instancias[i].size;
                     _meshes[j].UpdateMeshTransform();
                     _meshes[j].render();
                 }
