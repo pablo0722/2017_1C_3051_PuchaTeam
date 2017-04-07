@@ -14,9 +14,9 @@ namespace TGC.Group.Model
 {
     public partial class GameModel : TgcExample
     {
-        /******************************************************************************************
-         *                 CONSTANTES - Deben comenzar con "p_"
-         ******************************************************************************************/
+        /******************************************************************************************/
+        /*                 CONSTANTES - Deben comenzar con "p_"
+        /******************************************************************************************/
 
         //      SCREEN
         private const float P_WIDTH = 1360;
@@ -28,9 +28,9 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                 VARIABLES - Deben comenzar con "p_"
-         ******************************************************************************************/
+        /******************************************************************************************/
+        /*                 VARIABLES - Deben comenzar con "p_"
+        /******************************************************************************************/
             
 
 
@@ -44,9 +44,9 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                 INIT - Se ejecuta una vez sola al comienzo
-         ******************************************************************************************/
+        /******************************************************************************************/
+        /*                 INIT - Se ejecuta una vez sola al comienzo
+        /******************************************************************************************/
 
         private void pablo_init()
         {
@@ -66,9 +66,9 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                 UPDATE - Realiza la lógica del juego
-         ******************************************************************************************/
+        /******************************************************************************************/
+        /*                 UPDATE - Realiza la lógica del juego
+        /******************************************************************************************/
 
         private void pablo_update()
         {
@@ -106,16 +106,23 @@ namespace TGC.Group.Model
                     if (Func_IsMeshPicked(p_HUDPlanta_Patatapum.Mesh_box))
                     {
                         Mesh_BoxPicked = p_HUDPlanta_Patatapum.Mesh_box;
-                        p_Obj_Patatapum.Inst_CreateAndSelect(p_Pos_PlantaActual);
+                        p_Obj_Patatapum.Inst_CreateAndSelect();
+                        p_Obj_Patatapum.Inst_PositionX(p_Pos_PlantaActual.X);
+                        p_Obj_Patatapum.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     }
                     else if (Func_IsMeshPicked(p_HUDPlanta_Peashooter.Mesh_box))
                     {
                         Mesh_BoxPicked = p_HUDPlanta_Peashooter.Mesh_box;
+                        p_Obj_Peashooter.Inst_CreateAndSelect();
+                        p_Obj_Peashooter.Inst_PositionX(p_Pos_PlantaActual.X);
+                        p_Obj_Peashooter.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     }
                     else if (Func_IsMeshPicked(p_HUDPlanta_Girasol.Mesh_box))
                     {
                         Mesh_BoxPicked = p_HUDPlanta_Girasol.Mesh_box;
-                        p_Obj_Girasol.Inst_CreateAndSelect(p_Pos_PlantaActual);
+                        p_Obj_Girasol.Inst_CreateAndSelect();
+                        p_Obj_Girasol.Inst_PositionX(p_Pos_PlantaActual.X);
+                        p_Obj_Girasol.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     }
                 }
 
@@ -138,9 +145,9 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                 RENDER - Se ejecuta aprox 60 veces por segundo. Dibuja en pantalla
-         ******************************************************************************************/
+        /******************************************************************************************/
+        /*                 RENDER - Se ejecuta aprox 60 veces por segundo. Dibuja en pantalla
+        /******************************************************************************************/
 
         private void pablo_render()
         {
@@ -162,16 +169,21 @@ namespace TGC.Group.Model
                 }
                 else if (Mesh_BoxPicked == p_HUDPlanta_Girasol.Mesh_box)
                 {
-                    p_Obj_Girasol.Inst_Position(p_Pos_PlantaActual.X, p_Pos_PlantaActual.Y, p_Pos_PlantaActual.Z);
+                    p_Obj_Girasol.Inst_PositionX(p_Pos_PlantaActual.X);
+                    p_Obj_Girasol.Inst_PositionZ(p_Pos_PlantaActual.Z);
                     p_Obj_Girasol.Render();
-                }
-                else if (Mesh_BoxPicked == p_HUDPlanta_Patatapum.Mesh_box)
-                {
-                    p_Obj_Patatapum.Inst_Position(p_Pos_PlantaActual.X, p_Pos_PlantaActual.Y, p_Pos_PlantaActual.Z);
-                    p_Obj_Patatapum.Render();
                 }
                 else if (Mesh_BoxPicked == p_HUDPlanta_Peashooter.Mesh_box)
                 {
+                    p_Obj_Peashooter.Inst_PositionX(p_Pos_PlantaActual.X);
+                    p_Obj_Peashooter.Inst_PositionZ(p_Pos_PlantaActual.Z);
+                    p_Obj_Peashooter.Render();
+                }
+                else if (Mesh_BoxPicked == p_HUDPlanta_Patatapum.Mesh_box)
+                {
+                    p_Obj_Patatapum.Inst_PositionX(p_Pos_PlantaActual.X);
+                    p_Obj_Patatapum.Inst_PositionZ(p_Pos_PlantaActual.Z);
+                    p_Obj_Patatapum.Render();
                 }
             }
             else
@@ -189,9 +201,9 @@ namespace TGC.Group.Model
 
 
 
-        /******************************************************************************************
-         *                 DISPOSE - Se ejecuta al finalizar el juego. Libera la memoria
-         ******************************************************************************************/
+        /******************************************************************************************/
+        /*                 DISPOSE - Se ejecuta al finalizar el juego. Libera la memoria
+        /******************************************************************************************/
 
         private void pablo_dispose()
         {

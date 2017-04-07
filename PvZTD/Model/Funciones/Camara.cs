@@ -53,7 +53,9 @@ namespace TGC.Group.Model
             // Camara Primera Persona
             Camara1Persona = new MyCamara1Persona(new Vector3(P_CAM_POS_X_INIT, P_CAM_POS_Y_INIT, P_CAM_POS_Z_INIT),
                 P_CAM_VEL, P_CAM_JUMP, P_CAM_ROT, Input);
-            Camara = Camara1Persona;
+
+            Is_CamPicado = true;
+            Camara = CamaraPicado;
         }
 
 

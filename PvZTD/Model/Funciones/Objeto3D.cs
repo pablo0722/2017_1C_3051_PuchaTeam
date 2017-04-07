@@ -142,6 +142,15 @@ namespace TGC.Group.Model
         /******************************************************************************************/
 
         //  CREACION DE INSTANCIAS
+        public int Inst_Create()
+        {
+            c_instancia inst = new c_instancia(_InstanciaBase);
+
+            _instancias.Add(inst);
+
+            return _instancias.Count - 1;
+        }
+
         public int Inst_Create(float PosX, float PosY, float PosZ)
         {
             c_instancia inst = new c_instancia(_InstanciaBase);
@@ -162,6 +171,11 @@ namespace TGC.Group.Model
             _instancias.Add(inst);
 
             return _instancias.Count - 1;
+        }
+
+        public int Inst_CreateAndSelect()
+        {
+            return _InstSel = Inst_Create();
         }
 
         public int Inst_CreateAndSelect(float PosX, float PosY, float PosZ)
@@ -186,6 +200,27 @@ namespace TGC.Group.Model
             if (_InstSel < 0) return;
 
             _instancias[_InstSel].pos = new Vector3(PosX, PosY, PosZ);
+        }
+
+        public void Inst_PositionX(float PosX)
+        {
+            if (_InstSel < 0) return;
+
+            _instancias[_InstSel].pos = new Vector3(PosX, _instancias[_InstSel].pos.Y, _instancias[_InstSel].pos.Z);
+        }
+
+        public void Inst_PositionY(float PosY)
+        {
+            if (_InstSel < 0) return;
+
+            _instancias[_InstSel].pos = new Vector3(_instancias[_InstSel].pos.X, PosY, _instancias[_InstSel].pos.Z);
+        }
+
+        public void Inst_PositionZ(float PosZ)
+        {
+            if (_InstSel < 0) return;
+
+            _instancias[_InstSel].pos = new Vector3(_instancias[_InstSel].pos.X, _instancias[_InstSel].pos.Y, PosZ);
         }
 
         //  ROTACION DE INSTANCIAS
