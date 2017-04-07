@@ -34,11 +34,11 @@ namespace TGC.Group.Model
             p_Obj_Zombie = new Objeto3D(MediaDir + Game.Default.MeshZombie);
             p_Obj_Zombie.Size((float)0.25, (float)0.25, (float)0.25);
 
-            p_Obj_Zombie.Inst_Create(20, 0, 50);
-            p_Obj_Zombie.Inst_Create(10, 0, 50);
-            p_Obj_Zombie.Inst_Create(0, 0, 50);
-            p_Obj_Zombie.Inst_Create(-10, 0, 50);
-            p_Obj_Zombie.Inst_Create(-20, 0, 50);
+            p_Obj_Zombie.Inst_Create(-32, 0, 70);
+            p_Obj_Zombie.Inst_Create(-32 + 21, 0, 70);
+            p_Obj_Zombie.Inst_Create(-32 + 21 * 2, 0, 70);
+            p_Obj_Zombie.Inst_Create(-32 + 21 * 3, 0, 70);
+            p_Obj_Zombie.Inst_Create(-32 + 21 * 4, 0, 70);
         }
 
 

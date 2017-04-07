@@ -78,7 +78,7 @@ namespace TGC.Group.Model
             {
                 if (Input.buttonDown(TGC.Core.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT))
                 {
-                    p_Pos_PlantaActual = new Vector3(Input.Ypos / P_HEIGHT * 100 - 50, 0, Input.Xpos / P_WIDTH * 100 - 50);
+                    p_Pos_PlantaActual = new Vector3(Input.Ypos / P_HEIGHT * 110 - 40, 0, Input.Xpos / P_WIDTH * 150 - 75);
                 }
                 else
                 {
