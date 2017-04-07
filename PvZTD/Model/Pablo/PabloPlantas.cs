@@ -16,6 +16,7 @@ namespace TGC.Group.Model
          *                                      VARIABLES
          ******************************************************************************************/
         private Objeto3D p_Obj_Girasol;
+        private Objeto3D p_Obj_Peashooter;
         private Objeto3D p_Obj_Patatapum;
 
         //      Posicion de las plantas
@@ -35,9 +36,13 @@ namespace TGC.Group.Model
          ******************************************************************************************/
         private void p_Func_Init_Plantas()
         {
-            // Meshes
             p_Obj_Girasol = new Objeto3D(MediaDir + Game.Default.MeshGirasol);
             p_Obj_Girasol.Transform(0, 0, 0,
+                                    (float)0.05, (float)0.05, (float)0.05,
+                                    0, (float)PI, 0);
+
+            p_Obj_Peashooter = new Objeto3D(MediaDir + Game.Default.MeshPea);
+            p_Obj_Peashooter.Transform(0, 120, 0,
                                     (float)0.05, (float)0.05, (float)0.05,
                                     0, (float)PI, 0);
 
@@ -45,6 +50,10 @@ namespace TGC.Group.Model
             p_Obj_Patatapum.Transform(  0, 0, 0,
                                         (float)0.15, (float)0.15, (float)0.15,
                                         0, (float)PI, 0);
+
+            p_Obj_Girasol.Inst_Create();
+            p_Obj_Peashooter.Inst_Create();
+            p_Obj_Patatapum.Inst_Create();
         }
 
 
@@ -62,6 +71,7 @@ namespace TGC.Group.Model
         private void p_Func_Render_Plantas()
         {
             p_Obj_Girasol.Render();
+            p_Obj_Peashooter.Render();
             p_Obj_Patatapum.Render();
         }
     }

@@ -142,6 +142,15 @@ namespace TGC.Group.Model
         /******************************************************************************************/
 
         //  CREACION DE INSTANCIAS
+        public int Inst_Create()
+        {
+            c_instancia inst = new c_instancia(_InstanciaBase);
+
+            _instancias.Add(inst);
+
+            return _instancias.Count - 1;
+        }
+
         public int Inst_Create(float PosX, float PosY, float PosZ)
         {
             c_instancia inst = new c_instancia(_InstanciaBase);
