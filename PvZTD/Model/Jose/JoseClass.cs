@@ -30,11 +30,11 @@ namespace TGC.Group.Model
 
 
         private float posX = INICIAL_X;
-        private float posY = -18;
+        private float posY = -10;
         private float posZ = INICIAL_Z;
-        private const float RAZON_PASTO = 18;
+        private const float RAZON_PASTO = 12;
         private const float INICIAL_X = 70;
-        private const float INICIAL_Z = -50;
+        private const float INICIAL_Z = -90;
         /******************************************************************************************
          *                 INIT - Se ejecuta una vez sola al comienzo
          ******************************************************************************************/
@@ -67,7 +67,7 @@ namespace TGC.Group.Model
 
             for (int i = 0; i < j_meshCasa.Count; i++)
             {
-                j_meshCasa[i].Position = new Vector3((float)15, (float)0, (float)-100);
+                j_meshCasa[i].Position = new Vector3((float)15, (float)-7, (float)-140);
                 j_meshCasa[i].Scale = new Vector3((float)0.5, (float)0.5, (float)0.5);
                 j_meshCasa[i].rotateY(PI/2);
             }
