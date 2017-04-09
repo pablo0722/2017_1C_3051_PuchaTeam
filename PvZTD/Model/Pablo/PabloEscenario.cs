@@ -32,7 +32,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         private void p_Func_Escenario_Init()
         {
-            p_Obj_Mountain = new t_Objeto3D(MediaDir + Game.Default.MeshMountain);
+            p_Obj_Mountain = t_Objeto3D.CrearObjeto3D(MediaDir + Game.Default.MeshMountain);
 
             p_Obj_Mountain.Inst_Create(-130, 0, 140);
             p_Obj_Mountain.Inst_Create(-122, 0, 100);
@@ -42,27 +42,10 @@ namespace TGC.Group.Model
             p_Obj_Mountain.Inst_Create(-123, 0, -100);
             p_Obj_Mountain.Inst_Create(-130, 0, -140);
 
-            p_Obj_Plano = new t_Objeto3D(MediaDir + Game.Default.MeshPlano);
-            p_Obj_Plano.Size(4, 1, 4);
+            p_Obj_Plano = t_Objeto3D.CrearObjeto3D(MediaDir + Game.Default.MeshPlano);
+            p_Obj_Plano.Set_Size(4, 1, 4);
 
             p_Obj_Plano.Inst_Create(0, 0, 0);
-        }
-
-
-
-
-
-
-
-
-
-
-        /******************************************************************************************/
-        /*                                      UPDATE
-        /******************************************************************************************/
-        private void p_Func_Escenario_Update()
-        {
-
         }
 
 

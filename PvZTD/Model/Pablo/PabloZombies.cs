@@ -31,30 +31,14 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         private void p_Func_Zombies_Init()
         {
-            p_Obj_Zombie = new t_Objeto3D(MediaDir + Game.Default.MeshZombie);
-            p_Obj_Zombie.Size((float)0.25, (float)0.25, (float)0.25);
+            p_Obj_Zombie = t_Objeto3D.CrearObjeto3D(MediaDir + Game.Default.MeshZombie);
+            p_Obj_Zombie.Set_Size((float)0.25, (float)0.25, (float)0.25);
 
             p_Obj_Zombie.Inst_Create(-32, 0, 70);
             p_Obj_Zombie.Inst_Create(-32 + 21, 0, 70);
             p_Obj_Zombie.Inst_Create(-32 + 21 * 2, 0, 70);
             p_Obj_Zombie.Inst_Create(-32 + 21 * 3, 0, 70);
             p_Obj_Zombie.Inst_Create(-32 + 21 * 4, 0, 70);
-        }
-
-
-
-
-
-
-
-
-
-
-        /******************************************************************************************/
-        /*                                      UPDATE
-        /******************************************************************************************/
-        private void p_Func_Zombies_Update()
-        {
         }
 
 

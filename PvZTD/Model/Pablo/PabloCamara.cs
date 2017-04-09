@@ -39,7 +39,7 @@ namespace TGC.Group.Model
 
 
         /******************************************************************************************/
-        /*                                  INICIALIZA CAMARA
+        /*                                  INICIALIZACION
         /******************************************************************************************/
         private void p_Func_Camara_Init()
         {
@@ -51,26 +51,6 @@ namespace TGC.Group.Model
             _camara.Libre_JumpSpeed(P_CAM_LIBRE_JUMP);
             _camara.Libre_RotationSpeed(P_CAM_LIBRE_ROT);
             _camara.Libre_Posicion(P_CAM_LIBRE_POS_X, P_CAM_LIBRE_POS_Y, P_CAM_LIBRE_POS_Z);
-        }
-
-
-
-
-
-
-
-
-
-
-        /******************************************************************************************/
-        /*                                  ACTUALIZA CAMARA
-        /******************************************************************************************/
-        private void p_Func_Camara_Update()
-        {
-            if (Input.keyPressed(Key.H))
-            {
-                _camara.Modo_Change();
-            }
         }
     }
 }

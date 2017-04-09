@@ -80,7 +80,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      INICIALIZACION
         /******************************************************************************************/
-        private void p_Func_HUD_Init()
+        protected void p_Func_HUD_Init()
         {
             HUDSize = new Vector3(P_HUD_BOX_SIZE, P_HUD_BOX_SIZE, P_HUD_BOX_SIZE);
 
@@ -191,10 +191,24 @@ namespace TGC.Group.Model
 
 
         /******************************************************************************************/
-        /*                                      UPDATE
+        /*                                      UPDATES
         /******************************************************************************************/
-        private void p_Func_HUD_Update()
+        private void p_Func_HUD_Update_BoxesTextures()
         {
+            p_Func_HUD_BoxesTexturaOff();
+
+            if (_colision.MouseBox(p_HUDPlanta_Patatapum.Mesh_box))
+            {
+                p_Func_HUD_BoxTexturaOn(ref p_HUDPlanta_Patatapum);
+            }
+            else if (_colision.MouseBox(p_HUDPlanta_Peashooter.Mesh_box))
+            {
+                p_Func_HUD_BoxTexturaOn(ref p_HUDPlanta_Peashooter);
+            }
+            else if (_colision.MouseBox(p_HUDPlanta_Girasol.Mesh_box))
+            {
+                p_Func_HUD_BoxTexturaOn(ref p_HUDPlanta_Girasol);
+            }
         }
 
 

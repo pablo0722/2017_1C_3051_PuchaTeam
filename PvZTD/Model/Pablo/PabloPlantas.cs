@@ -36,20 +36,20 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         private void p_Func_Plantas_Init()
         {
-            p_Obj_Girasol = new t_Objeto3D(MediaDir + Game.Default.MeshGirasol);
-            p_Obj_Girasol.Transform(0, 0, 0,
-                                    0.05F, 0.05F, 0.05F,
-                                    0, PI, 0);
-
-            p_Obj_Peashooter = new t_Objeto3D(MediaDir + Game.Default.MeshPea);
-            p_Obj_Peashooter.Transform(0, 2.1F, 0,
-                                    0.06F, 0.06F, 0.06F,
-                                    0, PI, 0);
-
-            p_Obj_Patatapum = new t_Objeto3D(MediaDir + Game.Default.MeshPatatapum);
-            p_Obj_Patatapum.Transform(  0, -5.9F, 0,
-                                        0.15F, 0.15F, 0.15F,
+            p_Obj_Girasol = t_Objeto3D.CrearObjeto3D(MediaDir + Game.Default.MeshGirasol);
+            p_Obj_Girasol.Set_Transform(0, 0, 0,
+                                        0.05F, 0.05F, 0.05F,
                                         0, PI, 0);
+
+            p_Obj_Peashooter = t_Objeto3D.CrearObjeto3D(MediaDir + Game.Default.MeshPea);
+            p_Obj_Peashooter.Set_Transform( 0, 2.1F, 0,
+                                            0.06F, 0.06F, 0.06F,
+                                            0, PI, 0);
+
+            p_Obj_Patatapum = t_Objeto3D.CrearObjeto3D(MediaDir + Game.Default.MeshPatatapum);
+            p_Obj_Patatapum.Set_Transform(  0, -5.9F, 0,
+                                            0.15F, 0.15F, 0.15F,
+                                            0, PI, 0);
         }
 
 
@@ -62,10 +62,19 @@ namespace TGC.Group.Model
 
 
         /******************************************************************************************/
-        /*                                      UPDATE
+        /*                                      UPDATES
         /******************************************************************************************/
-        private void p_Func_Plantas_Update()
+        private void p_Func_Plantas_Update_PosMouse2DToPlanta3D()
         {
+            p_Pos_PlantaActual = new Vector3(Input.Ypos / P_HEIGHT * 110 - 40, 0, Input.Xpos / P_WIDTH * 150 - 75);
+        }
+
+        private void p_Func_Plantas_Update_CreatePlantaAndSelect(p_s_HUDPlanta PlantaBox, t_Objeto3D PlantaObj)
+        {
+            _Mesh_BoxPicked = PlantaBox.Mesh_box;
+            PlantaObj.Inst_CreateAndSelect();
+            PlantaObj.Inst_Set_PositionX(p_Pos_PlantaActual.X);
+            PlantaObj.Inst_Set_PositionZ(p_Pos_PlantaActual.Z);
         }
 
 

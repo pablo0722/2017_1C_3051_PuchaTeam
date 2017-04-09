@@ -31,8 +31,8 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         private void p_Func_Soles_Init()
         {
-            p_Obj_Sol = new t_Objeto3D(MediaDir + Game.Default.MeshSol);
-            p_Obj_Sol.Transform(0, 0, 0,
+            p_Obj_Sol = t_Objeto3D.CrearObjeto3D(MediaDir + Game.Default.MeshSol);
+            p_Obj_Sol.Set_Transform(0, 0, 0,
                                 (float)0.075, (float)0.075, (float)0.075,
                                 0, 0, 0);
 
@@ -52,9 +52,9 @@ namespace TGC.Group.Model
 
 
         /******************************************************************************************/
-        /*                                      UPDATE
+        /*                                      UPDATES
         /******************************************************************************************/
-        private void p_Func_Soles_Update()
+        private void p_Func_Soles_Update_Rotation()
         {
             p_Obj_Sol.Inst_RotateAll(ElapsedTime / PI, 0, 0);
         }
@@ -68,10 +68,10 @@ namespace TGC.Group.Model
 
 
 
-            /******************************************************************************************/
-            /*                                      RENDERIZACION
-            /******************************************************************************************/
-            private void p_Func_Soles_Render()
+        /******************************************************************************************/
+        /*                                      RENDERIZACION
+        /******************************************************************************************/
+        private void p_Func_Soles_Render()
         {
             p_Obj_Sol.Render();
         }

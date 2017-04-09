@@ -1,10 +1,5 @@
 ﻿using Microsoft.DirectX;
-using Microsoft.DirectX.DirectInput;
-using System.Drawing;
-using TGC.Core.Example;
-using TGC.Core.Geometry;
 using TGC.Core.SceneLoader;
-using TGC.Core.Textures;
 
 using System.Collections.Generic;
 
@@ -64,12 +59,22 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        public t_Objeto3D(string path)
+        private t_Objeto3D(string PathObj)
         {
             _InstSel = -1;
-            _meshes = new TgcSceneLoader().loadSceneFromFile(path).Meshes;
+            _meshes = new TgcSceneLoader().loadSceneFromFile(PathObj).Meshes;
             _instancias = new List<t_instancia>();
             _InstanciaBase = new t_instancia();
+        }
+
+        public static t_Objeto3D CrearObjeto3D(string PathObj)
+        {
+            if ((PathObj != null))
+            {
+                return new t_Objeto3D(PathObj);
+            }
+
+            return null;
         }
 
 
@@ -104,26 +109,26 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      TRANSFORMACIONES
         /******************************************************************************************/
-        public void Transform(  float PosX, float PosY, float PosZ,
+        public void Set_Transform(  float PosX, float PosY, float PosZ,
                                 float SizeX, float SizeY, float SizeZ,
                                 float RotX, float RotY, float RotZ)
         {
-            Position(PosX, PosY, PosZ);
-            Size(SizeX, SizeY, SizeZ);
-            Rotation(RotX, RotY, RotZ);
+            _InstanciaBase.pos = new Vector3(PosX, PosY, PosZ);
+            _InstanciaBase.size = new Vector3(SizeX, SizeY, SizeZ);
+            _InstanciaBase.rot = new Vector3(RotX, RotY, RotZ);
         }
 
-        public void Position(float X, float Y, float Z)
+        public void Set_Position(float X, float Y, float Z)
         {
             _InstanciaBase.pos = new Vector3(X, Y, Z);
         }
 
-        public void Size(float X, float Y, float Z)
+        public void Set_Size(float X, float Y, float Z)
         {
             _InstanciaBase.size = new Vector3(X, Y, Z);
         }
 
-        public void Rotation(float X, float Y, float Z)
+        public void Set_Rotation(float X, float Y, float Z)
         {
             _InstanciaBase.rot = new Vector3(X, Y, Z);
         }
@@ -194,30 +199,34 @@ namespace TGC.Group.Model
         {
             _InstSel = i;
         }
+        public void Inst_SelectNone()
+        {
+            _InstSel = -1;
+        }
 
         //  POSICION DE INSTANCIAS
-        public void Inst_Position(float PosX, float PosY, float PosZ)
+        public void Inst_Set_Position(float PosX, float PosY, float PosZ)
         {
             if (_InstSel < 0) return;
 
             _instancias[_InstSel].pos = new Vector3(PosX, PosY, PosZ);
         }
 
-        public void Inst_PositionX(float PosX)
+        public void Inst_Set_PositionX(float PosX)
         {
             if (_InstSel < 0) return;
 
             _instancias[_InstSel].pos = new Vector3(PosX, _instancias[_InstSel].pos.Y, _instancias[_InstSel].pos.Z);
         }
 
-        public void Inst_PositionY(float PosY)
+        public void Inst_Set_PositionY(float PosY)
         {
             if (_InstSel < 0) return;
 
             _instancias[_InstSel].pos = new Vector3(_instancias[_InstSel].pos.X, PosY, _instancias[_InstSel].pos.Z);
         }
 
-        public void Inst_PositionZ(float PosZ)
+        public void Inst_Set_PositionZ(float PosZ)
         {
             if (_InstSel < 0) return;
 
@@ -225,6 +234,14 @@ namespace TGC.Group.Model
         }
 
         //  ROTAR DE INSTANCIAS
+        public void Inst_Rotate(float RotX, float RotY, float RotZ)
+        {
+            if (_InstSel < 0) return;
+
+            Vector3 RotAux = _instancias[_InstSel].rot;
+            _instancias[_InstSel].rot = new Vector3(RotAux.X + RotX, RotAux.Y + RotY, RotAux.Z + RotZ);
+        }
+
         public void Inst_RotateAll(float RotX, float RotY, float RotZ)
         {
             for (int i = 0; i < _instancias.Count; i++)
