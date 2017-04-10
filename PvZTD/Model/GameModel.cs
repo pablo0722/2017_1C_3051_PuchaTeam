@@ -22,7 +22,11 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                  CONSTANTES
         /******************************************************************************************/
-        private const float PI = 3.14159265359F;
+        public const float PI = 3.14159265359F;
+
+        //      SCREEN
+        public const float P_WIDTH = 1360;
+        public const float P_HEIGHT = 768;
 
 
 
@@ -37,8 +41,8 @@ namespace TGC.Group.Model
         /*                                  VARIABLES
         /******************************************************************************************/
         // CAMARA
-        t_Camara _camara;
-        t_Mouse _mouse;
+        public t_Camara _camara;
+        public t_Mouse _mouse;
         public t_Colision _colision;
 
 

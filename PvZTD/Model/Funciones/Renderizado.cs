@@ -38,7 +38,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                  TEXTO
         /******************************************************************************************/
-        private void Func_Text(string text, int x, int y)
+        public void Func_Text(string text, int x, int y)
         {
             DrawText.drawText(text, x, y, Color.White);
             DrawText.drawText(text, x, y + 10, Color.Black);

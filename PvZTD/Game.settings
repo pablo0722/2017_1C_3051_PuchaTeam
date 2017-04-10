@@ -17,29 +17,8 @@
     <Setting Name="Description" Type="System.String" Scope="User">
       <Value Profile="(Default)">Plantas vs Zombies Tower Defense</Value>
     </Setting>
-    <Setting Name="MeshTgc" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Objetos\LogoTGC-TgcScene.xml</Value>
-    </Setting>
-    <Setting Name="TexturaHUDGirasolOff" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Texturas\HUD_Girasol.jpg</Value>
-    </Setting>
-    <Setting Name="MeshRaziel" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Objetos\BolaRaziel-TgcScene.xml</Value>
-    </Setting>
     <Setting Name="MeshCielo" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\cielo-TgcScene.xml</Value>
-    </Setting>
-    <Setting Name="MeshGirasol" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Objetos\Girasol-TgcScene.xml</Value>
-    </Setting>
-    <Setting Name="MeshPatatapum" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Objetos\mina-TgcScene.xml</Value>
-    </Setting>
-    <Setting Name="MeshPlano" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Objetos\plano-TgcScene.xml</Value>
-    </Setting>
-    <Setting Name="MeshZombie" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Objetos\zombie-TgcScene.xml</Value>
     </Setting>
     <Setting Name="MeshCaja" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\caja-TgcScene.xml</Value>
@@ -50,38 +29,11 @@
     <Setting Name="TexturasSkyBox" Type="System.String" Scope="User">
       <Value Profile="(Default)">Texturas\skyBox\</Value>
     </Setting>
-    <Setting Name="TexturaHUDPatatapumOff" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Texturas\HUD_Patatapum.jpg</Value>
-    </Setting>
-    <Setting Name="TexturaHUDPeashooterOff" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Texturas\HUD_Peashooter.jpg</Value>
-    </Setting>
-    <Setting Name="TexturaHUDPatatapumOn" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Texturas\HUD_Patatapum_sel.jpg</Value>
-    </Setting>
-    <Setting Name="TexturaHUDPeashooterOn" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Texturas\HUD_Peashooter_sel.jpg</Value>
-    </Setting>
-    <Setting Name="TexturaHUDGirasolOn" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Texturas\HUD_Girasol_sel.jpg</Value>
-    </Setting>
-    <Setting Name="MeshSol" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Objetos\sol-TgcScene.xml</Value>
-    </Setting>
-    <Setting Name="TexturaMountain" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Texturas\tierra.jpg</Value>
-    </Setting>
-    <Setting Name="MeshMountain" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Objetos\Mountain-TgcScene.xml</Value>
-    </Setting>
     <Setting Name="CasitaDave" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\CasaDave-TgcScene.xml</Value>
     </Setting>
     <Setting Name="MeshBrain" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\Brain-TgcScene.xml</Value>
-    </Setting>
-    <Setting Name="MeshPea" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Objetos\Pea-TgcScene.xml</Value>
     </Setting>
     <Setting Name="MeshPastoClaro" Type="System.String" Scope="User">
       <Value Profile="(Default)">Objetos\PastoClaro-TgcScene.xml</Value>

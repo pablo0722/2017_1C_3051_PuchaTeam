@@ -41,20 +41,11 @@ namespace TGC.Group.Model
 
         private void jose_init()
         {
+            /*
             initSkyBox();
             initPasto();
             var PathBrain= MediaDir + Game.Default.MeshBrain;
             j_meshBrain = new TgcSceneLoader().loadSceneFromFile(PathBrain).Meshes;
-
-            var PathPea = MediaDir + Game.Default.MeshPea;
-            j_meshPea = new TgcSceneLoader().loadSceneFromFile(PathPea).Meshes;
-
-            for (int i = 0; i < j_meshPea.Count; i++)
-            {
-                j_meshPea[i].Position = new Vector3((float)15, (float)120, (float)0);
-                j_meshPea[i].Scale = new Vector3((float)0.05, (float)0.05, (float)0.05);
-                j_meshPea[i].rotateY(PI);
-            }
 
             for (int i = 0; i < j_meshBrain.Count; i++)
             {
@@ -71,7 +62,7 @@ namespace TGC.Group.Model
                 j_meshCasa[i].Scale = new Vector3((float)0.5, (float)0.5, (float)0.5);
                 j_meshCasa[i].rotateY(PI/2);
             }
-            
+            */
         }
 
 
@@ -89,13 +80,13 @@ namespace TGC.Group.Model
 
         private void jose_update()
         {
+            /*
             for (int i = 0; i < j_meshBrain.Count; i++)
             {
                 
                 j_meshBrain[i].rotateY(0.01F * PI);
             }
-
-
+            */
         }
 
 
@@ -113,6 +104,7 @@ namespace TGC.Group.Model
 
         private void jose_render()
         {
+            /*
             renderPasto();
             for (int i = 0; i < j_meshCasa.Count; i++) 
             {
@@ -131,10 +123,7 @@ namespace TGC.Group.Model
             j_meshBrain[1].move(RAZON_PASTO * 1.6F * 5, 0, 0);
 
             skyBox.render();
-
-
-
-
+            */
         }
         /******************************************************************************************
          *                 DISPOSE - Se ejecuta al finalizar el juego. Libera la memoria
@@ -142,7 +131,7 @@ namespace TGC.Group.Model
 
         private void jose_dispose()
         {
-
+            /*
             for (int i = 0; i < j_meshBrain.Count; i++)
             {
 
@@ -159,7 +148,7 @@ namespace TGC.Group.Model
             j_meshsPastoClaro.dispose();
             j_meshsPastoMedio.dispose();
             j_meshsPastoOscuro.dispose();
-
+            */
         }
 
         private void initPasto()

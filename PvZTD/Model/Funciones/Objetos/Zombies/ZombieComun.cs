@@ -1,13 +1,11 @@
 ﻿namespace TGC.Group.Model
 {
-    public class t_Lanzaguisantes : t_Planta
+    public class t_ZombieComun
     {
         /******************************************************************************************/
         /*                                      CONSTANTES
         /******************************************************************************************/
-        private const string PATH_OBJ =         "..\\..\\Media\\Objetos\\Pea-TgcScene.xml";
-        private const string PATH_TEXTURA_ON =  "..\\..\\Media\\Texturas\\HUD_Peashooter_sel.jpg";
-        private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\HUD_Peashooter.jpg";
+        private const string PATH_OBJ = "..\\..\\Media\\Objetos\\zombie-TgcScene.xml";
 
 
 
@@ -21,6 +19,8 @@
         /******************************************************************************************/
         /*                                      VARIABLES
         /******************************************************************************************/
+        protected t_Objeto3D _Zombie;
+        protected GameModel _game;
 
 
 
@@ -34,18 +34,26 @@
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        private t_Lanzaguisantes(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n)
+        protected t_ZombieComun(GameModel game)
         {
-            _Planta.Set_Transform(0, 2.1F, 0,
-                                            0.06F, 0.06F, 0.06F,
-                                            0, GameModel.PI, 0);
+            _game = game;
+
+            _Zombie = t_Objeto3D.Crear(_game, PATH_OBJ);
+
+            _Zombie.Set_Size((float)0.25, (float)0.25, (float)0.25);
+
+            _Zombie.Inst_Create(-32, 0, 70);
+            _Zombie.Inst_Create(-32 + 21, 0, 70);
+            _Zombie.Inst_Create(-32 + 21 * 2, 0, 70);
+            _Zombie.Inst_Create(-32 + 21 * 3, 0, 70);
+            _Zombie.Inst_Create(-32 + 21 * 4, 0, 70);
         }
 
-        public static t_Lanzaguisantes Crear(GameModel game, byte n)
+        public static t_ZombieComun Crear(GameModel game)
         {
-            if (t_HUDBox.Is_Libre(n) && game != null)
+            if (game != null)
             {
-                return new t_Lanzaguisantes(game, n);
+                return new t_ZombieComun(game);
             }
 
             return null;
@@ -63,9 +71,9 @@
         /******************************************************************************************/
         /*                                      UPDATE
         /******************************************************************************************/
-        public new void Update(bool ShowBoundingBoxWithKey, bool ChangeHUDTextureWhenMouseOver, bool CrearPlantaWhenClickOverHUDBox)
+        public void Update(bool ShowBoundingBoxWithKey)
         {
-            base.Update(ShowBoundingBoxWithKey, ChangeHUDTextureWhenMouseOver, CrearPlantaWhenClickOverHUDBox);
+            _Zombie.Update(ShowBoundingBoxWithKey);
         }
 
 
@@ -80,9 +88,9 @@
         /******************************************************************************************/
         /*                                      RENDER
         /******************************************************************************************/
-        public new void Render()
+        public void Render()
         {
-            base.Render();
+            _Zombie.Render();
         }
     }
 }

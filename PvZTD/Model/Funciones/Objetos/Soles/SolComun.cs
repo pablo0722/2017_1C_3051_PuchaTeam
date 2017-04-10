@@ -1,13 +1,14 @@
-﻿namespace TGC.Group.Model
+﻿using Microsoft.DirectX;
+
+
+namespace TGC.Group.Model
 {
-    public class t_Lanzaguisantes : t_Planta
+    public class t_SolComun
     {
         /******************************************************************************************/
         /*                                      CONSTANTES
         /******************************************************************************************/
-        private const string PATH_OBJ =         "..\\..\\Media\\Objetos\\Pea-TgcScene.xml";
-        private const string PATH_TEXTURA_ON =  "..\\..\\Media\\Texturas\\HUD_Peashooter_sel.jpg";
-        private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\HUD_Peashooter.jpg";
+        private const string PATH_OBJ = "..\\..\\Media\\Objetos\\sol-TgcScene.xml";
 
 
 
@@ -21,6 +22,8 @@
         /******************************************************************************************/
         /*                                      VARIABLES
         /******************************************************************************************/
+        private t_Objeto3D _Sol;
+        private GameModel _game;
 
 
 
@@ -34,18 +37,27 @@
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        private t_Lanzaguisantes(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n)
+        private t_SolComun( GameModel game)
         {
-            _Planta.Set_Transform(0, 2.1F, 0,
-                                            0.06F, 0.06F, 0.06F,
-                                            0, GameModel.PI, 0);
+            _game = game;
+
+            _Sol = t_Objeto3D.Crear(_game, PATH_OBJ);
+
+            _Sol.Set_Transform(0, 0, 0,
+                                (float)0.075, (float)0.075, (float)0.075,
+                                0, 0, 0);
+
+            _Sol.Inst_Create(0, 50, 0);
+            _Sol.Inst_Create(20, 50, 30);
+
+            _Sol.Inst_RotateAll(_game.ElapsedTime / GameModel.PI, 0, GameModel.PI / 2);
         }
 
-        public static t_Lanzaguisantes Crear(GameModel game, byte n)
+        public static t_SolComun Crear(GameModel game)
         {
-            if (t_HUDBox.Is_Libre(n) && game != null)
+            if (game != null)
             {
-                return new t_Lanzaguisantes(game, n);
+                return new t_SolComun(game);
             }
 
             return null;
@@ -63,9 +75,11 @@
         /******************************************************************************************/
         /*                                      UPDATE
         /******************************************************************************************/
-        public new void Update(bool ShowBoundingBoxWithKey, bool ChangeHUDTextureWhenMouseOver, bool CrearPlantaWhenClickOverHUDBox)
+        public void Update(bool ShowBoundingBoxWithKey, float Rotacion_SegundosPorVuelta)
         {
-            base.Update(ShowBoundingBoxWithKey, ChangeHUDTextureWhenMouseOver, CrearPlantaWhenClickOverHUDBox);
+            _Sol.Update(ShowBoundingBoxWithKey);
+
+            _Sol.Inst_RotateAll(_game.ElapsedTime * Rotacion_SegundosPorVuelta / (2*GameModel.PI), 0, 0);
         }
 
 
@@ -80,9 +94,9 @@
         /******************************************************************************************/
         /*                                      RENDER
         /******************************************************************************************/
-        public new void Render()
+        public void Render()
         {
-            base.Render();
+            _Sol.Render();
         }
     }
 }

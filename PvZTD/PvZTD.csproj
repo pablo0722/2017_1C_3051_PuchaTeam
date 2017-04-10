@@ -96,10 +96,15 @@
       <DependentUpon>Game.settings</DependentUpon>
     </Compile>
     <Compile Include="Model\Funciones\Camara.cs" />
+    <Compile Include="Model\Funciones\Objetos\Escenarios\Escenario1.cs" />
+    <Compile Include="Model\Funciones\Objetos\Escenarios\EscenarioBase.cs" />
     <Compile Include="Model\Funciones\Objetos\Plantas\Girasol.cs" />
     <Compile Include="Model\Funciones\Objetos\HUDBox.cs" />
     <Compile Include="Model\Funciones\Objetos\Plantas\Patatapum.cs" />
     <Compile Include="Model\Funciones\Objetos\Plantas\Lanzaguisantes.cs" />
+    <Compile Include="Model\Funciones\Objetos\Plantas\Planta.cs" />
+    <Compile Include="Model\Funciones\Objetos\Soles\SolComun.cs" />
+    <Compile Include="Model\Funciones\Objetos\Zombies\ZombieComun.cs" />
     <Compile Include="Model\Pablo\PabloCamara.cs" />
     <Compile Include="Model\Funciones\Mouse.cs" />
     <Compile Include="Model\Funciones\Objetos\Objeto3D.cs" />
@@ -108,14 +113,8 @@
     <Compile Include="Model\Jose\JoseClass.cs" />
     <Compile Include="Model\MyCamara1Persona.cs" />
     <Compile Include="Model\MyCamara3Persona.cs" />
-    <Compile Include="Model\Pablo\PabloColision.cs" />
     <Compile Include="Model\Pablo\PabloMain.cs" />
     <Compile Include="Model\Funciones\Renderizado.cs" />
-    <Compile Include="Model\Pablo\PabloHUD.cs" />
-    <Compile Include="Model\Pablo\PabloEscenario.cs" />
-    <Compile Include="Model\Pablo\PabloPlantas.cs" />
-    <Compile Include="Model\Pablo\PabloSoles.cs" />
-    <Compile Include="Model\Pablo\PabloZombies.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form\GameForm.resx">

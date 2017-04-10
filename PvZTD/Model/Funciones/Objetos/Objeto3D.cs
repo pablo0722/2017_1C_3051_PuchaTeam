@@ -1,5 +1,6 @@
 ﻿using Microsoft.DirectX;
 using TGC.Core.SceneLoader;
+using Microsoft.DirectX.DirectInput;
 
 using System.Collections.Generic;
 
@@ -42,10 +43,15 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      VARIABLES
         /******************************************************************************************/
+        // ESTATICAS
+        public static bool _ShowBoundingBox = false;
+
+        // NO ESTATICAS
         private List<TgcMesh> _meshes;
         private List<t_instancia> _instancias;
         private t_instancia _InstanciaBase;     // Todas las instancias se crean como copias de la _InstanciaBase
         private int _InstSel; //Instancia seleccionada
+        private GameModel _game;
 
 
 
@@ -59,19 +65,21 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        private t_Objeto3D(string PathObj)
+        private t_Objeto3D(GameModel game, string PathObj)
         {
+            _game = game;
+
             _InstSel = -1;
             _meshes = new TgcSceneLoader().loadSceneFromFile(PathObj).Meshes;
             _instancias = new List<t_instancia>();
             _InstanciaBase = new t_instancia();
         }
 
-        public static t_Objeto3D CrearObjeto3D(string PathObj)
+        public static t_Objeto3D Crear(GameModel game, string PathObj)
         {
-            if ((PathObj != null))
+            if ((PathObj != null) && (game != null))
             {
-                return new t_Objeto3D(PathObj);
+                return new t_Objeto3D(game, PathObj);
             }
 
             return null;
@@ -233,7 +241,16 @@ namespace TGC.Group.Model
             _instancias[_InstSel].pos = new Vector3(_instancias[_InstSel].pos.X, _instancias[_InstSel].pos.Y, PosZ);
         }
 
-        //  ROTAR DE INSTANCIAS
+        //  MOVER INSTANCIAS
+        public void Inst_Move(float PosX, float PosY, float PosZ)
+        {
+            if (_InstSel < 0) return;
+
+            Vector3 PosAux = _instancias[_InstSel].pos;
+            _instancias[_InstSel].pos = new Vector3(PosAux.X + PosX, PosAux.Y + PosY, PosAux.Z + PosZ);
+        }
+
+        //  ROTAR INSTANCIAS
         public void Inst_Rotate(float RotX, float RotY, float RotZ)
         {
             if (_InstSel < 0) return;
@@ -260,6 +277,30 @@ namespace TGC.Group.Model
 
 
 
+        /******************************************************************************************/
+        /*                                      UPDATE
+        /******************************************************************************************/
+        public void Update(bool ShowBoundingBoxWithKey)
+        {
+            _ShowBoundingBox = false;
+
+            if (ShowBoundingBoxWithKey)
+            {
+                if (_game.Input.keyDown(Key.F))
+                {
+                    _ShowBoundingBox = true;
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
 
         /******************************************************************************************/
         /*                                      RENDER
@@ -275,9 +316,13 @@ namespace TGC.Group.Model
                     _meshes[j].Scale = _instancias[i].size;
                     _meshes[j].UpdateMeshTransform();
                     _meshes[j].render();
+
+                    if(_ShowBoundingBox)
+                    {
+                        _meshes[j].BoundingBox.render();
+                    }
                 }
             }
-
         }
     }
 }

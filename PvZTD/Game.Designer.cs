@@ -85,42 +85,6 @@ namespace TGC.Group {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\LogoTGC-TgcScene.xml")]
-        public string MeshTgc {
-            get {
-                return ((string)(this["MeshTgc"]));
-            }
-            set {
-                this["MeshTgc"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\HUD_Girasol.jpg")]
-        public string TexturaHUDGirasolOff {
-            get {
-                return ((string)(this["TexturaHUDGirasolOff"]));
-            }
-            set {
-                this["TexturaHUDGirasolOff"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\BolaRaziel-TgcScene.xml")]
-        public string MeshRaziel {
-            get {
-                return ((string)(this["MeshRaziel"]));
-            }
-            set {
-                this["MeshRaziel"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\cielo-TgcScene.xml")]
         public string MeshCielo {
             get {
@@ -128,54 +92,6 @@ namespace TGC.Group {
             }
             set {
                 this["MeshCielo"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Girasol-TgcScene.xml")]
-        public string MeshGirasol {
-            get {
-                return ((string)(this["MeshGirasol"]));
-            }
-            set {
-                this["MeshGirasol"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\mina-TgcScene.xml")]
-        public string MeshPatatapum {
-            get {
-                return ((string)(this["MeshPatatapum"]));
-            }
-            set {
-                this["MeshPatatapum"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\plano-TgcScene.xml")]
-        public string MeshPlano {
-            get {
-                return ((string)(this["MeshPlano"]));
-            }
-            set {
-                this["MeshPlano"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\zombie-TgcScene.xml")]
-        public string MeshZombie {
-            get {
-                return ((string)(this["MeshZombie"]));
-            }
-            set {
-                this["MeshZombie"] = value;
             }
         }
         
@@ -217,102 +133,6 @@ namespace TGC.Group {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\HUD_Patatapum.jpg")]
-        public string TexturaHUDPatatapumOff {
-            get {
-                return ((string)(this["TexturaHUDPatatapumOff"]));
-            }
-            set {
-                this["TexturaHUDPatatapumOff"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\HUD_Peashooter.jpg")]
-        public string TexturaHUDPeashooterOff {
-            get {
-                return ((string)(this["TexturaHUDPeashooterOff"]));
-            }
-            set {
-                this["TexturaHUDPeashooterOff"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\HUD_Patatapum_sel.jpg")]
-        public string TexturaHUDPatatapumOn {
-            get {
-                return ((string)(this["TexturaHUDPatatapumOn"]));
-            }
-            set {
-                this["TexturaHUDPatatapumOn"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\HUD_Peashooter_sel.jpg")]
-        public string TexturaHUDPeashooterOn {
-            get {
-                return ((string)(this["TexturaHUDPeashooterOn"]));
-            }
-            set {
-                this["TexturaHUDPeashooterOn"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\HUD_Girasol_sel.jpg")]
-        public string TexturaHUDGirasolOn {
-            get {
-                return ((string)(this["TexturaHUDGirasolOn"]));
-            }
-            set {
-                this["TexturaHUDGirasolOn"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\sol-TgcScene.xml")]
-        public string MeshSol {
-            get {
-                return ((string)(this["MeshSol"]));
-            }
-            set {
-                this["MeshSol"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Texturas\\tierra.jpg")]
-        public string TexturaMountain {
-            get {
-                return ((string)(this["TexturaMountain"]));
-            }
-            set {
-                this["TexturaMountain"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Mountain-TgcScene.xml")]
-        public string MeshMountain {
-            get {
-                return ((string)(this["MeshMountain"]));
-            }
-            set {
-                this["MeshMountain"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\CasaDave-TgcScene.xml")]
         public string CasitaDave {
             get {
@@ -332,18 +152,6 @@ namespace TGC.Group {
             }
             set {
                 this["MeshBrain"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Objetos\\Pea-TgcScene.xml")]
-        public string MeshPea {
-            get {
-                return ((string)(this["MeshPea"]));
-            }
-            set {
-                this["MeshPea"] = value;
             }
         }
         

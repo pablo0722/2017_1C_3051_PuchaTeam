@@ -1,13 +1,13 @@
 ﻿namespace TGC.Group.Model
 {
-    public class t_Patatapum
+    public class t_Patatapum : t_Planta
     {
         /******************************************************************************************/
         /*                                      CONSTANTES
         /******************************************************************************************/
-        private const string PATH_OBJ = "../../Media/Objetos/Girasol-TgcScene.xml";
-        private const string PATH_TEXTURA_ON = "../../Media/Texturas/HUD_Girasol_sel.jpg";
-        private const string PATH_TEXTURA_OFF = "../../Media/Texturas/HUD_Girasol.jpg";
+        private const string PATH_OBJ =         "..\\..\\Media\\Objetos\\mina-TgcScene.xml";
+        private const string PATH_TEXTURA_ON =  "..\\..\\Media\\Texturas\\HUD_Patatapum_sel.jpg";
+        private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\HUD_Patatapum.jpg";
 
 
 
@@ -21,9 +21,6 @@
         /******************************************************************************************/
         /*                                      VARIABLES
         /******************************************************************************************/
-        t_Objeto3D _Patatapum;
-        t_HUDBox _HUDBox;
-        t_Colision _colision;
 
 
 
@@ -37,18 +34,18 @@
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        private t_Patatapum(t_Colision colision, byte n)
+        private t_Patatapum(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n)
         {
-            _colision = colision;
-            _HUDBox = t_HUDBox.CrearHUDBox(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, colision, n);
-            _Patatapum = t_Objeto3D.CrearObjeto3D(PATH_OBJ);
+            _Planta.Set_Transform(0, -5.9F, 0,
+                                    0.15F, 0.15F, 0.15F,
+                                    0, GameModel.PI, 0);
         }
 
-        public static t_Patatapum CrearGirasol(t_Colision colision, byte n)
+        public static t_Patatapum Crear(GameModel game, byte n)
         {
-            if (t_HUDBox.CrearHUDBox(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, colision, n) != null && colision != null)
+            if (t_HUDBox.Is_Libre(n) && game != null)
             {
-                return new t_Patatapum(colision, n);
+                return new t_Patatapum(game, n);
             }
 
             return null;
@@ -66,16 +63,9 @@
         /******************************************************************************************/
         /*                                      UPDATE
         /******************************************************************************************/
-        public void Update()
+        public new void Update(bool ShowBoundingBoxWithKey, bool ChangeHUDTextureWhenMouseOver, bool CrearPlantaWhenClickOverHUDBox)
         {
-            if (_HUDBox.Is_MouseOver())
-            {
-                _HUDBox.Set_Textura_On();
-            }
-            else
-            {
-                _HUDBox.Set_Textura_Off();
-            }
+            base.Update(ShowBoundingBoxWithKey, ChangeHUDTextureWhenMouseOver, CrearPlantaWhenClickOverHUDBox);
         }
 
 
@@ -90,10 +80,9 @@
         /******************************************************************************************/
         /*                                      RENDER
         /******************************************************************************************/
-        public void Render()
+        public new void Render()
         {
-            _HUDBox.Render();
-            _Patatapum.Render();
+            base.Render();
         }
     }
 }

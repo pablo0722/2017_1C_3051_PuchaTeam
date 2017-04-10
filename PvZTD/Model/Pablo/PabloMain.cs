@@ -17,9 +17,6 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                 CONSTANTES - Deben comenzar con "p_"
         /******************************************************************************************/
-        //      SCREEN
-        private const float P_WIDTH = 1360;
-        private const float P_HEIGHT = 768;
 
 
 
@@ -33,8 +30,12 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                 VARIABLES - Deben comenzar con "p_"
         /******************************************************************************************/
-        private TgcBox _Mesh_BoxPicked;
-        private TgcBox _Mesh_BoxPickedPrev;
+        private t_Girasol _Girasol;
+        private t_Lanzaguisantes _Lanzaguisantes;
+        private t_Patatapum _Patatapum;
+        private t_SolComun _Sol;
+        private t_ZombieComun _zombie;
+        private t_Escenario1 _escenario1;
 
 
 
@@ -51,13 +52,17 @@ namespace TGC.Group.Model
 
         private void pablo_init()
         {
+            _escenario1 = t_Escenario1.Crear(this);
+
+            _Sol = t_SolComun.Crear(this);
+
+            _zombie = t_ZombieComun.Crear(this);
+
+            _Girasol = t_Girasol.Crear(this, 0);
+            _Lanzaguisantes = t_Lanzaguisantes.Crear(this, 1);
+            _Patatapum = t_Patatapum.Crear(this, 2);
+
             p_Func_Camara_Init();
-            p_Func_Colision_Init();
-            p_Func_Escenario_Init();
-            p_Func_HUD_Init();
-            p_Func_Zombies_Init();
-            p_Func_Plantas_Init();
-            p_Func_Soles_Init();
         }
 
 
@@ -75,45 +80,19 @@ namespace TGC.Group.Model
 
         private void pablo_update()
         {
-            p_Func_Soles_Update_Rotation();
+            _escenario1.Update(true, 4);
+
+            _Sol.Update(true, 2);
+
+            _zombie.Update(true);
+
+            _Girasol.Update(true, true, true);
+            _Lanzaguisantes.Update(true, true, true);
+            _Patatapum.Update(true, true, true);
 
             if (Input.keyPressed(Key.H))
             {
                 _camara.Modo_Change();
-            }
-
-            if (_camara.Modo_Is_CamaraAerea())
-            {
-                if (_mouse.ClickIzq_Down())
-                {
-                    p_Func_Plantas_Update_PosMouse2DToPlanta3D();
-                }
-                if (_mouse.ClickIzq_Up())
-                {
-                    _Mesh_BoxPickedPrev = _Mesh_BoxPicked;
-                    _Mesh_BoxPicked = null;
-
-                    p_Func_HUD_Update_BoxesTextures();
-                }
-
-                if (_mouse.ClickIzq_RisingDown())
-                {
-                    _Mesh_BoxPicked = null;
-                    _Mesh_BoxPickedPrev = null;
-
-                    if (_colision.MouseBox(p_HUDPlanta_Patatapum.Mesh_box))
-                    {
-                        p_Func_Plantas_Update_CreatePlantaAndSelect(p_HUDPlanta_Patatapum, p_Obj_Patatapum);
-                    }
-                    else if (_colision.MouseBox(p_HUDPlanta_Peashooter.Mesh_box))
-                    {
-                        p_Func_Plantas_Update_CreatePlantaAndSelect(p_HUDPlanta_Peashooter, p_Obj_Peashooter);
-                    }
-                    else if (_colision.MouseBox(p_HUDPlanta_Girasol.Mesh_box))
-                    {
-                        p_Func_Plantas_Update_CreatePlantaAndSelect(p_HUDPlanta_Girasol, p_Obj_Girasol);
-                    }
-                }
             }
         }
 
@@ -132,39 +111,19 @@ namespace TGC.Group.Model
 
         private void pablo_render()
         {
-            p_Func_Escenario_Render();
-            p_Func_Plantas_Render();
-            p_Func_Zombies_Render();
-            p_Func_Soles_Render();
+            _escenario1.Render();
+
+            _Sol.Render();
+
+            _zombie.Render();
+
+            _Girasol.Render();
+            _Lanzaguisantes.Render();
+            _Patatapum.Render();
 
             if (_camara.Modo_Is_CamaraAerea())
             {
                 Func_Text("H Para cambiar a Camara Primera Persona", 10, 80);
-
-                p_Func_HUD_Render();
-
-                if (_Mesh_BoxPicked == null)
-                {
-                    _Mesh_BoxPickedPrev = null;
-                }
-                else if (_Mesh_BoxPicked == p_HUDPlanta_Girasol.Mesh_box)
-                {
-                    p_Obj_Girasol.Inst_Set_PositionX(p_Pos_PlantaActual.X);
-                    p_Obj_Girasol.Inst_Set_PositionZ(p_Pos_PlantaActual.Z);
-                    p_Obj_Girasol.Render();
-                }
-                else if (_Mesh_BoxPicked == p_HUDPlanta_Peashooter.Mesh_box)
-                {
-                    p_Obj_Peashooter.Inst_Set_PositionX(p_Pos_PlantaActual.X);
-                    p_Obj_Peashooter.Inst_Set_PositionZ(p_Pos_PlantaActual.Z);
-                    p_Obj_Peashooter.Render();
-                }
-                else if (_Mesh_BoxPicked == p_HUDPlanta_Patatapum.Mesh_box)
-                {
-                    p_Obj_Patatapum.Inst_Set_PositionX(p_Pos_PlantaActual.X);
-                    p_Obj_Patatapum.Inst_Set_PositionZ(p_Pos_PlantaActual.Z);
-                    p_Obj_Patatapum.Render();
-                }
             }
             else
             {
@@ -184,10 +143,8 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                 DISPOSE - Se ejecuta al finalizar el juego. Libera la memoria
         /******************************************************************************************/
-
         private void pablo_dispose()
         {
-            p_Func_Dispose_HUD();
         }
     }
 }
