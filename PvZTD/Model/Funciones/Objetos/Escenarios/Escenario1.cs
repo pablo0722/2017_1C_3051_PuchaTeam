@@ -8,11 +8,13 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTANTES
         /******************************************************************************************/
-        private const string PATH_OBJ_CASA =        "..\\..\\Media\\Objetos\\CasaDave-TgcScene.xml";
-        private const string PATH_OBJ_PLANO =       "..\\..\\Media\\Objetos\\plano-TgcScene.xml";
-        private const string PATH_OBJ_PASTO =       "..\\..\\Media\\Objetos\\plano-TgcScene.xml";
-        private const string PATH_OBJ_CEREBRO =     "..\\..\\Media\\Objetos\\Brain-TgcScene.xml";
-        private const string PATH_OBJ_MOUNTAIN =    "..\\..\\Media\\Objetos\\Mountain-TgcScene.xml";
+        private const string PATH_OBJ_CASA =            "..\\..\\Media\\Objetos\\CasaDave-TgcScene.xml";
+        private const string PATH_OBJ_PLANO =           "..\\..\\Media\\Objetos\\plano-TgcScene.xml";
+        private const string PATH_OBJ_PASTO_CLARO =     "..\\..\\Media\\Objetos\\pastoClaro-TgcScene.xml";
+        private const string PATH_OBJ_PASTO_MEDIO =     "..\\..\\Media\\Objetos\\pastoMedio-TgcScene.xml";
+        private const string PATH_OBJ_PASTO_OSCURO =    "..\\..\\Media\\Objetos\\PastoOscuro-TgcScene.xml";
+        private const string PATH_OBJ_CEREBRO =         "..\\..\\Media\\Objetos\\Brain-TgcScene.xml";
+        private const string PATH_OBJ_MOUNTAIN =        "..\\..\\Media\\Objetos\\Mountain-TgcScene.xml";
 
 
 
@@ -41,7 +43,9 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        private t_Escenario1(GameModel game) : base(game, PATH_OBJ_CASA, PATH_OBJ_PLANO, PATH_OBJ_PASTO, PATH_OBJ_CEREBRO)
+        private t_Escenario1(GameModel game) : base(game, PATH_OBJ_CASA, PATH_OBJ_PLANO,
+                                                    PATH_OBJ_PASTO_CLARO, PATH_OBJ_PASTO_MEDIO, PATH_OBJ_PASTO_OSCURO,
+                                                    PATH_OBJ_CEREBRO)
         {
             _game = game;
 

@@ -39,6 +39,24 @@
             _Planta.Set_Transform(  0, 0, 0,
                                     0.05F, 0.05F, 0.05F,
                                     0, GameModel.PI, 0);
+
+            _Planta.Mesh_Select(0);
+            _Planta.Mesh_Color(153, 228, 153);
+
+            _Planta.Mesh_Select(1);
+            _Planta.Mesh_Color(27, 177, 27);
+
+            _Planta.Mesh_Select(2);
+            _Planta.Mesh_Color(8, 8, 136);
+
+            _Planta.Mesh_Select(3);
+            _Planta.Mesh_Color(255, 217, 7);
+
+            _Planta.Mesh_Select(4);
+            _Planta.Mesh_Color(27, 177, 27);
+
+            _Planta.Mesh_Select(5);
+            _Planta.Mesh_Color(255, 217, 7);
         }
 
         public static t_Girasol Crear(GameModel game, byte n)

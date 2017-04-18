@@ -17,6 +17,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                 CONSTANTES - Deben comenzar con "p_"
         /******************************************************************************************/
+        private const bool P_SHOW_AABB_WITH_KEY = true;
 
 
 
@@ -53,6 +54,7 @@ namespace TGC.Group.Model
         private void pablo_init()
         {
             _escenario1 = t_Escenario1.Crear(this);
+            _EscenarioBase = _escenario1;
 
             _Sol = t_SolComun.Crear(this);
 
@@ -86,9 +88,9 @@ namespace TGC.Group.Model
 
             _zombie.Update(true);
 
-            _Girasol.Update(true, true, true);
-            _Lanzaguisantes.Update(true, true, true);
-            _Patatapum.Update(true, true, true);
+            _Girasol.Update(P_SHOW_AABB_WITH_KEY, true, true);
+            _Lanzaguisantes.Update(P_SHOW_AABB_WITH_KEY, true, true);
+            _Patatapum.Update(P_SHOW_AABB_WITH_KEY, true, true);
 
             if (Input.keyPressed(Key.H))
             {

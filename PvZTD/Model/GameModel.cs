@@ -25,11 +25,13 @@ namespace TGC.Group.Model
         public const float PI = 3.14159265359F;
 
         //      SCREEN
-        public const float P_WIDTH = 1360;
-        public const float P_HEIGHT = 768;
+        public const int WIDTH = 1366;
+        public const int HEIGHT = 768;
+        public const int CANT_FILAS = 5;        // De plantas
+        public const int CANT_COLUMNAS = 12;    // De plantas
 
 
-
+        
 
 
 
@@ -44,6 +46,7 @@ namespace TGC.Group.Model
         public t_Camara _camara;
         public t_Mouse _mouse;
         public t_Colision _colision;
+        public t_EscenarioBase _EscenarioBase;
 
 
 

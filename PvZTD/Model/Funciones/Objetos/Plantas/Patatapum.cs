@@ -39,6 +39,27 @@
             _Planta.Set_Transform(0, -5.9F, 0,
                                     0.15F, 0.15F, 0.15F,
                                     0, GameModel.PI, 0);
+
+            _Planta.Mesh_Select(0);
+            _Planta.Mesh_Color(64, 64, 64);
+
+            _Planta.Mesh_Select(1);
+            _Planta.Mesh_Color(228, 214, 153);
+
+            _Planta.Mesh_Select(2);
+            _Planta.Mesh_Color(228, 214, 153);
+
+            _Planta.Mesh_Select(3);
+            _Planta.Mesh_Color(228, 214, 153);
+
+            _Planta.Mesh_Select(4);
+            _Planta.Mesh_Color(95, 40, 0);
+
+            _Planta.Mesh_Select(5);
+            _Planta.Mesh_Color(255, 0, 0);
+
+            _Planta.Mesh_Select(6);
+            _Planta.Mesh_Color(60, 27, 0);
         }
 
         public static t_Patatapum Crear(GameModel game, byte n)

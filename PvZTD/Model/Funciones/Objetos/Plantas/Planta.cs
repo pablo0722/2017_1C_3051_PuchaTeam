@@ -1,4 +1,5 @@
 ﻿using Microsoft.DirectX;
+using TGC.Core.Utils;
 
 
 namespace TGC.Group.Model
@@ -62,8 +63,6 @@ namespace TGC.Group.Model
             
             _Planta.Update(ShowBoundingBoxWithKey);
 
-            _Pos_PlantaActual = new Vector3(_game.Input.Ypos / GameModel.P_HEIGHT * 110 - 40, 0, _game.Input.Xpos / GameModel.P_WIDTH * 150 - 75);
-
             if (CrearPlantaWhenClickOverHUDBox)
             {
                 if (ClickSobreHUDBox)
@@ -72,6 +71,12 @@ namespace TGC.Group.Model
                 }
                 if (_HUDBox.Is_BoxPicked())
                 {
+                    _Pos_PlantaActual = new Vector3(
+                                    (t_EscenarioBase.MouseY) * t_EscenarioBase.PASTO_RAZON * t_EscenarioBase.PASTO_AJUSTE -
+                                                    FastMath.Abs(t_EscenarioBase.PASTO_POS_X_INICIAL),
+                                    0,
+                                    t_EscenarioBase.MouseX * t_EscenarioBase.PASTO_RAZON - FastMath.Abs(t_EscenarioBase.PASTO_POS_Z_INICIAL));
+
                     _Planta.Inst_Set_PositionX(_Pos_PlantaActual.X);
                     _Planta.Inst_Set_PositionZ(_Pos_PlantaActual.Z);
                 }

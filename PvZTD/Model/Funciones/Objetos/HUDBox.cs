@@ -37,6 +37,7 @@ namespace TGC.Group.Model
                                     // Si un bit esta en '0', significa que esa posicion esta libre.
         private static Vector3 _HUDSize = new Vector3(P_HUD_BOX_SIZE_X, P_HUD_BOX_SIZE_Y, P_HUD_BOX_SIZE_Z);
         private static bool _ShowBoundingBox = false;
+        private static bool _Is_AnyBoxPicked = false;
 
         // NO ESTATICAS
         private int _n;         // Numero (posicion) del BoxHUD
@@ -148,6 +149,11 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      PICKED
         /******************************************************************************************/
+        public static bool Is_AnyBoxPicked()
+        {
+            return _Is_AnyBoxPicked;
+        }
+
         public bool Is_BoxPicked()
         {
             return _Is_BoxPicked;
@@ -205,24 +211,34 @@ namespace TGC.Group.Model
             {
                 if (_game._mouse.ClickIzq_RisingDown())
                 {
-                    if (Is_MouseOver())
+                    if (_Is_BoxPicked)
                     {
+                        if (!t_EscenarioBase.Is_PastoOcupado(t_EscenarioBase.MouseY, t_EscenarioBase.MouseX))
+                        {
+                            _Is_AnyBoxPicked = false;
+                            _Is_BoxPicked = false;
+                        }
+                    }
+                    else if (Is_MouseOver() && !_Is_AnyBoxPicked)
+                    {
+                        _Is_AnyBoxPicked = true;
                         _Is_BoxPicked = true;
 
                         ret = true;
                     }
                 }
-                else if (!_game._mouse.ClickIzq_Down())
+                else if (_game._mouse.ClickIzq_Up())
                 {
-                    _Is_BoxPicked = false;
-
-                    Set_Textura_Off();
-
-                    if (ChangeHUDTextureWhenMouseOver)
+                    if (!_Is_BoxPicked)
                     {
-                        if (Is_MouseOver())
+                        Set_Textura_Off();
+
+                        if (ChangeHUDTextureWhenMouseOver)
                         {
-                            Set_Textura_On();
+                            if (Is_MouseOver())
+                            {
+                                Set_Textura_On();
+                            }
                         }
                     }
                 }
