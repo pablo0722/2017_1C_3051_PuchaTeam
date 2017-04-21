@@ -8,6 +8,7 @@
         private const string PATH_OBJ =         "..\\..\\Media\\Objetos\\mina-TgcScene.xml";
         private const string PATH_TEXTURA_ON =  "..\\..\\Media\\Texturas\\HUD_Patatapum_sel.jpg";
         private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\HUD_Patatapum.jpg";
+        private const int PLANTA_VALOR = -10000000;
 
 
 
@@ -84,9 +85,9 @@
         /******************************************************************************************/
         /*                                      UPDATE
         /******************************************************************************************/
-        public new void Update(bool ShowBoundingBoxWithKey, bool ChangeHUDTextureWhenMouseOver, bool CrearPlantaWhenClickOverHUDBox)
+        public void Update(bool ShowBoundingBoxWithKey)
         {
-            base.Update(ShowBoundingBoxWithKey, ChangeHUDTextureWhenMouseOver, CrearPlantaWhenClickOverHUDBox);
+            base.Update(ShowBoundingBoxWithKey, PLANTA_VALOR);
         }
 
 

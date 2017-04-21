@@ -8,6 +8,8 @@ using TGC.Core.Input;
 using TGC.Core.SceneLoader;
 using TGC.Core.Textures;
 using TGC.Core.Utils;
+using System.Threading.Tasks;
+
 
 namespace TGC.Group.Model
 {
@@ -47,6 +49,9 @@ namespace TGC.Group.Model
         public t_Mouse _mouse;
         public t_Colision _colision;
         public t_EscenarioBase _EscenarioBase;
+        public float _TiempoTranscurrido;
+        public System.Random _rand;
+        public int _soles;  // Cantidad de soles
 
 
 
@@ -75,6 +80,10 @@ namespace TGC.Group.Model
         {
             //Device de DirectX para crear primitivas.
             //var d3dDevice = D3DDevice.Instance.Device;
+
+            _rand = new System.Random(System.Guid.NewGuid().GetHashCode());
+            _TiempoTranscurrido = 0;
+            _soles = 0;
 
             _camara = new t_Camara(this);
             _mouse = new t_Mouse(this);
@@ -108,6 +117,8 @@ namespace TGC.Group.Model
         {
             //Inicio el render de la escena, para ejemplos simples. Cuando tenemos postprocesado o shaders es mejor realizar las operaciones según nuestra conveniencia.
             PreRender();
+            DrawText.drawText("Soles:", 100, 0, Color.Yellow);
+            DrawText.drawText(_soles.ToString(), 150, 0, Color.Yellow);
 
             pablo_render();
             jose_render();

@@ -72,7 +72,7 @@ namespace TGC.Group.Model
 
 
         /******************************************************************************************/
-        /*                                  DETECTA SELECCION DE MESH
+        /*                                  DETECTA COLISION DE MESH
         /******************************************************************************************/
         public bool MouseBox(TgcBox mesh)
         {
@@ -89,6 +89,34 @@ namespace TGC.Group.Model
             }
 
             return false;
+        }
+
+        public int MouseMesh(t_Objeto3D obj)
+        {
+            //Actualizar Ray de colision en base a posicion del mouse
+            _PickingRay.updateRay();
+
+            for (int i = 0; i < obj._instancias.Count; i++)
+            {
+                for (int j = 0; j < obj._meshes.mesh.Count; j++)
+                {
+                    obj._meshes.mesh[j].Position = obj._instancias[i].pos;
+                    obj._meshes.mesh[j].Rotation = obj._instancias[i].rot;
+                    obj._meshes.mesh[j].Scale = obj._instancias[i].size;
+                    obj._meshes.mesh[j].UpdateMeshTransform();
+
+                    var aabb = obj._meshes.mesh[j].BoundingBox;
+
+                    //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
+                    var selected = TGC.Core.Collision.TgcCollisionUtils.intersectRayAABB(_PickingRay.Ray, aabb, out _PickRay_Pos);
+                    if (selected)
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            return -1;
         }
     }
 }

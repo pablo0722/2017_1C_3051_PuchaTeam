@@ -57,16 +57,24 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      UPDATE
         /******************************************************************************************/
-        public void Update(bool ShowBoundingBoxWithKey, bool ChangeHUDTextureWhenMouseOver, bool CrearPlantaWhenClickOverHUDBox)
+        public void Update(bool ShowBoundingBoxWithKey, int PlantaValor)
         {
+            bool ChangeHUDTextureWhenMouseOver = false;
+
+            if (_game._soles >= PlantaValor)
+            {
+                ChangeHUDTextureWhenMouseOver = true;
+            }
+
             bool ClickSobreHUDBox = _HUDBox.Update(ShowBoundingBoxWithKey, ChangeHUDTextureWhenMouseOver);
             
             _Planta.Update(ShowBoundingBoxWithKey);
 
-            if (CrearPlantaWhenClickOverHUDBox)
+            if (_game._soles >= PlantaValor)
             {
                 if (ClickSobreHUDBox)
                 {
+                    _game._soles -= PlantaValor;
                     _Planta.Inst_CreateAndSelect();
                 }
                 if (_HUDBox.Is_BoxPicked())

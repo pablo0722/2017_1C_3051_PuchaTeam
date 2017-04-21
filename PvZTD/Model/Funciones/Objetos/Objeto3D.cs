@@ -11,7 +11,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      ESTRUCTURAS
         /******************************************************************************************/
-        private class t_instancia
+        public class t_instancia
         {
             public Vector3 pos;
             public Vector3 rot;
@@ -34,7 +34,7 @@ namespace TGC.Group.Model
             }
         };
 
-        private class t_mesh
+        public class t_mesh
         {
             public List<TgcMesh> mesh;
             public List<Color> color;
@@ -67,12 +67,14 @@ namespace TGC.Group.Model
         public static bool _ShowBoundingBox = false;
 
         // NO ESTATICAS
-        private t_mesh _meshes;
-        private List<t_instancia> _instancias;
+        public t_mesh _meshes;
+        public List<t_instancia> _instancias;
         private t_instancia _InstanciaBase;     // Todas las instancias se crean como copias de la _InstanciaBase
         private int _InstSel; // Instancia seleccionada
         private int _MeshSel; // Mesh seleccionado
         private GameModel _game;
+        private bool _ChangeColorMesh;
+        private bool _ChangeColorInst;
 
 
 
@@ -94,7 +96,9 @@ namespace TGC.Group.Model
             _meshes = new t_mesh(PathObj);
             _instancias = new List<t_instancia>();
             _InstanciaBase = new t_instancia();
-        }
+            _ChangeColorMesh = false;
+            _ChangeColorInst = false;
+    }
 
         public static t_Objeto3D Crear(GameModel game, string PathObj)
         {
@@ -203,6 +207,7 @@ namespace TGC.Group.Model
             if (_MeshSel < 0 || _MeshSel >= _meshes.mesh.Count) return;
 
             _meshes.color[_MeshSel] = Color.FromArgb(Alpha, Red, Green, Blue);
+            _ChangeColorMesh = true;
         }
 
         public void Mesh_Color(int Red, int Green, int Blue)
@@ -210,6 +215,7 @@ namespace TGC.Group.Model
             if (_MeshSel < 0 || _MeshSel >= _meshes.mesh.Count) return;
 
             _meshes.color[_MeshSel] = Color.FromArgb(0, Red, Green, Blue);
+            _ChangeColorMesh = true;
         }
 
         public void Mesh_ColorAll(int Red, int Green, int Blue)
@@ -217,6 +223,7 @@ namespace TGC.Group.Model
             for (int i = 0; i < _meshes.mesh.Count; i++)
             {
                 _meshes.color[i] = Color.FromArgb(0, Red, Green, Blue);
+                _ChangeColorMesh = true;
             }
         }
 
@@ -239,6 +246,7 @@ namespace TGC.Group.Model
             t_instancia inst = new t_instancia(_InstanciaBase);
 
             _instancias.Add(inst);
+            _ChangeColorMesh = true;
 
             return _instancias.Count - 1;
         }
@@ -250,6 +258,7 @@ namespace TGC.Group.Model
             inst.pos = new Vector3(PosX, PosY, PosZ);
 
             _instancias.Add(inst);
+            _ChangeColorMesh = true;
 
             return _instancias.Count - 1;
         }
@@ -261,6 +270,7 @@ namespace TGC.Group.Model
             inst.pos = new Vector3(Pos.X, Pos.Y, Pos.Z);
 
             _instancias.Add(inst);
+            _ChangeColorMesh = true;
 
             return _instancias.Count - 1;
         }
@@ -292,6 +302,21 @@ namespace TGC.Group.Model
         public void Inst_SelectNone()
         {
             _InstSel = -1;
+        }
+
+        //  ELIMINACION DE INSTANCIAS
+        public void Inst_Delete()
+        {
+            if (_InstSel < 0 || _InstSel >= _instancias.Count) return;
+
+            _instancias.Remove(_instancias[_InstSel]);
+        }
+
+        public void Inst_Delete(int inst)
+        {
+            if (inst < 0 || inst >= _instancias.Count) return;
+
+            _instancias.Remove(_instancias[inst]);
         }
 
         //  POSICION DE INSTANCIAS
@@ -332,6 +357,15 @@ namespace TGC.Group.Model
             _instancias[_InstSel].pos = new Vector3(PosAux.X + PosX, PosAux.Y + PosY, PosAux.Z + PosZ);
         }
 
+        public void Inst_MoveAll(float PosX, float PosY, float PosZ)
+        {
+            for (int i = 0; i < _instancias.Count; i++)
+            {
+                Vector3 PosAux = _instancias[i].pos;
+                _instancias[i].pos = new Vector3(PosAux.X + PosX, PosAux.Y + PosY, PosAux.Z + PosZ);
+            }
+        }
+
         //  ROTAR INSTANCIAS
         public void Inst_Rotate(float RotX, float RotY, float RotZ)
         {
@@ -356,6 +390,7 @@ namespace TGC.Group.Model
             if (_InstSel < 0 || _InstSel >= _instancias.Count) return;
             
             _instancias[_InstSel].color = Color.FromArgb(Alpha, Red, Green, Blue);
+            _ChangeColorInst = true;
         }
 
         public void Inst_Color(int Red, int Green, int Blue)
@@ -363,6 +398,7 @@ namespace TGC.Group.Model
             if (_InstSel < 0 || _InstSel >= _instancias.Count) return;
 
             _instancias[_InstSel].color = Color.FromArgb(0, Red, Green, Blue);
+            _ChangeColorInst = true;
         }
 
         public void Inst_ColorAll(int Red, int Green, int Blue)
@@ -370,6 +406,7 @@ namespace TGC.Group.Model
             for (int i = 0; i < _instancias.Count; i++)
             {
                 _instancias[i].color = Color.FromArgb(0, Red, Green, Blue);
+                _ChangeColorInst = true;
             }
         }
 
@@ -416,11 +453,11 @@ namespace TGC.Group.Model
             {
                 for (int j = 0; j < _meshes.mesh.Count; j++)
                 {
-                    if (_instancias[i].color.R == 255 && _instancias[i].color.G == 255 && _instancias[i].color.B == 255)
+                    if (_ChangeColorMesh)
                     {
                         _meshes.mesh[j].setColor(_meshes.color[j]);
                     }
-                    else
+                    else if(_ChangeColorInst)
                     {
                         _meshes.mesh[j].setColor(_instancias[i].color);
                     }
@@ -436,6 +473,9 @@ namespace TGC.Group.Model
                     }
                 }
             }
+
+            _ChangeColorMesh = false;
+            _ChangeColorInst = false;
         }
     }
 }

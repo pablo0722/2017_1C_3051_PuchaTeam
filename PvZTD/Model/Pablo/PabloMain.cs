@@ -79,18 +79,18 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                 UPDATE - Realiza la lógica del juego
         /******************************************************************************************/
-
+    
         private void pablo_update()
         {
             _escenario1.Update(true, 4);
 
-            _Sol.Update(true, 2);
+            _Sol.Update(true, new List<int> { 1 }, true);
 
-            _zombie.Update(true);
+            _zombie.Update(true, new List<int>{ 5 }, true);
 
-            _Girasol.Update(P_SHOW_AABB_WITH_KEY, true, true);
-            _Lanzaguisantes.Update(P_SHOW_AABB_WITH_KEY, true, true);
-            _Patatapum.Update(P_SHOW_AABB_WITH_KEY, true, true);
+            _Girasol.Update(P_SHOW_AABB_WITH_KEY);
+            _Lanzaguisantes.Update(P_SHOW_AABB_WITH_KEY);
+            _Patatapum.Update(P_SHOW_AABB_WITH_KEY);
 
             if (Input.keyPressed(Key.H))
             {
@@ -113,16 +113,16 @@ namespace TGC.Group.Model
 
         private void pablo_render()
         {
-            _escenario1.Render();
+           _escenario1.Render();
 
             _Sol.Render();
 
             _zombie.Render();
-
+            
             _Girasol.Render();
             _Lanzaguisantes.Render();
             _Patatapum.Render();
-
+            
             if (_camara.Modo_Is_CamaraAerea())
             {
                 Func_Text("H Para cambiar a Camara Primera Persona", 10, 80);

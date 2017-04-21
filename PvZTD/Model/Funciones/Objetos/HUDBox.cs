@@ -229,7 +229,7 @@ namespace TGC.Group.Model
                 }
                 else if (_game._mouse.ClickIzq_Up())
                 {
-                    if (!_Is_BoxPicked)
+                    if (!_Is_AnyBoxPicked)
                     {
                         Set_Textura_Off();
 
