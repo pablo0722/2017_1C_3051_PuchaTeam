@@ -8,7 +8,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      ESTRUCTURAS
         /******************************************************************************************/
-        public struct t_SolInstancia
+        public struct t_GirasolInstancia
         {
             public float TiempoComienzo;   // Tiempo (del _game._TiempoTranscurrido) que se creo una instancia de girasol
             public int SolN;   // Numero de sol creado
@@ -30,6 +30,7 @@ namespace TGC.Group.Model
         private const string PATH_TEXTURA_ON =  "..\\..\\Media\\Texturas\\HUD_Girasol_sel.jpg";
         private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\HUD_Girasol.jpg";
         private const int PLANTA_VALOR = 50;
+        private const float VIDA = 4;
 
 
 
@@ -43,9 +44,9 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      VARIABLES
         /******************************************************************************************/
-        private GameModel _game;
-        private List<t_SolInstancia> _InstSol;
-        bool _CrearGirasol;
+        public GameModel _game;
+        public List<t_GirasolInstancia> _InstGirasol;
+        public bool _CrearGirasol;
 
 
 
@@ -59,7 +60,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        private t_Girasol(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n, PLANTA_VALOR)
+        private t_Girasol(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n, PLANTA_VALOR, VIDA)
         {
             _game = game;
 
@@ -85,7 +86,7 @@ namespace TGC.Group.Model
             _Planta.Mesh_Select(5);
             _Planta.Mesh_Color(255, 217, 7);
 
-            _InstSol = new List<t_SolInstancia>();
+            _InstGirasol = new List<t_GirasolInstancia>();
             _CrearGirasol = false;
         }
 
@@ -113,33 +114,27 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public void Update(bool ShowBoundingBoxWithKey, int CantSegundosSegundosAEsperarParaCrearSol)
         {
-            bool GirasolCreado = base.Update(ShowBoundingBoxWithKey);
+            int GirasolCreado = base.Update(ShowBoundingBoxWithKey);
 
-            if(_CrearGirasol && _game._mouse.ClickIzq_RisingDown() && _game._camara.Modo_Is_CamaraAerea())
+            if(GirasolCreado == 2)
             {
                 // Girasol ubicado
-                t_SolInstancia sol = new t_SolInstancia();
+                t_GirasolInstancia sol = new t_GirasolInstancia();
                 sol.SolN = 0;
                 sol.TiempoComienzo = _game._TiempoTranscurrido;
-                _InstSol.Add(sol);
+                _InstGirasol.Add(sol);
 
                 _CrearGirasol = false;
             }
 
-            if (GirasolCreado)
+            for(int i=0; i< _InstGirasol.Count; i++)
             {
-                // El usuario tiene que ubicar el girasol
-                _CrearGirasol = true;
-            }
-
-            for(int i=0; i< _InstSol.Count; i++)
-            {
-                if ((_game._TiempoTranscurrido - _InstSol[i].TiempoComienzo) >= CantSegundosSegundosAEsperarParaCrearSol * (_InstSol[i].SolN + 1))
+                if ((_game._TiempoTranscurrido - _InstGirasol[i].TiempoComienzo) >= CantSegundosSegundosAEsperarParaCrearSol * (_InstGirasol[i].SolN + 1))
                 {
                     _game._Sol.Do_CreateSol();
-                    t_SolInstancia sol = _InstSol[i];
+                    t_GirasolInstancia sol = _InstGirasol[i];
                     sol.SolN ++;
-                    _InstSol[i] = sol;
+                    _InstGirasol[i] = sol;
                 }
             }
         }

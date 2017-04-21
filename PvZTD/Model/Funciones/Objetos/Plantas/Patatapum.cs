@@ -9,6 +9,7 @@
         private const string PATH_TEXTURA_ON =  "..\\..\\Media\\Texturas\\HUD_Patatapum_sel.jpg";
         private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\HUD_Patatapum.jpg";
         private const int PLANTA_VALOR = 125;
+        private const float VIDA_PLANTA = 4;
 
 
 
@@ -35,7 +36,7 @@
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        private t_Patatapum(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n, PLANTA_VALOR)
+        private t_Patatapum(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n, PLANTA_VALOR, VIDA_PLANTA)
         {
             _Planta.Set_Transform(0, -5.9F, 0,
                                     0.15F, 0.15F, 0.15F,

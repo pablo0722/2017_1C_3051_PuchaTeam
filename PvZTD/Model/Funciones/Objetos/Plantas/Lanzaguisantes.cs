@@ -9,6 +9,7 @@
         private const string PATH_TEXTURA_ON =  "..\\..\\Media\\Texturas\\HUD_Peashooter_sel.jpg";
         private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\HUD_Peashooter.jpg";
         private const int PLANTA_VALOR = 100;
+        private const float VIDA_PLANTA = 4;
 
 
 
@@ -35,7 +36,7 @@
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        private t_Lanzaguisantes(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n, PLANTA_VALOR)
+        private t_Lanzaguisantes(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n, PLANTA_VALOR, VIDA_PLANTA)
         {
             _Planta.Set_Transform(0, 2.1F, 0,
                                             0.06F, 0.06F, 0.06F,

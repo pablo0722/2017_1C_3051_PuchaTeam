@@ -114,8 +114,26 @@ namespace TGC.Group.Model
             _Sol.Update(ShowBoundingBoxWithKey);
 
             _Sol.Inst_RotateAll(_game.ElapsedTime * ROTACION_SEG_POR_VUELTA / (2*GameModel.PI), 0, 0);
-            _Sol.Inst_MoveAll(0, _game.ElapsedTime * VELOCIDAD_CAIDA, 0);
-            
+
+            // Caida
+            for (int i = 0; i < _Sol._instancias.Count; i++)
+            {
+                if (_Sol._instancias[i].pos.Y < 6)
+                {
+                    Vector3 PosAux = _Sol._instancias[i].pos;
+                    _Sol._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y + _game.ElapsedTime * VELOCIDAD_CAIDA * (1F / 10F), PosAux.Z);
+                }
+                else if (_Sol._instancias[i].pos.Y < -6)
+                {
+                    _Sol._instancias.Remove(_Sol._instancias[i]);
+                }
+                else
+                {
+                    Vector3 PosAux = _Sol._instancias[i].pos;
+                    _Sol._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y + _game.ElapsedTime * VELOCIDAD_CAIDA, PosAux.Z);
+                }
+            }
+
             if (_game._TiempoTranscurrido >= CantSegundosSegundosAEsperarParaCrearSol * (_SolN+1))
             {
                 Do_CreateSol();
@@ -134,19 +152,6 @@ namespace TGC.Group.Model
                         _game._soles += SOL_VALOR;
                     }
                     _Sol.Inst_Delete(Is_MouseOver());
-                }
-            }
-
-            for(int i=0; i<_Sol._instancias.Count; i++)
-            {
-                if (_Sol._instancias[i].pos.Y < 6)
-                {
-                    Vector3 PosAux = _Sol._instancias[i].pos;
-                    _Sol._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y - _game.ElapsedTime * VELOCIDAD_CAIDA * (9F/10F), PosAux.Z);
-                }
-                if (_Sol._instancias[i].pos.Y < -6)
-                {
-                    _Sol._instancias.Remove(_Sol._instancias[i]);
                 }
             }
         }

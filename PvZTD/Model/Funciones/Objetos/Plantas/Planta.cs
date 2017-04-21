@@ -1,5 +1,6 @@
 ﻿using Microsoft.DirectX;
 using TGC.Core.Utils;
+using System.Collections.Generic;
 
 
 namespace TGC.Group.Model
@@ -7,13 +8,35 @@ namespace TGC.Group.Model
     public class t_Planta
     {
         /******************************************************************************************/
+        /*                                      ESTRUCTURAS
+        /******************************************************************************************/
+        public struct t_PlantaInstancia
+        {
+            public float vida;
+            public int fila;
+            public int columna;
+        };
+
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************/
         /*                                      VARIABLES
         /******************************************************************************************/
-        protected t_Objeto3D _Planta;
+        public t_Objeto3D _Planta;
         protected t_HUDBox _HUDBox;
         private GameModel _game;
         private Vector3 _Pos_PlantaActual;       // Posicion Planta Actual
         private int _ValorPlanta;
+        public List<t_PlantaInstancia> _InstPlanta;
+        private bool _CrearPlanta;
+        private float _vida;
 
 
 
@@ -27,7 +50,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        protected t_Planta(string PathObj, string PathTexturaOn, string PathTexturaOff, GameModel game, byte n, int ValorPlanta)
+        protected t_Planta(string PathObj, string PathTexturaOn, string PathTexturaOff, GameModel game, byte n, int ValorPlanta, float vida)
         {
             _game = game;
 
@@ -36,13 +59,18 @@ namespace TGC.Group.Model
             _Planta = t_Objeto3D.Crear(_game, PathObj);
 
             _ValorPlanta = ValorPlanta;
+            _CrearPlanta = false;
+
+            _vida = vida;
+
+            _InstPlanta = new List<t_PlantaInstancia>();
         }
 
-        public static t_Planta Crear(string PathObj, string PathTexturaOn, string PathTexturaOff, GameModel game, byte n, int ValorPlanta)
+        public static t_Planta Crear(string PathObj, string PathTexturaOn, string PathTexturaOff, GameModel game, byte n, int ValorPlanta, float vida)
         {
             if (t_HUDBox.Is_Libre(n) && game != null)
             {
-                return new t_Planta(PathObj, PathTexturaOn, PathTexturaOff, game, n, ValorPlanta);
+                return new t_Planta(PathObj, PathTexturaOn, PathTexturaOff, game, n, ValorPlanta, vida);
             }
 
             return null;
@@ -60,9 +88,9 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      UPDATE
         /******************************************************************************************/
-        public bool Update(bool ShowBoundingBoxWithKey)
+        public int Update(bool ShowBoundingBoxWithKey)
         {
-            bool ret = false;
+            int ret = 0;
             bool ChangeHUDTextureWhenMouseOver = false;
 
             if (_game._soles >= _ValorPlanta)
@@ -74,13 +102,27 @@ namespace TGC.Group.Model
             
             _Planta.Update(ShowBoundingBoxWithKey);
 
+            if(_CrearPlanta && _game._mouse.ClickIzq_RisingDown() && _game._camara.Modo_Is_CamaraAerea())
+            {
+                // Planta ubicada
+                t_PlantaInstancia planta = new t_PlantaInstancia();
+                planta.vida = _vida;
+                planta.fila = t_EscenarioBase.MouseY;
+                planta.columna = t_EscenarioBase.MouseX;
+                _InstPlanta.Add(planta);
+                
+                _CrearPlanta = false;
+            }
+
             if (_game._soles >= _ValorPlanta)
             {
                 if (ClickSobreHUDBox)
                 {
+                    // Planta requiere ubicacion del usuario
                     _game._soles -= _ValorPlanta;
                     _Planta.Inst_CreateAndSelect();
-                    ret = true;
+                    ret = 1;
+                    _CrearPlanta = true;
                 }
             }
             if (_HUDBox.Is_BoxPicked())
