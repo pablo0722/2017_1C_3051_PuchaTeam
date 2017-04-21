@@ -11,7 +11,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         private const string PATH_OBJ = "..\\..\\Media\\Objetos\\sol-TgcScene.xml";
         private const float ROTACION_SEG_POR_VUELTA = 2;
-        private const float VELOCIDAD_CAIDA = -0.02F;
+        private const float VELOCIDAD_CAIDA = -10F;
         private const int SOL_VALOR = 25;   // Cuanto suma agarrar un sol
 
 
@@ -51,11 +51,6 @@ namespace TGC.Group.Model
             _Sol.Set_Transform(0, 100000, 0,
                                 (float)0.075, (float)0.075, (float)0.075,
                                 0, 0, 0);
-
-            /*
-            _Sol.Inst_Create(0, 50, 0);
-            _Sol.Inst_Create(20, 50, 30);
-            */
         }
 
         public static t_SolComun Crear(GameModel game)
@@ -95,32 +90,37 @@ namespace TGC.Group.Model
 
 
         /******************************************************************************************/
+        /*                                      CREACION DE SOLES
+        /******************************************************************************************/
+        public void Do_CreateSol()
+        {
+            _Sol.Inst_CreateAndSelect(0, 65, _game._rand.Next(-60, 60));
+        }
+
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************/
         /*                                      UPDATE
         /******************************************************************************************/
-        public void Update(bool ShowBoundingBoxWithKey, List<int> CantSegundosSegundosAEsperarParaCrearSol, bool GeneracionInfinitaDeSoles)
+        public void Update(bool ShowBoundingBoxWithKey, int CantSegundosSegundosAEsperarParaCrearSol)
         {
             _Sol.Update(ShowBoundingBoxWithKey);
 
             _Sol.Inst_RotateAll(_game.ElapsedTime * ROTACION_SEG_POR_VUELTA / (2*GameModel.PI), 0, 0);
-            _Sol.Inst_MoveAll(0, VELOCIDAD_CAIDA, 0);
-
-            if(GeneracionInfinitaDeSoles)
+            _Sol.Inst_MoveAll(0, _game.ElapsedTime * VELOCIDAD_CAIDA, 0);
+            
+            if (_game._TiempoTranscurrido >= CantSegundosSegundosAEsperarParaCrearSol * (_SolN+1))
             {
-                if (_game._TiempoTranscurrido >= CantSegundosSegundosAEsperarParaCrearSol[0] * (_SolN+1))
-                {
-                    _Sol.Inst_CreateAndSelect(_game._rand.Next(-50, 50), 80, _game._rand.Next(-60, 60));
+                Do_CreateSol();
 
-                    _SolN++;
-                }
-            }
-            else if (_SolN < CantSegundosSegundosAEsperarParaCrearSol.Count)
-            {
-                if (_game._TiempoTranscurrido >= CantSegundosSegundosAEsperarParaCrearSol[_SolN])
-                {
-                    _Sol.Inst_CreateAndSelect(_game._rand.Next(-50, 50), 80, _game._rand.Next(-60, 60));
-
-                    _SolN++;
-                }
+                _SolN++;
             }
 
             if (_game._mouse.ClickIzq_RisingDown())
@@ -134,6 +134,19 @@ namespace TGC.Group.Model
                         _game._soles += SOL_VALOR;
                     }
                     _Sol.Inst_Delete(Is_MouseOver());
+                }
+            }
+
+            for(int i=0; i<_Sol._instancias.Count; i++)
+            {
+                if (_Sol._instancias[i].pos.Y < 6)
+                {
+                    Vector3 PosAux = _Sol._instancias[i].pos;
+                    _Sol._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y - _game.ElapsedTime * VELOCIDAD_CAIDA * (9F/10F), PosAux.Z);
+                }
+                if (_Sol._instancias[i].pos.Y < -6)
+                {
+                    _Sol._instancias.Remove(_Sol._instancias[i]);
                 }
             }
         }

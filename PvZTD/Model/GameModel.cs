@@ -83,7 +83,7 @@ namespace TGC.Group.Model
 
             _rand = new System.Random(System.Guid.NewGuid().GetHashCode());
             _TiempoTranscurrido = 0;
-            _soles = 0;
+            _soles = 50;
 
             _camara = new t_Camara(this);
             _mouse = new t_Mouse(this);

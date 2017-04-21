@@ -31,12 +31,12 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                 VARIABLES - Deben comenzar con "p_"
         /******************************************************************************************/
-        private t_Girasol _Girasol;
-        private t_Lanzaguisantes _Lanzaguisantes;
-        private t_Patatapum _Patatapum;
-        private t_SolComun _Sol;
-        private t_ZombieComun _zombie;
-        private t_Escenario1 _escenario1;
+        public t_Girasol _Girasol;
+        public t_Lanzaguisantes _Lanzaguisantes;
+        public t_Patatapum _Patatapum;
+        public t_SolComun _Sol;
+        public t_ZombieComun _zombie;
+        public t_Escenario1 _escenario1;
 
 
 
@@ -84,11 +84,11 @@ namespace TGC.Group.Model
         {
             _escenario1.Update(true, 4);
 
-            _Sol.Update(true, new List<int> { 1 }, true);
+            _Sol.Update(true, 7);
 
             _zombie.Update(true, new List<int>{ 5 }, true);
 
-            _Girasol.Update(P_SHOW_AABB_WITH_KEY);
+            _Girasol.Update(P_SHOW_AABB_WITH_KEY, 21);
             _Lanzaguisantes.Update(P_SHOW_AABB_WITH_KEY);
             _Patatapum.Update(P_SHOW_AABB_WITH_KEY);
 

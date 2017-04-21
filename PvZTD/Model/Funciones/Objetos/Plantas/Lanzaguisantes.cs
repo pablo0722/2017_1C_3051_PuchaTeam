@@ -8,7 +8,7 @@
         private const string PATH_OBJ =         "..\\..\\Media\\Objetos\\Pea-TgcScene.xml";
         private const string PATH_TEXTURA_ON =  "..\\..\\Media\\Texturas\\HUD_Peashooter_sel.jpg";
         private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\HUD_Peashooter.jpg";
-        private const int PLANTA_VALOR = -100000000;
+        private const int PLANTA_VALOR = 100;
 
 
 
@@ -35,7 +35,7 @@
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        private t_Lanzaguisantes(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n)
+        private t_Lanzaguisantes(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n, PLANTA_VALOR)
         {
             _Planta.Set_Transform(0, 2.1F, 0,
                                             0.06F, 0.06F, 0.06F,
@@ -64,9 +64,9 @@
         /******************************************************************************************/
         /*                                      UPDATE
         /******************************************************************************************/
-        public void Update(bool ShowBoundingBoxWithKey)
+        public new void Update(bool ShowBoundingBoxWithKey)
         {
-            base.Update(ShowBoundingBoxWithKey, PLANTA_VALOR);
+            base.Update(ShowBoundingBoxWithKey);
         }
 
 

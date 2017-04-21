@@ -11,11 +11,11 @@ namespace TGC.Group.Model
         /*                                      CONSTANTES
         /******************************************************************************************/
         private const float P_HUD_BOX_SIZE_X = 0.1F;
-        private const float P_HUD_BOX_SIZE_Y = 5;
-        private const float P_HUD_BOX_SIZE_Z = 5;
-        private const float P_HUD_BOX_POS_X = 20;
-        private const float P_HUD_BOX_POS_Y = 62;
-        private const float P_HUD_BOX_POS_Z = -55;
+        private const float P_HUD_BOX_SIZE_Y = 2;
+        private const float P_HUD_BOX_SIZE_Z = 2;
+        private const float P_HUD_BOX_POS_X = 65;
+        private const float P_HUD_BOX_POS_Y = 83;
+        private const float P_HUD_BOX_POS_Z = -24;
         private const float P_HUD_BOX_ROT = GameModel.PI * (float)0.17;
 
 
@@ -46,6 +46,7 @@ namespace TGC.Group.Model
         private TgcBox _Mesh_HUDBoxActual;
         private GameModel _game;
         private bool _Is_BoxPicked;
+        private int _ValorPlanta;
 
 
 
@@ -59,7 +60,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        private t_HUDBox(string PathTexturaOn, string PathTexturaOff, GameModel game, byte n)
+        private t_HUDBox(string PathTexturaOn, string PathTexturaOff, GameModel game, byte n, int ValorPlanta)
         {
             s_n = s_n | (1 << n);   // Reserva lugar en el campo de bits
             _n = n;
@@ -79,13 +80,15 @@ namespace TGC.Group.Model
             _Mesh_HUDBoxActual = _Mesh_HUDBoxOff;
 
             _Is_BoxPicked = false;
+
+            _ValorPlanta = ValorPlanta;
         }
 
-        public static t_HUDBox Crear(string PathTexturaOn, string PathTexturaOff, GameModel game, byte n)
+        public static t_HUDBox Crear(string PathTexturaOn, string PathTexturaOff, GameModel game, byte n, int ValorPlanta)
         {
             if((PathTexturaOn != null) && (PathTexturaOff != null) && (game != null) && Is_Libre(n))
             {
-                return new t_HUDBox(PathTexturaOn, PathTexturaOff, game, n);
+                return new t_HUDBox(PathTexturaOn, PathTexturaOff, game, n, ValorPlanta);
             }
 
             return null;
@@ -219,7 +222,7 @@ namespace TGC.Group.Model
                             _Is_BoxPicked = false;
                         }
                     }
-                    else if (Is_MouseOver() && !_Is_AnyBoxPicked)
+                    else if (Is_MouseOver() && !_Is_AnyBoxPicked && ChangeHUDTextureWhenMouseOver)
                     {
                         _Is_AnyBoxPicked = true;
                         _Is_BoxPicked = true;
@@ -278,6 +281,18 @@ namespace TGC.Group.Model
         // Renderiza todos los objetos relativos a la clase
         public void Render()
         {
+            if (_game._camara.Modo_Is_CamaraAerea())
+            {
+                if (_game._soles >= _ValorPlanta)
+                {
+                    _game.DrawText.drawText(_ValorPlanta.ToString(), 110 + 50 * _n, 50, System.Drawing.Color.Yellow);
+                }
+                else
+                {
+                    _game.DrawText.drawText(_ValorPlanta.ToString(), 110 + 50 * _n, 50, System.Drawing.Color.Red);
+                }
+            }
+
             Func_BoxRender(_Mesh_HUDBoxActual);
         }
     }

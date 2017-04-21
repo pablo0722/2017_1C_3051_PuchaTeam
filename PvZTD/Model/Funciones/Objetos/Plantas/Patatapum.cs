@@ -8,7 +8,7 @@
         private const string PATH_OBJ =         "..\\..\\Media\\Objetos\\mina-TgcScene.xml";
         private const string PATH_TEXTURA_ON =  "..\\..\\Media\\Texturas\\HUD_Patatapum_sel.jpg";
         private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\HUD_Patatapum.jpg";
-        private const int PLANTA_VALOR = -10000000;
+        private const int PLANTA_VALOR = 125;
 
 
 
@@ -35,7 +35,7 @@
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        private t_Patatapum(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n)
+        private t_Patatapum(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n, PLANTA_VALOR)
         {
             _Planta.Set_Transform(0, -5.9F, 0,
                                     0.15F, 0.15F, 0.15F,
@@ -85,9 +85,9 @@
         /******************************************************************************************/
         /*                                      UPDATE
         /******************************************************************************************/
-        public void Update(bool ShowBoundingBoxWithKey)
+        public new void Update(bool ShowBoundingBoxWithKey)
         {
-            base.Update(ShowBoundingBoxWithKey, PLANTA_VALOR);
+            base.Update(ShowBoundingBoxWithKey);
         }
 
 
