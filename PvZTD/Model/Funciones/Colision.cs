@@ -91,7 +91,7 @@ namespace TGC.Group.Model
             return false;
         }
 
-        public int MouseMesh(t_Objeto3D obj)
+        public t_Objeto3D.t_instancia MouseMesh(t_Objeto3D obj)
         {
             //Actualizar Ray de colision en base a posicion del mouse
             _PickingRay.updateRay();
@@ -111,12 +111,12 @@ namespace TGC.Group.Model
                     var selected = TGC.Core.Collision.TgcCollisionUtils.intersectRayAABB(_PickingRay.Ray, aabb, out _PickRay_Pos);
                     if (selected)
                     {
-                        return i;
+                        return obj._instancias[i];
                     }
                 }
             }
 
-            return -1;
+            return null;
         }
     }
 }

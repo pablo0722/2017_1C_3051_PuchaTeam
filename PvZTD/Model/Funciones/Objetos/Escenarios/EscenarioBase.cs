@@ -150,7 +150,7 @@ namespace TGC.Group.Model
             {
                 if(fila%2 == 0)
                 {
-                    _PastoMedio.Inst_Select((columna / 2) * GameModel.CANT_FILAS + fila / 2);
+                    _PastoMedio.Inst_Select(_PastoMedio._instancias[(columna / 2) * GameModel.CANT_FILAS + fila / 2]);
                     if(Is_PastoOcupado(fila, columna))
                     {
                         _PastoMedio.Inst_Color(255, 0, 0);
@@ -162,7 +162,7 @@ namespace TGC.Group.Model
                 }
                 else
                 {
-                    _PastoClaro.Inst_Select((columna / 2) * (GameModel.CANT_FILAS / 2) + fila / 2);
+                    _PastoClaro.Inst_Select(_PastoClaro._instancias[(columna / 2) * (GameModel.CANT_FILAS / 2) + fila / 2]);
                     if (Is_PastoOcupado(fila, columna))
                     {
                         _PastoClaro.Inst_Color(255, 0, 0);
@@ -177,7 +177,7 @@ namespace TGC.Group.Model
             {
                 if (fila % 2 == 0)
                 {
-                    _PastoOscuro.Inst_Select((columna / 2) * ((GameModel.CANT_FILAS+1) / 2) + fila / 2);
+                    _PastoOscuro.Inst_Select(_PastoOscuro._instancias[(columna / 2) * ((GameModel.CANT_FILAS+1) / 2) + fila / 2]);
                     if (Is_PastoOcupado(fila, columna))
                     {
                         _PastoOscuro.Inst_Color(255, 0, 0);
@@ -189,7 +189,7 @@ namespace TGC.Group.Model
                 }
                 else
                 {
-                    _PastoMedio.Inst_Select((columna / 2) * GameModel.CANT_FILAS + fila / 2 + (GameModel.CANT_FILAS+1)/2);
+                    _PastoMedio.Inst_Select(_PastoMedio._instancias[(columna / 2) * GameModel.CANT_FILAS + fila / 2 + (GameModel.CANT_FILAS+1)/2]);
                     if (Is_PastoOcupado(fila, columna))
                     {
                         _PastoMedio.Inst_Color(255, 0, 0);
@@ -210,18 +210,33 @@ namespace TGC.Group.Model
             _PastoOscuro.Inst_ColorAll(255, 255, 255);
         }
 
-        // Elige un cuadrado de pasto para setear ocuparlo con una planta u otra cosa, evitando que se pueda colocar otra planta en ese lugar
+        // Elige un cuadrado de pasto para setear como ocupado con una planta u otra cosa, evitando que se pueda colocar otra planta en ese lugar
         // 0 <= fila <= CANT_FILAS - 1
         // 0 <= columna <= CANT_COLUMNAS - 1
         public void Set_PastoOcupado(int fila, int columna)
         {
-            if(columna < GameModel.CANT_COLUMNAS/2)
+            if (columna < GameModel.CANT_COLUMNAS / 2)
             {
-                _PastoLugar1 |= 1<<(columna * GameModel.CANT_FILAS + fila);
+                _PastoLugar1 |= 1 << (columna * GameModel.CANT_FILAS + fila);
             }
             else
             {
-                _PastoLugar2 |= 1<<((columna - GameModel.CANT_COLUMNAS / 2) * GameModel.CANT_FILAS + fila);
+                _PastoLugar2 |= 1 << ((columna - GameModel.CANT_COLUMNAS / 2) * GameModel.CANT_FILAS + fila);
+            }
+        }
+
+        // Elige un cuadrado de pasto para setear como desocupado, permitiendo que se pueda colocar otra planta en ese lugar
+        // 0 <= fila <= CANT_FILAS - 1
+        // 0 <= columna <= CANT_COLUMNAS - 1
+        public void Set_PastoDesocupado(int fila, int columna)
+        {
+            if (columna < GameModel.CANT_COLUMNAS / 2)
+            {
+                _PastoLugar1 &= ~(1 << (columna * GameModel.CANT_FILAS + fila));
+            }
+            else
+            {
+                _PastoLugar2 &= ~(1 << ((columna - GameModel.CANT_COLUMNAS / 2) * GameModel.CANT_FILAS + fila));
             }
         }
 
@@ -263,7 +278,7 @@ namespace TGC.Group.Model
         /*                                      UPDATE
         /******************************************************************************************/
         bool PickedAnterior = false;
-        public void Update(bool ShowBoundingBoxWithKey, float Rotacion_SegundosPorVuelta)
+        public void Update(bool ShowBoundingBoxWithKey, float Rotacion_Cerebros_SegundosPorVuelta)
         {
             if (t_HUDBox.Is_AnyBoxPicked())
             {
@@ -289,7 +304,7 @@ namespace TGC.Group.Model
             _PastoOscuro.Update(ShowBoundingBoxWithKey);
             _Cerebro.Update(ShowBoundingBoxWithKey);
 
-            _Cerebro.Inst_RotateAll(0, _game.ElapsedTime * Rotacion_SegundosPorVuelta / (2 * GameModel.PI), 0);
+            _Cerebro.Inst_RotateAll(0, _game.ElapsedTime * Rotacion_Cerebros_SegundosPorVuelta / (2 * GameModel.PI), 0);
         }
 
 

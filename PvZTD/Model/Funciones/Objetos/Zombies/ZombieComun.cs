@@ -73,14 +73,6 @@ namespace TGC.Group.Model
 
             _Zombie.Set_Size((float)0.25, (float)0.25, (float)0.25);
 
-            /*
-            _Zombie.Inst_Create(-32, 0, 70);
-            _Zombie.Inst_Create(-32 + 21, 0, 70);
-            _Zombie.Inst_Create(-32 + 21 * 2, 0, 70);
-            _Zombie.Inst_Create(-32 + 21 * 3, 0, 70);
-            _Zombie.Inst_Create(-32 + 21 * 4, 0, 70);
-            */
-
             _InstZombie = new List<t_ZombieInstancia>();
         }
 
@@ -127,6 +119,7 @@ namespace TGC.Group.Model
                 if (t_EscenarioBase.Is_PastoOcupado(_InstZombie[i].fila, _InstZombie[i].columna))
                 {
                     bool encontrado = false;
+
                     for(int j=0; j<_game._Girasol._InstGirasol.Count; j++)
                     {
                         if(_game._Girasol._InstPlanta[j].fila == _InstZombie[i].fila && _game._Girasol._InstPlanta[j].columna == _InstZombie[i].columna)
@@ -138,10 +131,52 @@ namespace TGC.Group.Model
 
                             if(planta.vida <= 0)
                             {
-                                _game._Girasol._Planta.Inst_Delete(j);
+                                _game._Girasol._Planta.Inst_Delete(_game._Girasol._Planta._instancias[j]);
                                 _game._Girasol._InstGirasol.Remove(_game._Girasol._InstGirasol[j]);
                                 _game._Girasol._InstPlanta.Remove(_game._Girasol._InstPlanta[j]);
+                                _game._EscenarioBase.Set_PastoDesocupado(_InstZombie[i].fila, _InstZombie[i].columna);
                             }
+                            break;
+                        }
+                    }
+
+                    for (int j = 0; j < _game._Lanzaguisantes._InstLanzaguisantes.Count; j++)
+                    {
+                        if (_game._Lanzaguisantes._InstPlanta[j].fila == _InstZombie[i].fila && _game._Lanzaguisantes._InstPlanta[j].columna == _InstZombie[i].columna)
+                        {
+                            encontrado = true;
+                            t_Planta.t_PlantaInstancia planta = _game._Lanzaguisantes._InstPlanta[j];
+                            planta.vida -= _game.ElapsedTime;
+                            _game._Lanzaguisantes._InstPlanta[j] = planta;
+
+                            if (planta.vida <= 0)
+                            {
+                                _game._Lanzaguisantes._Planta.Inst_Delete(_game._Lanzaguisantes._Planta._instancias[j]);
+                                _game._Lanzaguisantes._InstLanzaguisantes.Remove(_game._Lanzaguisantes._InstLanzaguisantes[j]);
+                                _game._Lanzaguisantes._InstPlanta.Remove(_game._Lanzaguisantes._InstPlanta[j]);
+                                _game._EscenarioBase.Set_PastoDesocupado(_InstZombie[i].fila, _InstZombie[i].columna);
+                            }
+                            break;
+                        }
+                    }
+
+                    for (int j = 0; j < _game._Patatapum._InstPatatapum.Count; j++)
+                    {
+                        if (_game._Patatapum._InstPlanta[j].fila == _InstZombie[i].fila && _game._Patatapum._InstPlanta[j].columna == _InstZombie[i].columna)
+                        {
+                            encontrado = true;
+                            t_Planta.t_PlantaInstancia planta = _game._Patatapum._InstPlanta[j];
+                            planta.vida -= _game.ElapsedTime;
+                            _game._Patatapum._InstPlanta[j] = planta;
+
+                            if (planta.vida <= 0)
+                            {
+                                _game._Patatapum._Planta.Inst_Delete(_game._Patatapum._Planta._instancias[j]);
+                                _game._Patatapum._InstPatatapum.Remove(_game._Patatapum._InstPatatapum[j]);
+                                _game._Patatapum._InstPlanta.Remove(_game._Patatapum._InstPlanta[j]);
+                                _game._EscenarioBase.Set_PastoDesocupado(_InstZombie[i].fila, _InstZombie[i].columna);
+                            }
+                            break;
                         }
                     }
                 }

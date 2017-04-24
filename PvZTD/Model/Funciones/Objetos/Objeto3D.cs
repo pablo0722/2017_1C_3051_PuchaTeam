@@ -69,8 +69,8 @@ namespace TGC.Group.Model
         // NO ESTATICAS
         public t_mesh _meshes;
         public List<t_instancia> _instancias;
+        public t_instancia _instanciaActual;
         private t_instancia _InstanciaBase;     // Todas las instancias se crean como copias de la _InstanciaBase
-        private int _InstSel; // Instancia seleccionada
         private int _MeshSel; // Mesh seleccionado
         private GameModel _game;
         private bool _ChangeColorMesh;
@@ -92,7 +92,7 @@ namespace TGC.Group.Model
         {
             _game = game;
 
-            _InstSel = -1;
+            _instanciaActual = null;
             _meshes = new t_mesh(PathObj);
             _instancias = new List<t_instancia>();
             _InstanciaBase = new t_instancia();
@@ -241,17 +241,19 @@ namespace TGC.Group.Model
         /******************************************************************************************/
 
         //  CREACION DE INSTANCIAS
-        public int Inst_Create()
+        public t_instancia Inst_Create()
         {
             t_instancia inst = new t_instancia(_InstanciaBase);
 
             _instancias.Add(inst);
             _ChangeColorMesh = true;
 
-            return _instancias.Count - 1;
+            _instanciaActual = inst;
+
+            return inst;
         }
 
-        public int Inst_Create(float PosX, float PosY, float PosZ)
+        public t_instancia Inst_Create(float PosX, float PosY, float PosZ)
         {
             t_instancia inst = new t_instancia(_InstanciaBase);
 
@@ -260,10 +262,12 @@ namespace TGC.Group.Model
             _instancias.Add(inst);
             _ChangeColorMesh = true;
 
-            return _instancias.Count - 1;
+            _instanciaActual = inst;
+
+            return inst;
         }
 
-        public int Inst_Create(Vector3 Pos)
+        public t_instancia Inst_Create(Vector3 Pos)
         {
             t_instancia inst = new t_instancia(_InstanciaBase);
 
@@ -272,89 +276,88 @@ namespace TGC.Group.Model
             _instancias.Add(inst);
             _ChangeColorMesh = true;
 
-            return _instancias.Count - 1;
+            _instanciaActual = inst;
+
+            return inst;
         }
 
         //  CREACION Y SELECCION DE INSTANCIAS
-        public int Inst_CreateAndSelect()
+        public t_instancia Inst_CreateAndSelect()
         {
-            return _InstSel = Inst_Create();
+            return _instanciaActual = Inst_Create();
         }
 
-        public int Inst_CreateAndSelect(float PosX, float PosY, float PosZ)
+        public t_instancia Inst_CreateAndSelect(float PosX, float PosY, float PosZ)
         {
-            return _InstSel = Inst_Create(PosX, PosY, PosZ);
+            return _instanciaActual = Inst_Create(PosX, PosY, PosZ);
         }
 
-        public int Inst_CreateAndSelect(Vector3 Pos)
+        public t_instancia Inst_CreateAndSelect(Vector3 Pos)
         {
-            return _InstSel = Inst_Create(Pos);
+            return _instanciaActual = Inst_Create(Pos);
         }
 
         //  SELECCION DE INSTANCIAS
-        public void Inst_Select(int i)
+        public void Inst_Select(t_instancia inst)
         {
-            if (_InstSel < 0 || _InstSel >= _instancias.Count)
-                Inst_SelectNone();
-
-            _InstSel = i;
+            _instanciaActual = inst;
         }
         public void Inst_SelectNone()
         {
-            _InstSel = -1;
+            _instanciaActual = null;
         }
 
         //  ELIMINACION DE INSTANCIAS
         public void Inst_Delete()
         {
-            if (_InstSel < 0 || _InstSel >= _instancias.Count) return;
+            if (_instanciaActual == null) return;
 
-            _instancias.Remove(_instancias[_InstSel]);
+            _instancias.Remove(_instanciaActual);
         }
 
-        public void Inst_Delete(int inst)
+        public void Inst_Delete(t_instancia inst)
         {
-            if (inst < 0 || inst >= _instancias.Count) return;
+            if (inst == null) return;
 
-            _instancias.Remove(_instancias[inst]);
+            _instancias.Remove(inst);
         }
 
         //  POSICION DE INSTANCIAS
         public void Inst_Set_Position(float PosX, float PosY, float PosZ)
         {
-            if (_InstSel < 0 || _InstSel >= _instancias.Count) return;
+            if (_instanciaActual == null) return;
 
-            _instancias[_InstSel].pos = new Vector3(PosX, PosY, PosZ);
+            _instanciaActual.pos = new Vector3(PosX, PosY, PosZ);
         }
 
         public void Inst_Set_PositionX(float PosX)
         {
-            if (_InstSel < 0 || _InstSel >= _instancias.Count) return;
+            if (_instanciaActual == null) return;
 
-            _instancias[_InstSel].pos = new Vector3(PosX, _instancias[_InstSel].pos.Y, _instancias[_InstSel].pos.Z);
+            _instanciaActual.pos = new Vector3(PosX, _instanciaActual.pos.Y, _instanciaActual.pos.Z);
         }
 
         public void Inst_Set_PositionY(float PosY)
         {
-            if (_InstSel < 0 || _InstSel >= _instancias.Count) return;
+            if (_instanciaActual == null) return;
 
-            _instancias[_InstSel].pos = new Vector3(_instancias[_InstSel].pos.X, PosY, _instancias[_InstSel].pos.Z);
+            _instanciaActual.pos = new Vector3(_instanciaActual.pos.X, PosY, _instanciaActual.pos.Z);
         }
 
         public void Inst_Set_PositionZ(float PosZ)
         {
-            if (_InstSel < 0 || _InstSel >= _instancias.Count) return;
+            if (_instanciaActual == null) return;
 
-            _instancias[_InstSel].pos = new Vector3(_instancias[_InstSel].pos.X, _instancias[_InstSel].pos.Y, PosZ);
+            _instanciaActual.pos = new Vector3(_instanciaActual.pos.X, _instanciaActual.pos.Y, PosZ);
         }
 
         //  MOVER INSTANCIAS
         public void Inst_Move(float PosX, float PosY, float PosZ)
         {
-            if (_InstSel < 0 || _InstSel >= _instancias.Count) return;
+            if (_instanciaActual == null) return;
 
-            Vector3 PosAux = _instancias[_InstSel].pos;
-            _instancias[_InstSel].pos = new Vector3(PosAux.X + PosX, PosAux.Y + PosY, PosAux.Z + PosZ);
+            Vector3 PosAux = _instanciaActual.pos;
+            _instanciaActual.pos = new Vector3(PosAux.X + PosX, PosAux.Y + PosY, PosAux.Z + PosZ);
         }
 
         public void Inst_MoveAll(float PosX, float PosY, float PosZ)
@@ -369,10 +372,10 @@ namespace TGC.Group.Model
         //  ROTAR INSTANCIAS
         public void Inst_Rotate(float RotX, float RotY, float RotZ)
         {
-            if (_InstSel < 0 || _InstSel >= _instancias.Count) return;
+            if (_instanciaActual == null) return;
 
-            Vector3 RotAux = _instancias[_InstSel].rot;
-            _instancias[_InstSel].rot = new Vector3(RotAux.X + RotX, RotAux.Y + RotY, RotAux.Z + RotZ);
+            Vector3 RotAux = _instanciaActual.rot;
+            _instanciaActual.rot = new Vector3(RotAux.X + RotX, RotAux.Y + RotY, RotAux.Z + RotZ);
         }
 
         public void Inst_RotateAll(float RotX, float RotY, float RotZ)
@@ -387,17 +390,17 @@ namespace TGC.Group.Model
         //  COLOR INSTANCIAS
         public void Inst_Color(int Alpha, int Red, int Green, int Blue)
         {
-            if (_InstSel < 0 || _InstSel >= _instancias.Count) return;
-            
-            _instancias[_InstSel].color = Color.FromArgb(Alpha, Red, Green, Blue);
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.color = Color.FromArgb(Alpha, Red, Green, Blue);
             _ChangeColorInst = true;
         }
 
         public void Inst_Color(int Red, int Green, int Blue)
         {
-            if (_InstSel < 0 || _InstSel >= _instancias.Count) return;
+            if (_instanciaActual == null) return;
 
-            _instancias[_InstSel].color = Color.FromArgb(0, Red, Green, Blue);
+            _instanciaActual.color = Color.FromArgb(0, Red, Green, Blue);
             _ChangeColorInst = true;
         }
 

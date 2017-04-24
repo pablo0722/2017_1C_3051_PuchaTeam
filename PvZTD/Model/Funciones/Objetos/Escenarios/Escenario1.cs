@@ -82,9 +82,9 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      UPDATE
         /******************************************************************************************/
-        public new void Update(bool ShowBoundingBoxWithKey, float Rotacion_SegundosPorVuelta)
+        public new void Update(bool ShowBoundingBoxWithKey, float Rotacion_Cerebros_SegundosPorVuelta)
         {
-            base.Update(ShowBoundingBoxWithKey, Rotacion_SegundosPorVuelta);
+            base.Update(ShowBoundingBoxWithKey, Rotacion_Cerebros_SegundosPorVuelta);
             _Mountain.Update(ShowBoundingBoxWithKey);
         }
 

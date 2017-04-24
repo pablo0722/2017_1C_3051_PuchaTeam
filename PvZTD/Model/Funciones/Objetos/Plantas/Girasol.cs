@@ -26,11 +26,11 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTANTES
         /******************************************************************************************/
-        private const string PATH_OBJ =         "..\\..\\Media\\Objetos\\Girasol-TgcScene.xml";
-        private const string PATH_TEXTURA_ON =  "..\\..\\Media\\Texturas\\HUD_Girasol_sel.jpg";
-        private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\HUD_Girasol.jpg";
-        private const int PLANTA_VALOR = 50;
-        private const float VIDA = 4;
+        private const string    PATH_OBJ =          "..\\..\\Media\\Objetos\\Girasol-TgcScene.xml";
+        private const string    PATH_TEXTURA_ON =   "..\\..\\Media\\Texturas\\HUD_Girasol_sel.jpg";
+        private const string    PATH_TEXTURA_OFF =  "..\\..\\Media\\Texturas\\HUD_Girasol.jpg";
+        private const int       PLANTA_VALOR =      50;
+        private const float     VIDA =              3;
 
 
 
@@ -46,7 +46,6 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public GameModel _game;
         public List<t_GirasolInstancia> _InstGirasol;
-        public bool _CrearGirasol;
 
 
 
@@ -87,7 +86,6 @@ namespace TGC.Group.Model
             _Planta.Mesh_Color(255, 217, 7);
 
             _InstGirasol = new List<t_GirasolInstancia>();
-            _CrearGirasol = false;
         }
 
         public static t_Girasol Crear(GameModel game, byte n)
@@ -119,12 +117,10 @@ namespace TGC.Group.Model
             if(GirasolCreado == 2)
             {
                 // Girasol ubicado
-                t_GirasolInstancia sol = new t_GirasolInstancia();
-                sol.SolN = 0;
-                sol.TiempoComienzo = _game._TiempoTranscurrido;
-                _InstGirasol.Add(sol);
-
-                _CrearGirasol = false;
+                t_GirasolInstancia Girasol = new t_GirasolInstancia();
+                Girasol.SolN = 0;
+                Girasol.TiempoComienzo = _game._TiempoTranscurrido;
+                _InstGirasol.Add(Girasol);
             }
 
             for(int i=0; i< _InstGirasol.Count; i++)

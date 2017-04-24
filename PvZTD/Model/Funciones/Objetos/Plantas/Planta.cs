@@ -112,6 +112,7 @@ namespace TGC.Group.Model
                 _InstPlanta.Add(planta);
                 
                 _CrearPlanta = false;
+                ret = 2;
             }
 
             if (_game._soles >= _ValorPlanta)
@@ -121,8 +122,9 @@ namespace TGC.Group.Model
                     // Planta requiere ubicacion del usuario
                     _game._soles -= _ValorPlanta;
                     _Planta.Inst_CreateAndSelect();
-                    ret = 1;
+
                     _CrearPlanta = true;
+                    ret = 1;
                 }
             }
             if (_HUDBox.Is_BoxPicked())

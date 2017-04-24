@@ -75,7 +75,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      COLISION
         /******************************************************************************************/
-        public int Is_MouseOver()
+        public t_Objeto3D.t_instancia Is_MouseOver()
         {
             return _game._colision.MouseMesh(_Sol);
         }
@@ -143,14 +143,11 @@ namespace TGC.Group.Model
 
             if (_game._mouse.ClickIzq_RisingDown())
             {
-                int SolActual = Is_MouseOver();
+                t_Objeto3D.t_instancia SolActual = Is_MouseOver();
 
-                if (SolActual >= 0)
+                if (SolActual != null)
                 {
-                    if (_Sol._instancias[SolActual].pos.Y >= 0)
-                    {
-                        _game._soles += SOL_VALOR;
-                    }
+                    _game._soles += SOL_VALOR;
                     _Sol.Inst_Delete(Is_MouseOver());
                 }
             }
