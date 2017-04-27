@@ -84,9 +84,9 @@ namespace TGC.Group.Model
         {
             _escenario1.Update(true, 4);
 
-            _Sol.Update(true, 2);
+            _Sol.Update(true, 20);
 
-            _zombie.Update(true, new List<int>{ 20 }, true);
+            _zombie.Update(true, new List<int>{ 10 }, true);
 
             _Girasol.Update(P_SHOW_AABB_WITH_KEY, 21);
             _Lanzaguisantes.Update(P_SHOW_AABB_WITH_KEY);

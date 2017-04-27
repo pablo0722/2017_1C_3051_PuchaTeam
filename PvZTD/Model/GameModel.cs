@@ -28,8 +28,8 @@ namespace TGC.Group.Model
         public const int CANT_SOLES_INIT = 50;//1366
 
         //      SCREEN
-        public const int WIDTH = 1920;//1366
-        public const int HEIGHT = 1080;//768
+        public const int WIDTH = 1366;//1366 //1920
+        public const int HEIGHT = 768;//768 //1080
         public const int CANT_FILAS = 5;        // De plantas
         public const int CANT_COLUMNAS = 12;    // De plantas
 

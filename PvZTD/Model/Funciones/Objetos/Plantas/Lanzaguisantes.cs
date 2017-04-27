@@ -15,7 +15,7 @@ namespace TGC.Group.Model
         private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\HUD_Peashooter.jpg";
         private const int PLANTA_VALOR = 100;
         private const float VIDA_PLANTA = 3;
-        private const float TIEMPO_GUISANTE = 2;
+        private const float TIEMPO_GUISANTE = 3;
 
 
 
@@ -31,13 +31,16 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public class t_LanzaguisantesInstancia
         {
-            public float x, y, z;
+            public float x, y, z, zActual;
+            public int fila;
             public float tiempo;
             public t_Objeto3D guisante { get; set; }
             public t_Objeto3D.t_instancia Lanzaguisante;
+            public t_PlantaInstancia planta;
             public GameModel game;
+            public bool choca;
 
-            public t_LanzaguisantesInstancia(GameModel game, t_Objeto3D.t_instancia Lanzaguisante)
+            public t_LanzaguisantesInstancia(GameModel game, t_PlantaInstancia planta, t_Objeto3D.t_instancia Lanzaguisante)
             {
                 this.game = game;
 
@@ -47,7 +50,11 @@ namespace TGC.Group.Model
 
                 x = Lanzaguisante.pos.X;
                 y = Lanzaguisante.pos.Y + 5;
-                z = Lanzaguisante.pos.Z;
+                zActual = z = Lanzaguisante.pos.Z;
+
+                this.planta = planta;
+
+                fila = planta.fila;
 
                 guisante = t_Objeto3D.Crear(game, PATH_GUISANTE_OBJ);
                 guisante.Set_Size(0.04F, 0.04F, 0.04F);
@@ -58,15 +65,44 @@ namespace TGC.Group.Model
             {
                 guisante.Update(ShowBoundingBoxWithKey);
 
+                choca = false;
+                for(int i= game._zombie._InstZombie.Count-1; i>=0; i--)
+                {
+                    if (guisante._instanciaActual.pos.Y != -1.5F)
+                    {
+                        //El guisante esta en camino
+                        t_ZombieComun.t_ZombieInstancia zombie = game._zombie._InstZombie[i];
+                        if (fila == zombie.fila)
+                        {
+                            // Si estan en la misma fila, pueden chocar
+                            if ((zActual > zombie.zombie.pos.Z - 1) && (zActual < zombie.zombie.pos.Z + 1))
+                            {
+                                // Choca
+                                guisante._instanciaActual.pos.Y = -1.5F;
+                                zombie.vida--;
+                                game._zombie._InstZombie[i] = zombie;
+                                if (zombie.vida <= 0)
+                                {
+                                    game._zombie._Zombie.Inst_Delete(zombie.zombie);
+                                    game._zombie._InstZombie.Remove(zombie);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 if (tiempo > 0)
                 {
                     tiempo -= game.ElapsedTime;
-                    guisante._instancias[0].pos.Z += game.ElapsedTime * 50;
+                    zActual = guisante._instanciaActual.pos.Z += game.ElapsedTime * 50;
                 }
                 else
                 {
                     tiempo = TIEMPO_GUISANTE;
-                    guisante._instancias[0].pos.Z = z;
+                    zActual = guisante._instanciaActual.pos.X = x;
+                    zActual = guisante._instanciaActual.pos.Y = y;
+                    zActual = guisante._instanciaActual.pos.Z = z;
                 }
             }
 
@@ -148,7 +184,7 @@ namespace TGC.Group.Model
             if (LanzaguisanteCreado == 2)
             {
                 // Lanzaguisante ubicado
-                t_LanzaguisantesInstancia Lanzaguisantes = new t_LanzaguisantesInstancia(_game, this._Planta._instancias[_Planta._instancias.Count - 1]);
+                t_LanzaguisantesInstancia Lanzaguisantes = new t_LanzaguisantesInstancia(_game, _InstPlanta[_InstPlanta.Count - 1], _Planta._instancias[_Planta._instancias.Count - 1]);
                 _InstLanzaguisantes.Add(Lanzaguisantes);
             }
         }

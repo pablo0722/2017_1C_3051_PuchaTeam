@@ -102,7 +102,8 @@ namespace TGC.Group.Model
             
             _Planta.Update(ShowBoundingBoxWithKey);
 
-            if(_CrearPlanta && _game._mouse.ClickIzq_RisingDown() && _game._camara.Modo_Is_CamaraAerea())
+
+            if (_CrearPlanta && _game._mouse.ClickIzq_RisingDown() && _game._camara.Modo_Is_CamaraAerea() && !t_EscenarioBase.Is_PastoOcupado(t_EscenarioBase.MouseY, t_EscenarioBase.MouseX))
             {
                 // Planta ubicada
                 t_PlantaInstancia planta = new t_PlantaInstancia();

@@ -13,6 +13,7 @@ namespace TGC.Group.Model
             public float vida;
             public int fila;
             public int columna;
+            public t_Objeto3D.t_instancia zombie;
         };
 
 
@@ -29,7 +30,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         private const string PATH_OBJ = "..\\..\\Media\\Objetos\\zombie-TgcScene.xml";
         private const float VELOCIDAD_ZOMBIE = -2F;
-        private const float VIDA_ZOMBIE_COMUN = 10;
+        private const float VIDA_ZOMBIE_COMUN = 3; //10
 
 
 
@@ -47,9 +48,9 @@ namespace TGC.Group.Model
         static int _ZombieN; // Se usa para ir creando los zombies conforme transcurre el tiempo
         
         // NO ESTATICAS
-        protected t_Objeto3D _Zombie;
+        public t_Objeto3D _Zombie;
         protected GameModel _game;
-        protected List<t_ZombieInstancia> _InstZombie;
+        public List<t_ZombieInstancia> _InstZombie;
 
 
 
@@ -191,13 +192,16 @@ namespace TGC.Group.Model
             {
                 if (_game._TiempoTranscurrido >= SegundosAEsperarParaCrearZombie[0] * (_ZombieN + 1))
                 {
+                    int fila = _game._rand.Next(0, 5);
+
+                    _Zombie.Inst_Create(-32 + 21 * fila, 0, 90);
+
                     t_ZombieInstancia zombie = new t_ZombieInstancia();
                     zombie.vida = VIDA_ZOMBIE_COMUN;
-                    zombie.fila = _game._rand.Next(0, 5);
+                    zombie.fila = fila;
                     zombie.columna = 13;
+                    zombie.zombie = _Zombie._instancias[_Zombie._instancias.Count - 1];
                     _InstZombie.Add(zombie);
-
-                    _Zombie.Inst_Create(-32 + 21 * zombie.fila, 0, 90);
 
                     _ZombieN++;
                 }
