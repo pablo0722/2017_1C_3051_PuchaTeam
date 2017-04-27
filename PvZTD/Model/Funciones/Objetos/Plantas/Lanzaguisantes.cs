@@ -38,7 +38,6 @@ namespace TGC.Group.Model
             public t_Objeto3D.t_instancia Lanzaguisante;
             public t_PlantaInstancia planta;
             public GameModel game;
-            public bool choca;
 
             public t_LanzaguisantesInstancia(GameModel game, t_PlantaInstancia planta, t_Objeto3D.t_instancia Lanzaguisante)
             {
@@ -65,7 +64,8 @@ namespace TGC.Group.Model
             {
                 guisante.Update(ShowBoundingBoxWithKey);
 
-                choca = false;
+                bool choca = false;
+
                 for(int i= game._zombie._InstZombie.Count-1; i>=0; i--)
                 {
                     if (guisante._instanciaActual.pos.Y != -1.5F)
@@ -78,6 +78,7 @@ namespace TGC.Group.Model
                             if ((zActual > zombie.zombie.pos.Z - 1) && (zActual < zombie.zombie.pos.Z + 1))
                             {
                                 // Choca
+                                choca = true;
                                 guisante._instanciaActual.pos.Y = -1.5F;
                                 zombie.vida--;
                                 game._zombie._InstZombie[i] = zombie;
@@ -87,6 +88,66 @@ namespace TGC.Group.Model
                                     game._zombie._InstZombie.Remove(zombie);
                                 }
                                 break;
+                            }
+                        }
+                    }
+                }
+
+                if (!choca)
+                {
+                    for (int i = game._zombieCono._InstZombie.Count - 1; i >= 0; i--)
+                    {
+                        if (guisante._instanciaActual.pos.Y != -1.5F)
+                        {
+                            //El guisante esta en camino
+                            t_ZombieComun.t_ZombieInstancia zombie = game._zombieCono._InstZombie[i];
+                            if (fila == zombie.fila)
+                            {
+                                // Si estan en la misma fila, pueden chocar
+                                if ((zActual > zombie.zombie.pos.Z - 1) && (zActual < zombie.zombie.pos.Z + 1))
+                                {
+                                    // Choca
+                                    choca = true;
+                                    guisante._instanciaActual.pos.Y = -1.5F;
+                                    zombie.vida--;
+                                    game._zombieCono._InstZombie[i] = zombie;
+                                    if (zombie.vida <= 0)
+                                    {
+                                        game._zombieCono._Zombie.Inst_Delete(zombie.zombie);
+                                        game._zombieCono._InstZombie.Remove(zombie);
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!choca)
+                {
+                    for (int i = game._zombieBalde._InstZombie.Count - 1; i >= 0; i--)
+                    {
+                        if (guisante._instanciaActual.pos.Y != -1.5F)
+                        {
+                            //El guisante esta en camino
+                            t_ZombieComun.t_ZombieInstancia zombie = game._zombieBalde._InstZombie[i];
+                            if (fila == zombie.fila)
+                            {
+                                // Si estan en la misma fila, pueden chocar
+                                if ((zActual > zombie.zombie.pos.Z - 1) && (zActual < zombie.zombie.pos.Z + 1))
+                                {
+                                    // Choca
+                                    choca = true;
+                                    guisante._instanciaActual.pos.Y = -1.5F;
+                                    zombie.vida--;
+                                    game._zombieBalde._InstZombie[i] = zombie;
+                                    if (zombie.vida <= 0)
+                                    {
+                                        game._zombieBalde._Zombie.Inst_Delete(zombie.zombie);
+                                        game._zombieBalde._InstZombie.Remove(zombie);
+                                    }
+                                    break;
+                                }
                             }
                         }
                     }

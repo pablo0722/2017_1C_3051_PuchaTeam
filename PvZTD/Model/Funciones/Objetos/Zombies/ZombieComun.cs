@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.DirectX;
 
 namespace TGC.Group.Model
@@ -45,13 +46,14 @@ namespace TGC.Group.Model
         /*                                      VARIABLES
         /******************************************************************************************/
         // ESTATICAS
-        static int _ZombieN; // Se usa para ir creando los zombies conforme transcurre el tiempo
-        
+        public int _ZombieN; // Se usa para ir creando los zombies conforme transcurre el tiempo
+
         // NO ESTATICAS
         public t_Objeto3D _Zombie;
         protected GameModel _game;
         public List<t_ZombieInstancia> _InstZombie;
-
+        public float velocidad_zombie = VELOCIDAD_ZOMBIE;
+        public float vida_zombie_comun = VIDA_ZOMBIE_COMUN;
 
 
 
@@ -64,13 +66,13 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        protected t_ZombieComun(GameModel game)
+        protected t_ZombieComun(GameModel game, string path_obj = PATH_OBJ)
         {
             _game = game;
 
             _ZombieN = 0;
 
-            _Zombie = t_Objeto3D.Crear(_game, PATH_OBJ);
+            _Zombie = t_Objeto3D.Crear(_game, path_obj);
 
             _Zombie.Set_Size((float)0.25, (float)0.25, (float)0.25);
 
@@ -121,16 +123,16 @@ namespace TGC.Group.Model
                 {
                     bool encontrado = false;
 
-                    for(int j=0; j<_game._Girasol._InstGirasol.Count; j++)
+                    for (int j = 0; j < _game._Girasol._InstGirasol.Count; j++)
                     {
-                        if(_game._Girasol._InstPlanta[j].fila == _InstZombie[i].fila && _game._Girasol._InstPlanta[j].columna == _InstZombie[i].columna)
+                        if (_game._Girasol._InstPlanta[j].fila == _InstZombie[i].fila && _game._Girasol._InstPlanta[j].columna == _InstZombie[i].columna)
                         {
                             encontrado = true;
                             t_Planta.t_PlantaInstancia planta = _game._Girasol._InstPlanta[j];
                             planta.vida -= _game.ElapsedTime;
                             _game._Girasol._InstPlanta[j] = planta;
 
-                            if(planta.vida <= 0)
+                            if (planta.vida <= 0)
                             {
                                 _game._Girasol._Planta.Inst_Delete(_game._Girasol._Planta._instancias[j]);
                                 _game._Girasol._InstGirasol.Remove(_game._Girasol._InstGirasol[j]);
@@ -141,50 +143,56 @@ namespace TGC.Group.Model
                         }
                     }
 
-                    for (int j = 0; j < _game._Lanzaguisantes._InstLanzaguisantes.Count; j++)
+                    if (!encontrado)
                     {
-                        if (_game._Lanzaguisantes._InstPlanta[j].fila == _InstZombie[i].fila && _game._Lanzaguisantes._InstPlanta[j].columna == _InstZombie[i].columna)
+                        for (int j = 0; j < _game._Lanzaguisantes._InstLanzaguisantes.Count; j++)
                         {
-                            encontrado = true;
-                            t_Planta.t_PlantaInstancia planta = _game._Lanzaguisantes._InstPlanta[j];
-                            planta.vida -= _game.ElapsedTime;
-                            _game._Lanzaguisantes._InstPlanta[j] = planta;
-
-                            if (planta.vida <= 0)
+                            if (_game._Lanzaguisantes._InstPlanta[j].fila == _InstZombie[i].fila && _game._Lanzaguisantes._InstPlanta[j].columna == _InstZombie[i].columna)
                             {
-                                _game._Lanzaguisantes._Planta.Inst_Delete(_game._Lanzaguisantes._Planta._instancias[j]);
-                                _game._Lanzaguisantes._InstLanzaguisantes.Remove(_game._Lanzaguisantes._InstLanzaguisantes[j]);
-                                _game._Lanzaguisantes._InstPlanta.Remove(_game._Lanzaguisantes._InstPlanta[j]);
-                                _game._EscenarioBase.Set_PastoDesocupado(_InstZombie[i].fila, _InstZombie[i].columna);
+                                encontrado = true;
+                                t_Planta.t_PlantaInstancia planta = _game._Lanzaguisantes._InstPlanta[j];
+                                planta.vida -= _game.ElapsedTime;
+                                _game._Lanzaguisantes._InstPlanta[j] = planta;
+
+                                if (planta.vida <= 0)
+                                {
+                                    _game._Lanzaguisantes._Planta.Inst_Delete(_game._Lanzaguisantes._Planta._instancias[j]);
+                                    _game._Lanzaguisantes._InstLanzaguisantes.Remove(_game._Lanzaguisantes._InstLanzaguisantes[j]);
+                                    _game._Lanzaguisantes._InstPlanta.Remove(_game._Lanzaguisantes._InstPlanta[j]);
+                                    _game._EscenarioBase.Set_PastoDesocupado(_InstZombie[i].fila, _InstZombie[i].columna);
+                                }
+                                break;
                             }
-                            break;
                         }
                     }
 
-                    for (int j = 0; j < _game._Patatapum._InstPatatapum.Count; j++)
+                    if (!encontrado)
                     {
-                        if (_game._Patatapum._InstPlanta[j].fila == _InstZombie[i].fila && _game._Patatapum._InstPlanta[j].columna == _InstZombie[i].columna)
+                        for (int j = 0; j < _game._Patatapum._InstPatatapum.Count; j++)
                         {
-                            encontrado = true;
-                            t_Planta.t_PlantaInstancia planta = _game._Patatapum._InstPlanta[j];
-                            planta.vida -= _game.ElapsedTime;
-                            _game._Patatapum._InstPlanta[j] = planta;
-
-                            if (planta.vida <= 0)
+                            if (_game._Patatapum._InstPlanta[j].fila == _InstZombie[i].fila && _game._Patatapum._InstPlanta[j].columna == _InstZombie[i].columna)
                             {
-                                _game._Patatapum._Planta.Inst_Delete(_game._Patatapum._Planta._instancias[j]);
-                                _game._Patatapum._InstPatatapum.Remove(_game._Patatapum._InstPatatapum[j]);
-                                _game._Patatapum._InstPlanta.Remove(_game._Patatapum._InstPlanta[j]);
-                                _game._EscenarioBase.Set_PastoDesocupado(_InstZombie[i].fila, _InstZombie[i].columna);
+                                encontrado = true;
+                                t_Planta.t_PlantaInstancia planta = _game._Patatapum._InstPlanta[j];
+                                planta.vida -= _game.ElapsedTime;
+                                _game._Patatapum._InstPlanta[j] = planta;
+
+                                if (planta.vida <= 0)
+                                {
+                                    _game._Patatapum._Planta.Inst_Delete(_game._Patatapum._Planta._instancias[j]);
+                                    _game._Patatapum._InstPatatapum.Remove(_game._Patatapum._InstPatatapum[j]);
+                                    _game._Patatapum._InstPlanta.Remove(_game._Patatapum._InstPlanta[j]);
+                                    _game._EscenarioBase.Set_PastoDesocupado(_InstZombie[i].fila, _InstZombie[i].columna);
+                                }
+                                break;
                             }
-                            break;
                         }
                     }
                 }
                 else
                 {
                     Vector3 PosAux = _Zombie._instancias[i].pos;
-                    _Zombie._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y, PosAux.Z + VELOCIDAD_ZOMBIE*_game.ElapsedTime);
+                    _Zombie._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y, PosAux.Z + velocidad_zombie * _game.ElapsedTime);
                 }
             }
 
@@ -197,8 +205,8 @@ namespace TGC.Group.Model
                     _Zombie.Inst_Create(-32 + 21 * fila, 0, 90);
 
                     t_ZombieInstancia zombie = new t_ZombieInstancia();
-                    zombie.vida = VIDA_ZOMBIE_COMUN;
                     zombie.fila = fila;
+                    zombie.vida = vida_zombie_comun;
                     zombie.columna = 13;
                     zombie.zombie = _Zombie._instancias[_Zombie._instancias.Count - 1];
                     _InstZombie.Add(zombie);

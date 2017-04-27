@@ -101,8 +101,9 @@
     <Compile Include="Model\Funciones\Objetos\Plantas\Lanzaguisantes.cs" />
     <Compile Include="Model\Funciones\Objetos\Plantas\Planta.cs" />
     <Compile Include="Model\Funciones\Objetos\Soles\SolComun.cs" />
-    <Compile Include="Model\Funciones\Objetos\Zombies\Zombie.cs" />
+    <Compile Include="Model\Funciones\Objetos\Zombies\ZombieBalde.cs" />
     <Compile Include="Model\Funciones\Objetos\Zombies\ZombieComun.cs" />
+    <Compile Include="Model\Funciones\Objetos\Zombies\ZombieCono.cs" />
     <Compile Include="Model\Pablo\PabloCamara.cs" />
     <Compile Include="Model\Funciones\Mouse.cs" />
     <Compile Include="Model\Funciones\Objetos\Objeto3D.cs" />
