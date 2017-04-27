@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.DirectX;
 
 namespace TGC.Group.Model
@@ -28,8 +29,6 @@ namespace TGC.Group.Model
         /*                                      CONSTANTES
         /******************************************************************************************/
         private const string PATH_OBJ = "..\\..\\Media\\Objetos\\zombie-TgcScene.xml";
-        private const float VELOCIDAD_ZOMBIE = -2F;
-        private const float VIDA_ZOMBIE_COMUN = 10;
 
 
 
@@ -44,13 +43,14 @@ namespace TGC.Group.Model
         /*                                      VARIABLES
         /******************************************************************************************/
         // ESTATICAS
-        static int _ZombieN; // Se usa para ir creando los zombies conforme transcurre el tiempo
-        
+        public int _ZombieN; // Se usa para ir creando los zombies conforme transcurre el tiempo
+
         // NO ESTATICAS
         protected t_Objeto3D _Zombie;
         protected GameModel _game;
         protected List<t_ZombieInstancia> _InstZombie;
-
+        public float velocidad_zombie = -2F;
+        public float vida_zombie_comun = 10;
 
 
 
@@ -63,13 +63,13 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
-        protected t_ZombieComun(GameModel game)
+        protected t_ZombieComun(GameModel game, string path_obj = PATH_OBJ)
         {
             _game = game;
 
             _ZombieN = 0;
 
-            _Zombie = t_Objeto3D.Crear(_game, PATH_OBJ);
+            _Zombie = t_Objeto3D.Crear(_game, path_obj);
 
             _Zombie.Set_Size((float)0.25, (float)0.25, (float)0.25);
 
@@ -120,16 +120,16 @@ namespace TGC.Group.Model
                 {
                     bool encontrado = false;
 
-                    for(int j=0; j<_game._Girasol._InstGirasol.Count; j++)
+                    for (int j = 0; j < _game._Girasol._InstGirasol.Count; j++)
                     {
-                        if(_game._Girasol._InstPlanta[j].fila == _InstZombie[i].fila && _game._Girasol._InstPlanta[j].columna == _InstZombie[i].columna)
+                        if (_game._Girasol._InstPlanta[j].fila == _InstZombie[i].fila && _game._Girasol._InstPlanta[j].columna == _InstZombie[i].columna)
                         {
                             encontrado = true;
                             t_Planta.t_PlantaInstancia planta = _game._Girasol._InstPlanta[j];
                             planta.vida -= _game.ElapsedTime;
                             _game._Girasol._InstPlanta[j] = planta;
 
-                            if(planta.vida <= 0)
+                            if (planta.vida <= 0)
                             {
                                 _game._Girasol._Planta.Inst_Delete(_game._Girasol._Planta._instancias[j]);
                                 _game._Girasol._InstGirasol.Remove(_game._Girasol._InstGirasol[j]);
@@ -183,7 +183,7 @@ namespace TGC.Group.Model
                 else
                 {
                     Vector3 PosAux = _Zombie._instancias[i].pos;
-                    _Zombie._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y, PosAux.Z + VELOCIDAD_ZOMBIE*_game.ElapsedTime);
+                    _Zombie._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y, PosAux.Z + velocidad_zombie * _game.ElapsedTime);
                 }
             }
 
@@ -192,7 +192,7 @@ namespace TGC.Group.Model
                 if (_game._TiempoTranscurrido >= SegundosAEsperarParaCrearZombie[0] * (_ZombieN + 1))
                 {
                     t_ZombieInstancia zombie = new t_ZombieInstancia();
-                    zombie.vida = VIDA_ZOMBIE_COMUN;
+                    zombie.vida = vida_zombie_comun;
                     zombie.fila = _game._rand.Next(0, 5);
                     zombie.columna = 13;
                     _InstZombie.Add(zombie);

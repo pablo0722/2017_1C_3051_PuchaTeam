@@ -7,8 +7,7 @@ using TGC.Core.SceneLoader;
 using TGC.Core.Textures;
 
 using System.Collections.Generic;
-
-
+using TGC.Group.Model.Funciones.Objetos.Zombies;
 
 namespace TGC.Group.Model
 {
@@ -36,6 +35,8 @@ namespace TGC.Group.Model
         public t_Patatapum _Patatapum;
         public t_SolComun _Sol;
         public t_ZombieComun _zombie;
+        public t_ZombieCono _zombieCono;
+        public t_ZombieBalde _zombieBalde;
         public t_Escenario1 _escenario1;
 
 
@@ -59,6 +60,10 @@ namespace TGC.Group.Model
             _Sol = t_SolComun.Crear(this);
 
             _zombie = t_ZombieComun.Crear(this);
+            _zombieCono = t_ZombieCono.Crear(this);
+            _zombieBalde = t_ZombieBalde.Crear(this);
+
+
 
             _Girasol = t_Girasol.Crear(this, 0);
             _Lanzaguisantes = t_Lanzaguisantes.Crear(this, 1);
@@ -86,7 +91,9 @@ namespace TGC.Group.Model
 
             _Sol.Update(true, 9);
 
-            _zombie.Update(true, new List<int>{ 20 }, true);
+            _zombie.Update(true, new List<int> { 20 }, true);
+            _zombieCono.Update(true, new List<int> { 50 }, true);
+            _zombieBalde.Update(true, new List<int> { 100 }, true);
 
             _Girasol.Update(P_SHOW_AABB_WITH_KEY, 21);
             _Lanzaguisantes.Update(P_SHOW_AABB_WITH_KEY);
@@ -118,7 +125,10 @@ namespace TGC.Group.Model
             _Sol.Render();
 
             _zombie.Render();
-            
+            _zombieBalde.Render();
+            _zombieCono.Render();
+
+
             _Girasol.Render();
             _Lanzaguisantes.Render();
             _Patatapum.Render();
