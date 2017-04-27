@@ -25,6 +25,7 @@ namespace TGC.Group.Model
         /*                                  CONSTANTES
         /******************************************************************************************/
         public const float PI = 3.14159265359F;
+        public const int CANT_SOLES_INIT = 50;//1366
 
         //      SCREEN
         public const int WIDTH = 1920;//1366
@@ -83,7 +84,7 @@ namespace TGC.Group.Model
 
             _rand = new System.Random(System.Guid.NewGuid().GetHashCode());
             _TiempoTranscurrido = 0;
-            _soles = 50;
+            _soles = CANT_SOLES_INIT;
 
             _camara = new t_Camara(this);
             _mouse = new t_Mouse(this);
