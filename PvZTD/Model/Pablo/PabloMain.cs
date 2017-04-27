@@ -8,6 +8,7 @@ using TGC.Core.Textures;
 
 using System.Collections.Generic;
 using TGC.Group.Model.Funciones.Objetos.Zombies;
+using TGC.Group.Model.Funciones.Objetos.Plantas;
 
 namespace TGC.Group.Model
 {
@@ -32,6 +33,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public t_Girasol _Girasol;
         public t_Lanzaguisantes _Lanzaguisantes;
+        public t_Repetidor _repetidor;
         public t_Patatapum _Patatapum;
         public t_SolComun _Sol;
         public t_ZombieComun _zombie;
@@ -68,6 +70,7 @@ namespace TGC.Group.Model
             _Girasol = t_Girasol.Crear(this, 0);
             _Lanzaguisantes = t_Lanzaguisantes.Crear(this, 1);
             _Patatapum = t_Patatapum.Crear(this, 2);
+            _repetidor = t_Repetidor.Crear(this, 3);
 
             p_Func_Camara_Init();
         }
@@ -98,6 +101,7 @@ namespace TGC.Group.Model
             _Girasol.Update(P_SHOW_AABB_WITH_KEY, 21);
             _Lanzaguisantes.Update(P_SHOW_AABB_WITH_KEY);
             _Patatapum.Update(P_SHOW_AABB_WITH_KEY);
+            _repetidor.Update(P_SHOW_AABB_WITH_KEY);
 
             if (Input.keyPressed(Key.H))
             {
@@ -132,7 +136,8 @@ namespace TGC.Group.Model
             _Girasol.Render();
             _Lanzaguisantes.Render();
             _Patatapum.Render();
-            
+            _repetidor.Render();
+
             if (_camara.Modo_Is_CamaraAerea())
             {
                 Func_Text("H Para cambiar a Camara Primera Persona", 10, 80);
