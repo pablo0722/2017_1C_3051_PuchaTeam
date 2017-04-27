@@ -162,7 +162,7 @@ namespace TGC.Group.Model
                 }
                 else
                 {
-                    _PastoClaro.Inst_Select(_PastoClaro._instancias[(columna / 2) * (GameModel.CANT_FILAS / 2) + fila / 2]);
+                    _PastoClaro.Inst_Select(_PastoClaro._instancias[(columna / 2) * (GameModel.CANT_FILAS / 2) + fila / 2]); //aca rompe
                     if (Is_PastoOcupado(fila, columna))
                     {
                         _PastoClaro.Inst_Color(255, 0, 0);

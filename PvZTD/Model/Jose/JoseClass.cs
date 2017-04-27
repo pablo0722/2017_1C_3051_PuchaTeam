@@ -35,12 +35,42 @@ namespace TGC.Group.Model
         private const float RAZON_PASTO = 13;
         private const float INICIAL_X = 50;
         private const float INICIAL_Z = -70;
+        public t_Objeto3D valla { get; set; }
         /******************************************************************************************
          *                 INIT - Se ejecuta una vez sola al comienzo
          ******************************************************************************************/
 
         private void jose_init()
         {
+            valla = t_Objeto3D.Crear(this, "..\\..\\Media\\Objetos\\valla-TgcScene.xml");
+            valla.Set_Rotation(0, PI / 2, 0);
+            valla.Set_Position(65, 0, 90);
+            valla.Set_Size(0.5F, 0.5F, 0.5F);
+
+            for (int mover = -20; mover > -180; mover -= 20)
+            {
+                valla.Inst_CreateAndSelect();
+                valla.Inst_Move(0, 0, mover);
+
+            }
+            valla.Set_Rotation(0, -PI / 2, 0);
+            valla.Set_Position(-50, 0, 90);
+            for (int mover = -20; mover > -180; mover -= 20)
+            {
+                valla.Inst_CreateAndSelect();
+                valla.Inst_Move(0, 0, mover);
+
+            }
+            valla.Set_Rotation(0, 0, 0);
+            valla.Inst_CreateAndSelect();
+            valla.Inst_Move(10, 0, -170);
+            valla.Inst_CreateAndSelect();
+            valla.Inst_Move(30, 0, -170);
+            valla.Inst_CreateAndSelect();
+            valla.Inst_Move(85, 0, -170);
+            valla.Inst_CreateAndSelect();
+            valla.Inst_Move(105, 0, -170);
+
             /*
             initSkyBox();
             initPasto();
@@ -104,6 +134,7 @@ namespace TGC.Group.Model
 
         private void jose_render()
         {
+            valla.Render();
             /*
             renderPasto();
             for (int i = 0; i < j_meshCasa.Count; i++) 

@@ -27,8 +27,8 @@ namespace TGC.Group.Model
         public const float PI = 3.14159265359F;
 
         //      SCREEN
-        public const int WIDTH = 1366;
-        public const int HEIGHT = 768;
+        public const int WIDTH = 1920;//1366
+        public const int HEIGHT = 1080;//768
         public const int CANT_FILAS = 5;        // De plantas
         public const int CANT_COLUMNAS = 12;    // De plantas
 
