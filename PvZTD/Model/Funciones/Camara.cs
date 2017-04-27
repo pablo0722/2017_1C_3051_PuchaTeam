@@ -45,7 +45,7 @@ namespace TGC.Group.Model
             _CamaraLibre = new MyCamara1Persona(new Vector3(0, 0, 1),
                                                 10, 10, 0.01F, _example.Input);
             _CamaraLibre.SetCamera( new Vector3(0, 0, 1),
-                                    Vector3.Empty, new Vector3(0, 1, 0));
+                                    new Vector3(0,10,50), new Vector3(0, 1, 0));
 
             _Is_CamAerea = true;
             example.Camara = _CamaraAerea;
@@ -167,6 +167,11 @@ namespace TGC.Group.Model
             _CamaraLibre = new MyCamara1Persona(_CamaraLibre.Position,
                                                 _CamaraLibre.MovementSpeed, _CamaraLibre.JumpSpeed, speed,
                                                 _example.Input);
+        }
+
+        public void Libre_SetLookAt(Vector3 lookAt)
+        {
+            _CamaraLibre.SetCamera(_CamaraLibre.Position, lookAt);
         }
 
 

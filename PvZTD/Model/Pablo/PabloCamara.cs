@@ -14,9 +14,9 @@ namespace TGC.Group.Model
         /*                                  CONSTANTES
         /******************************************************************************************/
         // Camara Libre
-        private const float P_CAM_LIBRE_POS_X = 150;
-        private const float P_CAM_LIBRE_POS_Y = 40;
-        private const float P_CAM_LIBRE_POS_Z = 0;
+        private const float P_CAM_LIBRE_POS_X = 0;
+        private const float P_CAM_LIBRE_POS_Y = 20;
+        private const float P_CAM_LIBRE_POS_Z = -50;
         private const float P_CAM_LIBRE_MOVE = 50;
         private const float P_CAM_LIBRE_JUMP = 50;
         private const float P_CAM_LIBRE_ROT = 0.02F;
@@ -47,10 +47,14 @@ namespace TGC.Group.Model
             _camara.Aerea_LookAt(0, 0, 0);
             _camara.Aerea_Up(P_CAM_AEREA_UP_X, P_CAM_AEREA_UP_Y, P_CAM_AEREA_UP_Z);
 
+            
             _camara.Libre_MoveSpeed(P_CAM_LIBRE_MOVE);
             _camara.Libre_JumpSpeed(P_CAM_LIBRE_JUMP);
             _camara.Libre_RotationSpeed(P_CAM_LIBRE_ROT);
             _camara.Libre_Posicion(P_CAM_LIBRE_POS_X, P_CAM_LIBRE_POS_Y, P_CAM_LIBRE_POS_Z);
+           // _camara.Libre_SetLookAt(new Vector3(0, 0, 1));
+
+
         }
     }
 }

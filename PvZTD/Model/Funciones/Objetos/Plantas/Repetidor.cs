@@ -77,7 +77,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                 obj_guisante.Inst_CreateAndSelect(x, y, z);
                 guisante_aux = new guisante();
                 guisante_aux.GuisanteInst = obj_guisante._instanciaActual;
-                guisante_aux.tiempo = TIEMPO_GUISANTE/2;
+                guisante_aux.tiempo = TIEMPO_GUISANTE*0.95F;
                 guisante_aux.x = x;
                 guisante_aux.y = y;
                 guisante_aux.zActual = guisante_aux.z = z;

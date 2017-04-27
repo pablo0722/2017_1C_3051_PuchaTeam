@@ -71,7 +71,7 @@ namespace TGC.Group.Model
             valla.Inst_CreateAndSelect();
             valla.Inst_Move(105, 0, -170);
 
-            /*
+            
             initSkyBox();
             initPasto();
             var PathBrain= MediaDir + Game.Default.MeshBrain;
@@ -92,7 +92,7 @@ namespace TGC.Group.Model
                 j_meshCasa[i].Scale = new Vector3((float)0.5, (float)0.5, (float)0.5);
                 j_meshCasa[i].rotateY(PI/2);
             }
-            */
+            
         }
 
 
@@ -135,6 +135,7 @@ namespace TGC.Group.Model
         private void jose_render()
         {
             valla.Render();
+            skyBox.render();
             /*
             renderPasto();
             for (int i = 0; i < j_meshCasa.Count; i++) 
@@ -153,7 +154,7 @@ namespace TGC.Group.Model
             j_meshBrain[0].move(RAZON_PASTO * 1.6F * 5, 0, 0);
             j_meshBrain[1].move(RAZON_PASTO * 1.6F * 5, 0, 0);
 
-            skyBox.render();
+            
             */
         }
         /******************************************************************************************
@@ -162,6 +163,7 @@ namespace TGC.Group.Model
 
         private void jose_dispose()
         {
+            skyBox.dispose();
             /*
             for (int i = 0; i < j_meshBrain.Count; i++)
             {
@@ -173,8 +175,6 @@ namespace TGC.Group.Model
                 j_meshCasa[i].dispose();
 
             }
-            skyBox.dispose();
-
 
             j_meshsPastoClaro.dispose();
             j_meshsPastoMedio.dispose();
