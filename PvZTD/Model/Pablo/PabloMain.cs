@@ -89,7 +89,7 @@ namespace TGC.Group.Model
         {
             _escenario1.Update(true, 4);
 
-            _Sol.Update(true, 9);
+            _Sol.Update(true, 2);
 
             _zombie.Update(true, new List<int> { 20 }, true);
             _zombieCono.Update(true, new List<int> { 45 }, true);

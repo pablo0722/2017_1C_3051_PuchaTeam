@@ -114,9 +114,14 @@ namespace TGC.Group.Model
             _Sol.Update(ShowBoundingBoxWithKey);
 
             _Sol.Inst_RotateAll(_game.ElapsedTime * ROTACION_SEG_POR_VUELTA / (2*GameModel.PI), 0, 0);
+            
+            if (_game.Input.keyPressed(Microsoft.DirectX.DirectInput.Key.K))
+            {
+                _game._soles += 500;
+            }
 
             // Caida
-            for (int i = 0; i < _Sol._instancias.Count; i++)
+            for (int i = _Sol._instancias.Count-1; i >= 0; i--)
             {
                 if (_Sol._instancias[i].pos.Y < 6)
                 {
