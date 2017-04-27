@@ -103,6 +103,11 @@ namespace TGC.Group.Model
         {
             PreUpdate();
 
+            if (ElapsedTime < 1000)
+            {
+                _TiempoTranscurrido += ElapsedTime;
+            }
+
             _camara.Update(ElapsedTime);
 
             pablo_update();

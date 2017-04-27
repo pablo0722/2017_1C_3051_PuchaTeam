@@ -94,9 +94,9 @@ namespace TGC.Group.Model
 
             _Sol.Update(true, 20);
             
-            _zombie.Update(true, new List<int>{ 10 }, true);
-            _zombieCono.Update(true, new List<int> { 45 }, true);
-            _zombieBalde.Update(true, new List<int> { 101 }, true);
+            _zombie.Update(true, new List<int>{ 5 }, true);
+            _zombieCono.Update(true, new List<int> { 16 }, true);
+            _zombieBalde.Update(true, new List<int> { 33 }, true);
 
             _Girasol.Update(P_SHOW_AABB_WITH_KEY, 21);
             _Lanzaguisantes.Update(P_SHOW_AABB_WITH_KEY);

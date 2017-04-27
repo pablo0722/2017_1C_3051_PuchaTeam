@@ -103,15 +103,12 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public void Update(bool ShowBoundingBoxWithKey, List<int> SegundosAEsperarParaCrearZombie, bool GeneracionInfinitaDeZombies)
         {
-            if (_game.ElapsedTime < 1000)
-            {
-                _game._TiempoTranscurrido += _game.ElapsedTime;
-            }
-
             _Zombie.Update(ShowBoundingBoxWithKey);
 
+            // Colision con plantas
             for (int i = 0; i < _Zombie._instancias.Count; i++)
             {
+                // Actualiza columna del zombie con la posicion actual
                 if (_Zombie._instancias[i].pos.Z < t_EscenarioBase.PASTO_POS_Z_INICIAL + (t_EscenarioBase.PASTO_RAZON * (_InstZombie[i].columna - 0.5F)))
                 {
                     t_ZombieInstancia zombie = _InstZombie[i];
@@ -119,6 +116,7 @@ namespace TGC.Group.Model
                     _InstZombie[i] = zombie;
                 }
 
+                // Se fija si la fila y columna actual del zombie coincide con la de alguna planta
                 if (t_EscenarioBase.Is_PastoOcupado(_InstZombie[i].fila, _InstZombie[i].columna))
                 {
                     bool encontrado = false;
@@ -127,6 +125,7 @@ namespace TGC.Group.Model
                     {
                         if (_game._Girasol._InstPlanta[j].fila == _InstZombie[i].fila && _game._Girasol._InstPlanta[j].columna == _InstZombie[i].columna)
                         {
+                            // coincide con un girasol
                             encontrado = true;
                             t_Planta.t_PlantaInstancia planta = _game._Girasol._InstPlanta[j];
                             planta.vida -= _game.ElapsedTime;
@@ -149,6 +148,7 @@ namespace TGC.Group.Model
                         {
                             if (_game._Lanzaguisantes._InstPlanta[j].fila == _InstZombie[i].fila && _game._Lanzaguisantes._InstPlanta[j].columna == _InstZombie[i].columna)
                             {
+                                // coincide con un lanzaguisantes
                                 encontrado = true;
                                 t_Planta.t_PlantaInstancia planta = _game._Lanzaguisantes._InstPlanta[j];
                                 planta.vida -= _game.ElapsedTime;
@@ -172,6 +172,7 @@ namespace TGC.Group.Model
                         {
                             if (_game._Patatapum._InstPlanta[j].fila == _InstZombie[i].fila && _game._Patatapum._InstPlanta[j].columna == _InstZombie[i].columna)
                             {
+                                // coincide con un patatapum
                                 encontrado = true;
                                 t_Planta.t_PlantaInstancia planta = _game._Patatapum._InstPlanta[j];
                                 planta.vida -= _game.ElapsedTime;
@@ -188,9 +189,34 @@ namespace TGC.Group.Model
                             }
                         }
                     }
+
+                    if (!encontrado)
+                    {
+                        for (int j = 0; j < _game._repetidor._InstRepetidor.Count; j++)
+                        {
+                            if (_game._repetidor._InstPlanta[j].fila == _InstZombie[i].fila && _game._repetidor._InstPlanta[j].columna == _InstZombie[i].columna)
+                            {
+                                // coincide con un Repetidor
+                                encontrado = true;
+                                t_Planta.t_PlantaInstancia planta = _game._repetidor._InstPlanta[j];
+                                planta.vida -= _game.ElapsedTime;
+                                _game._repetidor._InstPlanta[j] = planta;
+
+                                if (planta.vida <= 0)
+                                {
+                                    _game._repetidor._Planta.Inst_Delete(_game._repetidor._Planta._instancias[j]);
+                                    _game._repetidor._InstRepetidor.Remove(_game._repetidor._InstRepetidor[j]);
+                                    _game._repetidor._InstPlanta.Remove(_game._repetidor._InstPlanta[j]);
+                                    _game._EscenarioBase.Set_PastoDesocupado(_InstZombie[i].fila, _InstZombie[i].columna);
+                                }
+                                break;
+                            }
+                        }
+                    }
                 }
                 else
                 {
+                    // Se fija si la fila y columna actual del zombie NO coincide con la de alguna planta, el zombie avanza
                     Vector3 PosAux = _Zombie._instancias[i].pos;
                     _Zombie._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y, PosAux.Z + velocidad_zombie * _game.ElapsedTime);
                 }
@@ -198,6 +224,7 @@ namespace TGC.Group.Model
 
             if (GeneracionInfinitaDeZombies)
             {
+                // Genera los zombies por tiempo infinitamente
                 if (_game._TiempoTranscurrido >= SegundosAEsperarParaCrearZombie[0] * (_ZombieN + 1))
                 {
                     int fila = _game._rand.Next(0, 5);
@@ -216,9 +243,19 @@ namespace TGC.Group.Model
             }
             else if (_ZombieN < SegundosAEsperarParaCrearZombie.Count)
             {
+                // Genera los zombies por tiempo
                 if (_game._TiempoTranscurrido >= SegundosAEsperarParaCrearZombie[_ZombieN])
                 {
-                    _Zombie.Inst_Create(-32 + 21 * _game._rand.Next(0, 5), 0, 90);
+                    int fila = _game._rand.Next(0, 5);
+
+                    _Zombie.Inst_Create(-32 + 21 * fila, 0, 90);
+
+                    t_ZombieInstancia zombie = new t_ZombieInstancia();
+                    zombie.fila = fila;
+                    zombie.vida = vida_zombie_comun;
+                    zombie.columna = 13;
+                    zombie.zombie = _Zombie._instancias[_Zombie._instancias.Count - 1];
+                    _InstZombie.Add(zombie);
 
                     _ZombieN++;
                 }
