@@ -1,5 +1,6 @@
 ﻿using TGC.Core.Example;
 using TGC.Core.Input;
+using Microsoft.DirectX;
 
 
 namespace TGC.Group.Model
@@ -26,6 +27,36 @@ namespace TGC.Group.Model
         public t_Mouse(TgcExample example)
         {
             _example = example;
+        }
+
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************/
+        /*                              ESTADO DE POSICION
+        /******************************************************************************************/
+        public Vector2 Position()
+        {
+            return new Vector2(_example.Input.Xpos, _example.Input.Ypos);
+        }
+
+        public bool Is_Position(int x1, int x2, int y1, int y2)
+        {
+            float x = _example.Input.Xpos;
+            float y = _example.Input.Ypos;
+
+            if(x > x1 && x < x2 && y > y1 && y < y2)
+            {
+                return true;
+            }
+
+            return false;
         }
 
 
