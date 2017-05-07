@@ -93,22 +93,19 @@ namespace TGC.Group.Model
         // Renderiza todos los objetos relativos a la clase
         public void Update()
         {
-            if (_game._NivelActual != null)
+            if (String.Compare(_NivelActual, _game._NivelActual) != 0)
             {
-                if (String.Compare(_NivelActual, _game._NivelActual) != 0)
+                _NivelActual = _game._NivelActual;
+                string txt_nivel = System.IO.File.ReadAllText(_game._NivelActual);
+                string[] tags = txt_nivel.Split('<', '>');
+                for (int i = 0; i < tags.Length; i++)
                 {
-                    _NivelActual = _game._NivelActual;
-                    string txt_nivel = System.IO.File.ReadAllText(_game._NivelActual);
-                    string[] tags = txt_nivel.Split('<', '>');
-                    for (int i = 0; i < tags.Length; i++)
+                    if (String.Compare(tags[i], TXT_HORDA_NIVEL) == 0)
                     {
-                        if (String.Compare(tags[i], TXT_HORDA_NIVEL) == 0)
-                        {
-                            var tiempos = tags[i + 1].Split(',');
-                            tiempo = new float();
-                            tiempo = int.Parse(tiempos[1]);
-                            break;
-                        }
+                        var tiempos = tags[i + 1].Split(',');
+                        tiempo = new float();
+                        tiempo = int.Parse(tiempos[1]);
+                        break;
                     }
                 }
             }

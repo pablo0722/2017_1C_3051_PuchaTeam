@@ -220,27 +220,24 @@ namespace TGC.Group.Model
                     _Zombie._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y, PosAux.Z + velocidad_zombie * _game.ElapsedTime);
                 }
             }
-
-            if (_game._NivelActual != null)
+            
+            if (String.Compare(_NivelActual, _game._NivelActual)!=0)
             {
-                if (String.Compare(_NivelActual, _game._NivelActual)!=0)
+                _NivelActual = _game._NivelActual;
+                string txt_nivel = System.IO.File.ReadAllText(_game._NivelActual);
+                string[] tags = txt_nivel.Split('<', '>');
+                for(int i=0; i<tags.Length; i++)
                 {
-                    _NivelActual = _game._NivelActual;
-                    string txt_nivel = System.IO.File.ReadAllText(_game._NivelActual);
-                    string[] tags = txt_nivel.Split('<', '>');
-                    for(int i=0; i<tags.Length; i++)
+                    if(String.Compare(tags[i], _TxtZombieNivel) == 0)
                     {
-                        if(String.Compare(tags[i], _TxtZombieNivel) == 0)
+                        var tiempos = tags[i+1].Split(',');
+                        _TiemposDeSiguientesZombies = new float[tiempos.Length - 2];
+                        for (int j=1; j< tiempos.Length-1; j++)
                         {
-                            var tiempos = tags[i+1].Split(',');
-                            _TiemposDeSiguientesZombies = new float[tiempos.Length - 2];
-                            for (int j=1; j< tiempos.Length-1; j++)
-                            {
-                                _TiemposDeSiguientesZombies[j - 1] = int.Parse(tiempos[j]);
-                            }
-                            _NZombieActual = 0;
-                            break;
+                            _TiemposDeSiguientesZombies[j - 1] = int.Parse(tiempos[j]);
                         }
+                        _NZombieActual = 0;
+                        break;
                     }
                 }
             }
