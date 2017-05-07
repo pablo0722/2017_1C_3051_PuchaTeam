@@ -1,14 +1,6 @@
-using Microsoft.DirectX;
-using Microsoft.DirectX.DirectInput;
 using System.Drawing;
-using TGC.Core.Direct3D;
 using TGC.Core.Example;
-using TGC.Core.Geometry;
-using TGC.Core.Input;
-using TGC.Core.SceneLoader;
-using TGC.Core.Textures;
-using TGC.Core.Utils;
-using System.Threading.Tasks;
+using TGC.Group.Model.Funciones.Objetos;
 
 
 namespace TGC.Group.Model
@@ -28,13 +20,14 @@ namespace TGC.Group.Model
         public const int CANT_SOLES_INIT = 50;//1366
 
         //      SCREEN
-        public const int WIDTH = 1366;//1366 //1920
-        public const int HEIGHT = 768;//768 //1080
         public const int CANT_FILAS = 5;        // De plantas
         public const int CANT_COLUMNAS = 12;    // De plantas
 
+        // NIVELES
+        public const string TXT_NIVEL_1 = "..\\..\\Media\\Txt\\Nivel_1.txt";
 
-        
+
+
 
 
 
@@ -53,6 +46,9 @@ namespace TGC.Group.Model
         public float _TiempoTranscurrido;
         public System.Random _rand;
         public int _soles;  // Cantidad de soles
+        public t_Musica _musica;
+        public string _NivelActual = null;
+        public Drawer2D spriteDrawer;
 
 
 
@@ -82,6 +78,7 @@ namespace TGC.Group.Model
             //Device de DirectX para crear primitivas.
             //var d3dDevice = D3DDevice.Instance.Device;
 
+            spriteDrawer = new Drawer2D();
             _rand = new System.Random(System.Guid.NewGuid().GetHashCode());
             _TiempoTranscurrido = 0;
             _soles = CANT_SOLES_INIT;
@@ -89,6 +86,7 @@ namespace TGC.Group.Model
             _camara = new t_Camara(this);
             _mouse = new t_Mouse(this);
             _colision = new t_Colision(this);
+            _musica = new t_Musica();
 
             pablo_init();
             jose_init();

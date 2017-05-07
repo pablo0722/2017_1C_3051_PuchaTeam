@@ -29,6 +29,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Zombies
         public t_ZombieCono(GameModel game) : base(game, PATH_OBJ)
         {
             base.vida_zombie_comun = VIDA_ZOMBIE_CONO;
+            base._TxtZombieNivel = "Zcono";
         }
 
         public new static t_ZombieCono Crear(GameModel game)

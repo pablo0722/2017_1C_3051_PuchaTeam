@@ -45,15 +45,16 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      VARIABLES
         /******************************************************************************************/
-        // ESTATICAS
-        public int _ZombieN; // Se usa para ir creando los zombies conforme transcurre el tiempo
-
         // NO ESTATICAS
+        public string _NivelActual = null;
+        public float[] _TiemposDeSiguientesZombies = null;
+        public int _NZombieActual = 0;
         public t_Objeto3D _Zombie;
         protected GameModel _game;
         public List<t_ZombieInstancia> _InstZombie;
         public float velocidad_zombie = VELOCIDAD_ZOMBIE;
         public float vida_zombie_comun = VIDA_ZOMBIE_COMUN;
+        public string _TxtZombieNivel = "Zcomun"; // Nombre que va a tener el zombie comun dentro del archivo de texto del nivel
 
 
 
@@ -69,8 +70,6 @@ namespace TGC.Group.Model
         protected t_ZombieComun(GameModel game, string path_obj = PATH_OBJ)
         {
             _game = game;
-
-            _ZombieN = 0;
 
             _Zombie = t_Objeto3D.Crear(_game, path_obj);
 
@@ -101,7 +100,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      UPDATE
         /******************************************************************************************/
-        public void Update(bool ShowBoundingBoxWithKey, List<int> SegundosAEsperarParaCrearZombie, bool GeneracionInfinitaDeZombies)
+        public void Update(bool ShowBoundingBoxWithKey, bool GeneracionInfinitaDeZombies)
         {
             _Zombie.Update(ShowBoundingBoxWithKey);
 
@@ -222,42 +221,53 @@ namespace TGC.Group.Model
                 }
             }
 
-            if (GeneracionInfinitaDeZombies)
+            if (String.Compare(_NivelActual, _game._NivelActual)!=0)
             {
-                // Genera los zombies por tiempo infinitamente
-                if (_game._TiempoTranscurrido >= SegundosAEsperarParaCrearZombie[0] * (_ZombieN + 1))
+                if (_game._NivelActual != null)
                 {
-                    int fila = _game._rand.Next(0, 5);
-
-                    _Zombie.Inst_Create(-32 + 21 * fila, 0, 90);
-
-                    t_ZombieInstancia zombie = new t_ZombieInstancia();
-                    zombie.fila = fila;
-                    zombie.vida = vida_zombie_comun;
-                    zombie.columna = 13;
-                    zombie.zombie = _Zombie._instancias[_Zombie._instancias.Count - 1];
-                    _InstZombie.Add(zombie);
-
-                    _ZombieN++;
+                    _NivelActual = _game._NivelActual;
+                    string txt_nivel = System.IO.File.ReadAllText(_game._NivelActual);
+                    string[] tags = txt_nivel.Split('<', '>');
+                    for(int i=0; i<tags.Length; i++)
+                    {
+                        if(String.Compare(tags[i], _TxtZombieNivel) == 0)
+                        {
+                            var tiempos = tags[i+1].Split(',');
+                            _TiemposDeSiguientesZombies = new float[tiempos.Length - 2];
+                            for (int j=1; j< tiempos.Length-1; j++)
+                            {
+                                _TiemposDeSiguientesZombies[j - 1] = int.Parse(tiempos[j]);
+                            }
+                            _NZombieActual = 0;
+                            break;
+                        }
+                    }
                 }
             }
-            else if (_ZombieN < SegundosAEsperarParaCrearZombie.Count)
+            else
             {
-                // Genera los zombies por tiempo
-                if (_game._TiempoTranscurrido >= SegundosAEsperarParaCrearZombie[_ZombieN])
+                if (_TiemposDeSiguientesZombies != null)
                 {
-                    int fila = _game._rand.Next(0, 5);
+                    if (_NZombieActual < _TiemposDeSiguientesZombies.Length)
+                    {
+                        // Genera los zombies por tiempo
+                        while (_game._TiempoTranscurrido >= _TiemposDeSiguientesZombies[_NZombieActual])
+                        {
+                            int fila = _game._rand.Next(0, 5);
 
-                    _Zombie.Inst_Create(-32 + 21 * fila, 0, 90);
+                            _Zombie.Inst_Create(-32 + 21 * fila, 0, 90);
 
-                    t_ZombieInstancia zombie = new t_ZombieInstancia();
-                    zombie.fila = fila;
-                    zombie.vida = vida_zombie_comun;
-                    zombie.columna = 13;
-                    zombie.zombie = _Zombie._instancias[_Zombie._instancias.Count - 1];
-                    _InstZombie.Add(zombie);
+                            t_ZombieInstancia zombie = new t_ZombieInstancia();
+                            zombie.fila = fila;
+                            zombie.vida = vida_zombie_comun;
+                            zombie.columna = 13;
+                            zombie.zombie = _Zombie._instancias[_Zombie._instancias.Count - 1];
+                            _InstZombie.Add(zombie);
 
-                    _ZombieN++;
+                            _NZombieActual++;
+                            if (_NZombieActual >= _TiemposDeSiguientesZombies.Length) break;
+                        }
+                    }
                 }
             }
         }

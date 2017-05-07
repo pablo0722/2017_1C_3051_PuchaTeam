@@ -106,6 +106,7 @@ namespace TGC.Group.Model
             if (_CrearPlanta && _game._mouse.ClickIzq_RisingDown() && _game._camara.Modo_Is_CamaraAerea() && !t_EscenarioBase.Is_PastoOcupado(t_EscenarioBase.MouseY, t_EscenarioBase.MouseX))
             {
                 // Planta ubicada
+                System.Windows.Forms.Cursor.Show();
                 t_PlantaInstancia planta = new t_PlantaInstancia();
                 planta.vida = _vida;
                 planta.fila = t_EscenarioBase.MouseY;
@@ -121,6 +122,7 @@ namespace TGC.Group.Model
                 if (ClickSobreHUDBox)
                 {
                     // Planta requiere ubicacion del usuario
+                    System.Windows.Forms.Cursor.Hide();
                     _game._soles -= _ValorPlanta;
                     _Planta.Inst_CreateAndSelect();
 

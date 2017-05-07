@@ -93,8 +93,12 @@
       <DependentUpon>Game.settings</DependentUpon>
     </Compile>
     <Compile Include="Model\Funciones\Camara.cs" />
+    <Compile Include="Model\Funciones\Objetos\CustomSprite.cs" />
+    <Compile Include="Model\Funciones\Objetos\Drawer2D.cs" />
     <Compile Include="Model\Funciones\Objetos\Escenarios\Escenario1.cs" />
     <Compile Include="Model\Funciones\Objetos\Escenarios\EscenarioBase.cs" />
+    <Compile Include="Model\Funciones\Objetos\Musica.cs" />
+    <Compile Include="Model\Funciones\Objetos\CustomBitmap.cs" />
     <Compile Include="Model\Funciones\Objetos\Plantas\Girasol.cs" />
     <Compile Include="Model\Funciones\Objetos\HUDBox.cs" />
     <Compile Include="Model\Funciones\Objetos\Plantas\Patatapum.cs" />

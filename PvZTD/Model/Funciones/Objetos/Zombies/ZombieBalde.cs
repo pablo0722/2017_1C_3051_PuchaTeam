@@ -18,6 +18,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Zombies
         public t_ZombieBalde(GameModel game) : base(game, PATH_OBJ)
         {
             base.vida_zombie_comun = VIDA_ZOMBIE_BALDE;
+            base._TxtZombieNivel = "Zbalde";
         }
 
         public new static t_ZombieBalde Crear(GameModel game)

@@ -1,14 +1,12 @@
-﻿using Microsoft.DirectX;
-using Microsoft.DirectX.DirectInput;
-using System.Drawing;
+﻿using Microsoft.DirectX.DirectInput;
 using TGC.Core.Example;
-using TGC.Core.Geometry;
-using TGC.Core.SceneLoader;
-using TGC.Core.Textures;
-
-using System.Collections.Generic;
 using TGC.Group.Model.Funciones.Objetos.Zombies;
 using TGC.Group.Model.Funciones.Objetos.Plantas;
+
+using Microsoft.DirectX;
+using TGC.Group.Model.Funciones.Objetos;
+using System.Drawing;
+using TGC.Core.Direct3D;
 
 namespace TGC.Group.Model
 {
@@ -56,6 +54,8 @@ namespace TGC.Group.Model
 
         private void pablo_init()
         {
+            _musica.Do_Load(t_Musica.PATH_MUSICA);
+
             _escenario1 = t_Escenario1.Crear(this);
             _EscenarioBase = _escenario1;
 
@@ -73,6 +73,10 @@ namespace TGC.Group.Model
             _repetidor = t_Repetidor.Crear(this, 3);
 
             p_Func_Camara_Init();
+
+            _musica.Do_Play();
+
+            _NivelActual = TXT_NIVEL_1;
         }
 
 
@@ -94,9 +98,9 @@ namespace TGC.Group.Model
 
             _Sol.Update(true, 20);
             
-            _zombie.Update(true, new List<int>{ 5 }, true);
-            _zombieCono.Update(true, new List<int> { 16 }, true);
-            _zombieBalde.Update(true, new List<int> { 33 }, true);
+            _zombie.Update(true, true);
+            _zombieCono.Update(true, true);
+            _zombieBalde.Update(true, true);
 
             _Girasol.Update(P_SHOW_AABB_WITH_KEY, 21);
             _Lanzaguisantes.Update(P_SHOW_AABB_WITH_KEY);
@@ -124,11 +128,11 @@ namespace TGC.Group.Model
 
         private void pablo_render()
         {
-           _escenario1.Render();
+            _escenario1.Render();
 
             _Sol.Render();
 
-             _zombie.Render();
+            _zombie.Render();
             _zombieBalde.Render();
             _zombieCono.Render();
 

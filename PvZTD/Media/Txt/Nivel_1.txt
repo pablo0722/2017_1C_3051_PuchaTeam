@@ -1,0 +1,11 @@
+<Zcomun>
+(tiempos)
+,20,30,35,36,50,75,80
+---
+<Zcono>
+(tiempos)
+,40,70,85,
+---
+<Zbalde>
+(tiempos)
+,90,130,150,

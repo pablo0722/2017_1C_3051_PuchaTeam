@@ -2,6 +2,9 @@
 using TGC.Core.Geometry;
 using TGC.Core.Textures;
 using Microsoft.DirectX.DirectInput;
+using TGC.Group.Model.Funciones.Objetos;
+using System.Drawing;
+using TGC.Core.Direct3D;
 
 namespace TGC.Group.Model
 {
@@ -47,6 +50,9 @@ namespace TGC.Group.Model
         private GameModel _game;
         private bool _Is_BoxPicked;
         private int _ValorPlanta;
+        CustomBitmap BoxBitmapOn;
+        CustomBitmap BoxBitmapOff;
+        CustomSprite BoxSprite;
 
 
 
@@ -82,6 +88,15 @@ namespace TGC.Group.Model
             _Is_BoxPicked = false;
 
             _ValorPlanta = ValorPlanta;
+
+            BoxBitmapOn = new CustomBitmap(PathTexturaOn, D3DDevice.Instance.Device);
+            BoxBitmapOff = new CustomBitmap(PathTexturaOff, D3DDevice.Instance.Device);
+            BoxSprite = new CustomSprite();
+            BoxSprite.Bitmap = BoxBitmapOff;
+            BoxSprite.SrcRect = new Rectangle(0, 0, 250, 250);
+            BoxSprite.Scaling = new Vector2(1, 1);
+            BoxSprite.Position = new Vector2(250 * n, 50);
+            BoxSprite.Rotation = 0;
         }
 
         public static t_HUDBox Crear(string PathTexturaOn, string PathTexturaOff, GameModel game, byte n, int ValorPlanta)
@@ -116,6 +131,8 @@ namespace TGC.Group.Model
             s_n = s_n & (~(1 << _n));   // Se borra del campo de bits
             _Mesh_HUDBoxOn.dispose();
             _Mesh_HUDBoxOff.dispose();
+            BoxBitmapOn.D3dTexture.Dispose();
+            BoxBitmapOff.D3dTexture.Dispose();
         }
 
 
@@ -281,6 +298,10 @@ namespace TGC.Group.Model
         // Renderiza todos los objetos relativos a la clase
         public void Render()
         {
+            _game.spriteDrawer.BeginDrawSprite();
+            _game.spriteDrawer.DrawSprite(BoxSprite);
+            _game.spriteDrawer.EndDrawSprite();
+
             if (_game._camara.Modo_Is_CamaraAerea())
             {
                 if (_game._soles >= _ValorPlanta)
