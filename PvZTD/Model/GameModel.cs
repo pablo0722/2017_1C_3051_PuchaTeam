@@ -48,7 +48,8 @@ namespace TGC.Group.Model
         public int _soles;  // Cantidad de soles
         public t_Musica _musica;
         public string _NivelActual = null;
-        public Drawer2D spriteDrawer;
+        public Drawer2D _spriteDrawer;
+        public t_Hordas _Hordas;
 
 
 
@@ -78,7 +79,8 @@ namespace TGC.Group.Model
             //Device de DirectX para crear primitivas.
             //var d3dDevice = D3DDevice.Instance.Device;
 
-            spriteDrawer = new Drawer2D();
+            _spriteDrawer = new Drawer2D();
+            _Hordas = new t_Hordas(this);
             _rand = new System.Random(System.Guid.NewGuid().GetHashCode());
             _TiempoTranscurrido = 0;
             _soles = CANT_SOLES_INIT;
@@ -108,6 +110,8 @@ namespace TGC.Group.Model
 
             _camara.Update(ElapsedTime);
 
+            _Hordas.Update();
+
             pablo_update();
             jose_update();
         }
@@ -123,6 +127,8 @@ namespace TGC.Group.Model
             PreRender();
             DrawText.drawText("Soles:", 100, 0, Color.Yellow);
             DrawText.drawText(_soles.ToString(), 150, 0, Color.Yellow);
+
+            _Hordas.Render();
 
             pablo_render();
             jose_render();

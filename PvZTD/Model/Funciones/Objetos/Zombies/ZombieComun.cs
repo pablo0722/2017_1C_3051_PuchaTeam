@@ -221,9 +221,9 @@ namespace TGC.Group.Model
                 }
             }
 
-            if (String.Compare(_NivelActual, _game._NivelActual)!=0)
+            if (_game._NivelActual != null)
             {
-                if (_game._NivelActual != null)
+                if (String.Compare(_NivelActual, _game._NivelActual)!=0)
                 {
                     _NivelActual = _game._NivelActual;
                     string txt_nivel = System.IO.File.ReadAllText(_game._NivelActual);

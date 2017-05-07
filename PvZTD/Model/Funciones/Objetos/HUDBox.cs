@@ -13,8 +13,6 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTANTES
         /******************************************************************************************/
-        public const int IMG_WIDTH = 250;
-        public const int IMG_HEIGHT = 250;
 
 
 
@@ -77,8 +75,8 @@ namespace TGC.Group.Model
             sy = sx;
             x = sx * (n+1);
             y = sy/2;
-            BoxSprite.SrcRect = new Rectangle(0, 0, IMG_WIDTH, IMG_HEIGHT);
-            BoxSprite.Scaling = new Vector2((float)sx/IMG_WIDTH, (float)sy /IMG_HEIGHT);
+            BoxSprite.SrcRect = new Rectangle(0, 0, BoxBitmapOff.Size.Width, BoxBitmapOff.Size.Height);
+            BoxSprite.Scaling = new Vector2((float)sx/ BoxBitmapOff.Size.Width, (float)sy / BoxBitmapOff.Size.Height);
             BoxSprite.Position = new Vector2(x, y);
             BoxSprite.Rotation = 0;
         }
@@ -196,7 +194,12 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         // Devuelve verdadero si se acaba de clickear sobre el HUDBox
         public bool Update(bool ShowBoundingBoxWithKey, bool ChangeHUDTextureWhenMouseOver)
-        {
+        { 
+            sx = (D3DDevice.Instance.Device.DisplayMode.Width / 3) / 8;
+            sy = sx;
+            x = sx * (_n + 1);
+            y = sy / 2;
+
             _ShowBoundingBox = false;
 
             if (ShowBoundingBoxWithKey)
@@ -279,9 +282,9 @@ namespace TGC.Group.Model
         // Renderiza todos los objetos relativos a la clase
         public void Render()
         {
-            _game.spriteDrawer.BeginDrawSprite();
-            _game.spriteDrawer.DrawSprite(BoxSprite);
-            _game.spriteDrawer.EndDrawSprite();
+            _game._spriteDrawer.BeginDrawSprite();
+            _game._spriteDrawer.DrawSprite(BoxSprite);
+            _game._spriteDrawer.EndDrawSprite();
 
             if (_game._camara.Modo_Is_CamaraAerea())
             {
