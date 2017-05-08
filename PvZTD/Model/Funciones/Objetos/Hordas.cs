@@ -13,6 +13,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public const string IMG_CONTORNO_PATH = "..\\..\\Media\\Texturas\\hordas.png";
         public const string IMG_RELLENO_PATH = "..\\..\\Media\\Texturas\\orig_60339.jpg";
+        public const string IMG_INDICADOR_PATH = "..\\..\\Media\\Texturas\\CabezaZombie.png";
         public const string TXT_HORDA_NIVEL = "total"; // Nombre que va a tener el zombie comun dentro del archivo de texto del nivel
 
 
@@ -29,8 +30,10 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         CustomBitmap HordaContornoBitmap;
         CustomBitmap HordaRellenoBitmap;
+        CustomBitmap HordaIndicadorBitmap;
         CustomSprite HordaContornoSprite;
         CustomSprite HordaRellenoSprite;
+        CustomSprite HordaIndicadorSprite;
         GameModel _game;
         public string _NivelActual = null;
         float tiempo = 0;
@@ -55,27 +58,36 @@ namespace TGC.Group.Model
 
             HordaContornoBitmap = new CustomBitmap(IMG_CONTORNO_PATH, D3DDevice.Instance.Device);
             HordaRellenoBitmap = new CustomBitmap(IMG_RELLENO_PATH, D3DDevice.Instance.Device);
+            HordaIndicadorBitmap = new CustomBitmap(IMG_INDICADOR_PATH, D3DDevice.Instance.Device);
+
+            img_width = D3DDevice.Instance.Device.Viewport.Width / 3;
+            img_height = D3DDevice.Instance.Device.Viewport.Height / 20;
 
             HordaContornoSprite = new CustomSprite();
             HordaContornoSprite.Bitmap = HordaContornoBitmap;
             HordaContornoSprite.SrcRect = new Rectangle(0, 0, HordaContornoBitmap.Width, HordaContornoBitmap.Height);
-            img_width = D3DDevice.Instance.Device.Viewport.Width/3;
-            img_height = D3DDevice.Instance.Device.Viewport.Height/20;
-            HordaContornoSprite.Scaling = new Vector2((float)img_width / HordaContornoBitmap.Width, (float)img_height / HordaContornoBitmap.Height);
+            HordaContornoSprite.Scaling = new Vector2((float)img_width / HordaContornoBitmap.Width, (float)img_height*5 / HordaContornoBitmap.Height);
             HordaContornoSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width - img_width * 1.1F,
-                    D3DDevice.Instance.Device.Viewport.Height - img_height * 1.5F);
+                    D3DDevice.Instance.Device.Viewport.Height - img_height * 5.2F);
             HordaContornoSprite.Rotation = 0;
 
             HordaRellenoSprite = new CustomSprite();
             HordaRellenoSprite.Bitmap = HordaRellenoBitmap;
             HordaRellenoSprite.SrcRect = new Rectangle(0, 0, HordaRellenoBitmap.Width, HordaRellenoBitmap.Height);
-            img_width = D3DDevice.Instance.Device.Viewport.Width / 3;
-            img_height = D3DDevice.Instance.Device.Viewport.Height / 20;
             //HordaRellenoSprite.Scaling = new Vector2((float)img_width / HordaRellenoBitmap.Width, (float)img_height / HordaRellenoBitmap.Height);
             HordaRellenoSprite.Scaling = new Vector2(0, (float)img_height / HordaRellenoBitmap.Height);
             HordaRellenoSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width - img_width * 1.1F,
                     D3DDevice.Instance.Device.Viewport.Height - img_height * 1.5F);
             HordaRellenoSprite.Rotation = 0;
+            
+            HordaIndicadorSprite = new CustomSprite();
+            HordaIndicadorSprite.Bitmap = HordaIndicadorBitmap;
+            HordaIndicadorSprite.SrcRect = new Rectangle(0, 0, HordaIndicadorBitmap.Width, HordaIndicadorBitmap.Height);
+            //HordaRellenoSprite.Scaling = new Vector2((float)img_width / HordaRellenoBitmap.Width, (float)img_height / HordaRellenoBitmap.Height);
+            HordaIndicadorSprite.Scaling = new Vector2((float)img_height / HordaIndicadorBitmap.Height, (float)img_height / HordaIndicadorBitmap.Height);
+            HordaIndicadorSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width - img_height * 1.1F,
+                    D3DDevice.Instance.Device.Viewport.Height - img_height * 1.5F);
+            HordaIndicadorSprite.Rotation = 0;
         }
 
 
@@ -119,6 +131,9 @@ namespace TGC.Group.Model
             float x = D3DDevice.Instance.Device.Viewport.Width - (img_width * 1.1F) + (float)img_width - sx * (float)HordaRellenoBitmap.Width;
             HordaRellenoSprite.Position = new Vector2(x,
                     D3DDevice.Instance.Device.Viewport.Height - img_height * 1.5F);
+
+            HordaIndicadorSprite.Position = new Vector2(x - img_height / 2,
+                    D3DDevice.Instance.Device.Viewport.Height - img_height * 1.5F);
         }
 
 
@@ -139,6 +154,7 @@ namespace TGC.Group.Model
             _game._spriteDrawer.BeginDrawSprite();
             _game._spriteDrawer.DrawSprite(HordaRellenoSprite);
             _game._spriteDrawer.DrawSprite(HordaContornoSprite);
+            _game._spriteDrawer.DrawSprite(HordaIndicadorSprite);
             _game._spriteDrawer.EndDrawSprite();
         }
     }

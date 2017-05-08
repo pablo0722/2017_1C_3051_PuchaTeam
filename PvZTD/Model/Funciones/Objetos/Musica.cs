@@ -10,7 +10,7 @@ namespace TGC.Group.Model
         /*                                  CONSTANTES
         /******************************************************************************************/
         // Musicas
-        public const string PATH_MUSICA = "..\\..\\Media\\Musicas\\Plants vs Zombies Soundtrack. Pool Stage.mp3";
+        public const string PATH_MUSICA = "..\\..\\Media\\Musicas\\PvZ_Pool_Stage.mp3";
 
 
 
