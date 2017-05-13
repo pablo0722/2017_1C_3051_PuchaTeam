@@ -1,6 +1,6 @@
 <total>
 (tiempos)
-,200,
+,15,
 ---
 <Zcomun>
 (tiempos)
