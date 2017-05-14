@@ -240,6 +240,7 @@ namespace TGC.Group.Model.Funciones.Objetos
                     break;
 
                 case 2:
+                    System.Environment.Exit(1);
                     break;
 
                 case 3:
