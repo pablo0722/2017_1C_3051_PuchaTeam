@@ -89,6 +89,11 @@ namespace TGC.Group.Model
                 for (int j = 0; j < SuperGuisante._instancias.Count; j++)
                 {
                     SuperGuisante.Inst_Select(SuperGuisante._instancias[j]);
+                    if (SuperGuisante._instanciaActual.pos.Z > 150F)
+                    {
+                        SuperGuisante._instanciaActual.pos.Z = 0F;
+                        SuperGuisante._instanciaActual.pos.Y = -5F;
+                    }
                     if (SuperGuisante._instanciaActual.pos.Y != -5F)
                     {
                         SuperGuisante._instanciaActual.pos.Z += game.ElapsedTime * 50;
@@ -127,7 +132,7 @@ namespace TGC.Group.Model
                             if (fila == zombie.fila)
                             {
                                 // Si estan en la misma fila, pueden chocar
-                                if ((peas._instanciaActual.pos.Z > zombie.zombie.pos.Z - 1) && (peas._instanciaActual.pos.Z < zombie.zombie.pos.Z + 1))
+                                if ((peas._instanciaActual.pos.Z > zombie.zombie.pos.Z - 1) && (peas._instanciaActual.pos.Z < zombie.zombie.pos.Z + 3))
                                 {
                                     // Choca
                                     peas._instanciaActual.pos.Y = -5F;

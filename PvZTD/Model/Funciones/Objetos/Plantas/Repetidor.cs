@@ -30,6 +30,12 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
         /******************************************************************************************/
         /*                                      ESTRUCTURAS
         /******************************************************************************************/
+        public struct t_celda
+        {
+            public int fila;
+            public int columna;
+        }
+
         public class t_RepetidorInstancia
         {
             public struct guisante
@@ -101,21 +107,46 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                 colision(obj_guisante, _game._zombieCono);
                 colision(obj_guisante, _game._zombieBalde);
 
-                int zombie = -1;
+                // Para onda expansiva de la super
+                t_celda CeldaZombie;
+                CeldaZombie = colision(SuperGuisante, _game._zombie);
+                if(CeldaZombie.fila >= 0)
+                {
+                    OndaExpansiva(_game._zombie, CeldaZombie.fila, CeldaZombie.columna);
+                    OndaExpansiva(_game._zombieCono, CeldaZombie.fila, CeldaZombie.columna);
+                    OndaExpansiva(_game._zombieBalde, CeldaZombie.fila, CeldaZombie.columna);
+                }
+                CeldaZombie = colision(SuperGuisante, _game._zombieCono);
+                if (CeldaZombie.fila >= 0)
+                {
+                    OndaExpansiva(_game._zombie, CeldaZombie.fila, CeldaZombie.columna);
+                    OndaExpansiva(_game._zombieCono, CeldaZombie.fila, CeldaZombie.columna);
+                    OndaExpansiva(_game._zombieBalde, CeldaZombie.fila, CeldaZombie.columna);
+                }
+                CeldaZombie = colision(SuperGuisante, _game._zombieBalde);
+                if (CeldaZombie.fila >= 0)
+                {
+                    OndaExpansiva(_game._zombie, CeldaZombie.fila, CeldaZombie.columna);
+                    OndaExpansiva(_game._zombieCono, CeldaZombie.fila, CeldaZombie.columna);
+                    OndaExpansiva(_game._zombieBalde, CeldaZombie.fila, CeldaZombie.columna);
+                }
 
-                zombie = colision(SuperGuisante, _game._zombie);
-                zombie = colision(SuperGuisante, _game._zombieCono);
-                zombie = colision(SuperGuisante, _game._zombieBalde);
-
+                // Avance de SuperGuisantes
                 for (int j = 0; j < SuperGuisante._instancias.Count; j++)
                 {
                     SuperGuisante.Inst_Select(SuperGuisante._instancias[j]);
+                    if (SuperGuisante._instanciaActual.pos.Z > 150F)
+                    {
+                        SuperGuisante._instanciaActual.pos.Z = 0F;
+                        SuperGuisante._instanciaActual.pos.Y = -5F;
+                    }
                     if (SuperGuisante._instanciaActual.pos.Y != -5F)
                     {
                         SuperGuisante._instanciaActual.pos.Z += _game.ElapsedTime * 50;
                     }
                 }
 
+                // Avance de guisantes comunes
                 for (int i_guisante = 0; i_guisante < guisantes.Count; i_guisante++)
                 {
                     if (guisantes[i_guisante].tiempo > 0)
@@ -137,9 +168,31 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                 }
             }
 
-            private int colision(t_Objeto3D peas, t_ZombieComun zombies)
+            private void OndaExpansiva(t_ZombieComun zombies, int FilaCenter, int ComulnaCenter)
             {
-                int ret = -1;
+                for (int i = zombies._InstZombie.Count - 1; i >= 0; i--)
+                {
+                    t_ZombieComun.t_ZombieInstancia zombie = zombies._InstZombie[i];
+
+                    if (zombie.fila >= FilaCenter-1 && zombie.fila <= FilaCenter + 1 &&
+                       zombie.columna >= ComulnaCenter - 1 && zombie.columna <= ComulnaCenter + 1)
+                    {
+                        zombie.vida-=30;
+                        zombies._InstZombie[i] = zombie;
+                        if (zombie.vida <= 0)
+                        {
+                            zombies._Zombie.Inst_Delete(zombie.zombie);
+                            zombies._InstZombie.Remove(zombie);
+                        }
+                    }
+                }
+            }
+
+            private t_celda colision(t_Objeto3D peas, t_ZombieComun zombies)
+            {
+                t_celda ret = new t_celda();
+                ret.fila = -1;
+                ret.columna = -1;
 
                 for (int i_guisante = 0; i_guisante < peas._instancias.Count; i_guisante++)
                 {
@@ -154,10 +207,12 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                             if (fila == zombie.fila)
                             {
                                 // Si estan en la misma fila, pueden chocar
-                                if ((peas._instanciaActual.pos.Z > zombie.zombie.pos.Z - 1) && (peas._instanciaActual.pos.Z < zombie.zombie.pos.Z + 1))
+                                if ((peas._instanciaActual.pos.Z > zombie.zombie.pos.Z - 1) && (peas._instanciaActual.pos.Z < zombie.zombie.pos.Z + 3))
                                 {
                                     // Choca
-                                    ret = i;
+                                    ret.fila = zombie.fila;
+                                    ret.columna = zombie.columna;
+
                                     peas._instanciaActual.pos.Y = -5F;
                                     zombie.vida--;
                                     zombies._InstZombie[i] = zombie;
