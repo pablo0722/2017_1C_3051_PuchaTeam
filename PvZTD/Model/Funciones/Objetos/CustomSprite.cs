@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.DirectX;
-using System;
 using System.Drawing;
 
 namespace TGC.Group.Model.Funciones.Objetos
