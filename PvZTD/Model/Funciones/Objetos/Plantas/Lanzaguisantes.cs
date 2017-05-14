@@ -169,7 +169,7 @@ namespace TGC.Group.Model
 
             public void render()
             {
-                guisante.Render();
+                guisante.Render(true);
             }
         };
 

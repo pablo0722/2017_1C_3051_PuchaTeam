@@ -286,7 +286,7 @@ namespace TGC.Group.Model
             _game.Func_Text("Tiempo transcurrido: ", 800, 10);
             _game.Func_Text(_game._TiempoTranscurrido.ToString(), 950, 10);
 
-            _Zombie.Render();
+            _Zombie.Render(true);
         }
     }
 }

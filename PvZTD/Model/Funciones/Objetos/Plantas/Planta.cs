@@ -1,6 +1,7 @@
 ﻿using Microsoft.DirectX;
 using TGC.Core.Utils;
 using System.Collections.Generic;
+using Microsoft.DirectX.DirectInput;
 
 
 namespace TGC.Group.Model
@@ -29,7 +30,12 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      VARIABLES
         /******************************************************************************************/
+        // VARIABLES ESTATICAS
+        static private bool _sCrearPlanta;
+
+        // VARIABLES NO ESTATICAS
         public t_Objeto3D _Planta;
+        public t_Objeto3D.t_instancia _instPersonal = null;
         protected t_HUDBox _HUDBox;
         private GameModel _game;
         private Vector3 _Pos_PlantaActual;       // Posicion Planta Actual
@@ -98,9 +104,31 @@ namespace TGC.Group.Model
                 ChangeHUDTextureWhenMouseOver = true;
             }
 
-            bool ClickSobreHUDBox = _HUDBox.Update(ShowBoundingBoxWithKey, ChangeHUDTextureWhenMouseOver);
+            int ClickSobreHUDBox = _HUDBox.Update(ShowBoundingBoxWithKey, ChangeHUDTextureWhenMouseOver);
             
             _Planta.Update(ShowBoundingBoxWithKey);
+
+
+            if (_game._camara.Modo_Is_CamaraAerea() && !_sCrearPlanta && _game._mouse.ClickIzq_RisingDown())
+            {
+                t_Objeto3D.t_instancia inst = _game._colision.MouseMesh(_Planta);
+                if (inst != null)
+                {
+                    _instPersonal = inst;
+                    _game._camara.Modo_Personal();
+                    _game._camara.Aerea_Posicion(inst.pos.X, inst.pos.Y + 20, inst.pos.Z - 20);
+                    _game._camara.Aerea_LookAt(inst.pos.X, inst.pos.Y, inst.pos.Z + 100);
+                    _game._camara.Aerea_Up(0, 1, 0);
+
+                    ret = 3;
+                }
+            }
+
+            if ( (_game.Input.keyPressed(Key.Escape) || _game._mouse.ClickDer_RisingDown()) && _game._camara.Modo_Is_CamaraPersonal())
+            {
+                _instPersonal = null;
+                _game._camara.Modo_Aerea();
+            }
 
 
             if (_CrearPlanta && _game._mouse.ClickIzq_RisingDown() && _game._camara.Modo_Is_CamaraAerea() && !t_EscenarioBase.Is_PastoOcupado(t_EscenarioBase.MouseY, t_EscenarioBase.MouseX))
@@ -114,12 +142,24 @@ namespace TGC.Group.Model
                 _InstPlanta.Add(planta);
                 
                 _CrearPlanta = false;
+                _sCrearPlanta = false;
                 ret = 2;
+            }
+
+            if (_CrearPlanta && _game._mouse.ClickDer_RisingDown() && _game._camara.Modo_Is_CamaraAerea())
+            {
+                // Planta requiere ubicacion del usuario
+                System.Windows.Forms.Cursor.Show();
+                _game._soles += _ValorPlanta;
+                _Planta.Inst_Delete();
+
+                _CrearPlanta = false;
+                _sCrearPlanta = false;
             }
 
             if (_game._soles >= _ValorPlanta)
             {
-                if (ClickSobreHUDBox)
+                if (ClickSobreHUDBox == 1)
                 {
                     // Planta requiere ubicacion del usuario
                     System.Windows.Forms.Cursor.Hide();
@@ -127,8 +167,13 @@ namespace TGC.Group.Model
                     _Planta.Inst_CreateAndSelect();
 
                     _CrearPlanta = true;
+                    _sCrearPlanta = true;
                     ret = 1;
                 }
+            }
+            if(ClickSobreHUDBox == 2)
+            {
+                ret = 4;
             }
             if (_HUDBox.Is_BoxPicked())
             {
@@ -160,7 +205,7 @@ namespace TGC.Group.Model
         public void Render()
         {
             _HUDBox.Render();
-            _Planta.Render();
+            _Planta.Render(true);
         }
     }
 }

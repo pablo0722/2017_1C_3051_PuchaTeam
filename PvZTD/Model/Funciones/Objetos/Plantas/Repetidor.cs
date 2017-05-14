@@ -189,7 +189,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
 
             public void render()
             {
-                obj_guisante.Render();
+                obj_guisante.Render(true);
             }
         };
 
