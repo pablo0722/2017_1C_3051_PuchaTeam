@@ -139,10 +139,8 @@ namespace TGC.Group.Model
             float sy = (float)img_height / SuperRellenoBitmap.Height;
             float y;
 
-            if (_game.FirstRender == 0)
-            {
-                _TiempoTranscurrido += _game.ElapsedTime;
-            }
+            _TiempoTranscurrido += _game.ElapsedTime;
+
 
             sy = _TiempoTranscurrido * sy / TIEMPO;
             if (sy > (float)img_height / SuperRellenoBitmap.Height)

@@ -50,8 +50,10 @@ namespace TGC.Group.Model
         public string _NivelActual = null;
         public Drawer2D _spriteDrawer;
         public t_Hordas _Hordas;
+        public Menu _Menu;
         public t_Super _Super;
         public int FirstRender = 2;
+
 
 
 
@@ -80,6 +82,7 @@ namespace TGC.Group.Model
         {
             //Device de DirectX para crear primitivas.
             //var d3dDevice = D3DDevice.Instance.Device;
+            _Menu = Menu.Crear(this);
 
             _spriteDrawer = new Drawer2D();
             _Hordas = new t_Hordas(this);
@@ -105,19 +108,28 @@ namespace TGC.Group.Model
         public override void Update()
         {
             PreUpdate();
-
-            if (FirstRender == 0)
+            if (ElapsedTime < 1000)
             {
                 _TiempoTranscurrido += ElapsedTime;
             }
 
-            _camara.Update(ElapsedTime);
+            if (Menu.IniciarJuego)
+            {
 
-            _Hordas.Update();
-            _Super.Update();
 
-            pablo_update();
-            jose_update();
+                _camara.Update(ElapsedTime);
+
+                _Hordas.Update();
+                _Super.Update();
+                pablo_update();
+                jose_update();
+            }
+            else
+            {
+                _camara.UpdateMenu(_TiempoTranscurrido);
+                _Menu.Update();
+            }
+
         }
 
         /// <summary>
@@ -127,23 +139,25 @@ namespace TGC.Group.Model
         /// </summary>
         public override void Render()
         {
-            if (FirstRender > 0)
-            {
-                ElapsedTime = 0;
-                FirstRender --;
-            }
+
 
             //Inicio el render de la escena, para ejemplos simples. Cuando tenemos postprocesado o shaders es mejor realizar las operaciones según nuestra conveniencia.
             PreRender();
-            DrawText.drawText("Soles:", 100, 0, Color.Yellow);
-            DrawText.drawText(_soles.ToString(), 150, 0, Color.Yellow);
-
-            _Hordas.Render();
-            _Super.Render();
-
+            
+            if (Menu.IniciarJuego)
+            {
+                DrawText.drawText("Soles:", 100, 0, Color.Yellow);
+                DrawText.drawText(_soles.ToString(), 150, 0, Color.Yellow);
+                _Hordas.Render();
+                _Super.Render();
+            }
+            else
+            {
+                _Menu.Render();
+            }
+            
             pablo_render();
             jose_render();
-
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
         }

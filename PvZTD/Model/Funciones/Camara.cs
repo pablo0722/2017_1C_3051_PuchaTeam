@@ -3,7 +3,7 @@ using Microsoft.DirectX.DirectInput;
 using TGC.Core.Example;
 using TGC.Core.Input;
 using TGC.Core.Camara;
-
+using TGC.Core.Utils;
 using System.Collections.Generic;
 
 namespace TGC.Group.Model
@@ -197,13 +197,7 @@ namespace TGC.Group.Model
                                     new Vector3(X, Y, Z));
         }
 
-
-
-
-
-
-
-
+  
 
 
         /******************************************************************************************/
@@ -259,5 +253,17 @@ namespace TGC.Group.Model
             if (_Is_CamLibre)
                 _CamaraLibre.UpdateCamera(ElapsedTime);
         }
+
+
+
+        public void UpdateMenu(float _TiempoTranscurrido)
+        {
+            
+            Aerea_Posicion(150*FastMath.Cos(_TiempoTranscurrido)+(FastMath.Cos(_TiempoTranscurrido/2) * 100), 100, 50 * FastMath.Sin(_TiempoTranscurrido/2) + (FastMath.Sin(_TiempoTranscurrido/2) * 100));
+        }
+
+
+
+
     }
 }

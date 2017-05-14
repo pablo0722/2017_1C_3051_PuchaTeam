@@ -98,6 +98,7 @@
     <Compile Include="Model\Funciones\Objetos\Escenarios\Escenario1.cs" />
     <Compile Include="Model\Funciones\Objetos\Escenarios\EscenarioBase.cs" />
     <Compile Include="Model\Funciones\Objetos\Hordas.cs" />
+    <Compile Include="Model\Funciones\Objetos\Menu.cs" />
     <Compile Include="Model\Funciones\Objetos\Musica.cs" />
     <Compile Include="Model\Funciones\Objetos\CustomBitmap.cs" />
     <Compile Include="Model\Funciones\Objetos\Plantas\Girasol.cs" />

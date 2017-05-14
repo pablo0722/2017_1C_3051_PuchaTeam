@@ -128,17 +128,21 @@ namespace TGC.Group.Model
         {
             _escenario1.Render();
 
-            _Sol.Render();
+            if(Menu.IniciarJuego)
+            {
+            
+                _Sol.Render();
 
-            _zombie.Render();
-            _zombieBalde.Render();
-            _zombieCono.Render();
+                _zombie.Render();
+                _zombieBalde.Render();
+                _zombieCono.Render();
 
 
-            _Girasol.Render();
-            _Lanzaguisantes.Render();
-            _Patatapum.Render();
-            _repetidor.Render();
+                _Girasol.Render();
+                _Lanzaguisantes.Render();
+                _Patatapum.Render();
+                _repetidor.Render();
+            }
         }
 
 
