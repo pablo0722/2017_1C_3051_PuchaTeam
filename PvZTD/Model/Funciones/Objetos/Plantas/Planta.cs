@@ -36,6 +36,7 @@ namespace TGC.Group.Model
         // VARIABLES NO ESTATICAS
         public t_Objeto3D _Planta;
         public t_Objeto3D.t_instancia _instPersonal = null;
+        public int _iPersonal = 0;
         protected t_HUDBox _HUDBox;
         private GameModel _game;
         private Vector3 _Pos_PlantaActual;       // Posicion Planta Actual
@@ -114,6 +115,13 @@ namespace TGC.Group.Model
                 t_Objeto3D.t_instancia inst = _game._colision.MouseMesh(_Planta);
                 if (inst != null)
                 {
+                    for (int i = 0; i < _Planta._instancias.Count; i++)
+                    {
+                        if (_Planta._instancias[i] == inst)
+                        {
+                            _iPersonal = i;
+                        }
+                    }
                     _instPersonal = inst;
                     _game._camara.Modo_Personal();
                     _game._camara.Aerea_Posicion(inst.pos.X, inst.pos.Y + 20, inst.pos.Z - 20);
@@ -126,6 +134,7 @@ namespace TGC.Group.Model
 
             if ( (_game.Input.keyPressed(Key.Escape) || _game._mouse.ClickDer_RisingDown()) && _game._camara.Modo_Is_CamaraPersonal())
             {
+                _iPersonal = 0;
                 _instPersonal = null;
                 _game._camara.Modo_Aerea();
             }

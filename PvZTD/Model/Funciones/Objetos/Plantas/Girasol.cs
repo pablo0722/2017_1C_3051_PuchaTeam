@@ -141,6 +141,7 @@ namespace TGC.Group.Model
 
             if(Is_Personal && GirasolCreado == 4)
             {
+                // Se activo la super
                 _game._soles += SUPER_CANT_SOLES;
             }
 

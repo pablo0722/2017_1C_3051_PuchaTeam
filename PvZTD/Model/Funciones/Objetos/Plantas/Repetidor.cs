@@ -187,6 +187,22 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                 }
             }
 
+            private void colision(t_Objeto3D peas, t_ZombieComun zombies)
+            {
+            }
+
+            public void super()
+            {
+                for (int j = 0; j < SuperGuisante._instancias.Count; j++)
+                {
+                    SuperGuisante.Inst_Select(SuperGuisante._instancias[j]);
+
+                    SuperGuisante._instanciaActual.pos.X = x;
+                    SuperGuisante._instanciaActual.pos.Y = y;
+                    SuperGuisante._instanciaActual.pos.Z = z;
+                }
+            }
+
             public void render()
             {
                 obj_guisante.Render(true);
@@ -202,11 +218,12 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
 
 
 
-            /******************************************************************************************/
-            /*                                      VARIABLES
-            /******************************************************************************************/
-            public GameModel _game;
-            public List<t_RepetidorInstancia> _InstRepetidor;
+        /******************************************************************************************/
+        /*                                      VARIABLES
+        /******************************************************************************************/
+        public GameModel _game;
+        public List<t_RepetidorInstancia> _InstRepetidor;
+        public bool Is_Personal = false;
 
 
 
@@ -217,80 +234,101 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
 
 
 
-            /******************************************************************************************/
-            /*                                      CONSTRUCTOR
-            /******************************************************************************************/
-            private t_Repetidor(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n, PLANTA_VALOR, VIDA_PLANTA)
+        /******************************************************************************************/
+        /*                                      CONSTRUCTOR
+        /******************************************************************************************/
+        private t_Repetidor(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n, PLANTA_VALOR, VIDA_PLANTA)
+        {
+            _game = game;
+
+            _Planta.Set_Transform(0, 2.1F, 0,
+                                            0.06F, 0.06F, 0.06F,
+                                            0, GameModel.PI, 0);
+
+            _InstRepetidor = new List<t_RepetidorInstancia>();
+        }
+
+        public static t_Repetidor Crear(GameModel game, byte n)
+        {
+            if (t_HUDBox.Is_Libre(n) && game != null)
             {
-                _game = game;
-
-                _Planta.Set_Transform(0, 2.1F, 0,
-                                                0.06F, 0.06F, 0.06F,
-                                                0, GameModel.PI, 0);
-
-                _InstRepetidor = new List<t_RepetidorInstancia>();
+                return new t_Repetidor(game, n);
             }
 
-            public static t_Repetidor Crear(GameModel game, byte n)
+            return null;
+        }
+
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************/
+        /*                                      UPDATE
+        /******************************************************************************************/
+        public new void Update(bool ShowBoundingBoxWithKey)
+        {
+            int LanzaguisanteCreado = base.Update(ShowBoundingBoxWithKey);
+
+
+
+            if (_game._camara.Modo_Is_CamaraPersonal())
             {
-                if (t_HUDBox.Is_Libre(n) && game != null)
+                if (LanzaguisanteCreado == 3)
                 {
-                    return new t_Repetidor(game, n);
+                    // Se seleccionó una planta para controlar
+
+                    Is_Personal = true;
                 }
-
-                return null;
+            }
+            else
+            {
+                Is_Personal = false;
             }
 
-
-
-
-
-
-
-
-
-
-            /******************************************************************************************/
-            /*                                      UPDATE
-            /******************************************************************************************/
-            public new void Update(bool ShowBoundingBoxWithKey)
+            if (Is_Personal && LanzaguisanteCreado == 4)
             {
-                int LanzaguisanteCreado = base.Update(ShowBoundingBoxWithKey);
+                // Se activo la super
+                _InstRepetidor[_iPersonal].super();
+            }
 
-                for (int i = 0; i < _InstRepetidor.Count; i++)
-                {
+            for (int i = 0; i < _InstRepetidor.Count; i++)
+            {
                 _InstRepetidor[i].update(ShowBoundingBoxWithKey);
-                }
+            }
 
-                if (LanzaguisanteCreado == 2)
-                {
+            if (LanzaguisanteCreado == 2)
+            {
                 // Lanzaguisante ubicado
                 t_RepetidorInstancia Repetidor = new t_RepetidorInstancia(_game, _InstPlanta[_InstPlanta.Count - 1], _Planta._instancias[_Planta._instancias.Count - 1]);
                 _InstRepetidor.Add(Repetidor);
-                }
-            }
-
-
-
-
-
-
-
-
-
-
-            /******************************************************************************************/
-            /*                                      RENDER
-            /******************************************************************************************/
-            public new void Render()
-            {
-                base.Render();
-
-                for (int i = 0; i < _InstRepetidor.Count; i++)
-                {
-                    _InstRepetidor[i].render();
-                }
             }
         }
-    
+
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************/
+        /*                                      RENDER
+        /******************************************************************************************/
+        public new void Render()
+        {
+            base.Render();
+
+            for (int i = 0; i < _InstRepetidor.Count; i++)
+            {
+                _InstRepetidor[i].render();
+            }
+        }
+    }
 }
