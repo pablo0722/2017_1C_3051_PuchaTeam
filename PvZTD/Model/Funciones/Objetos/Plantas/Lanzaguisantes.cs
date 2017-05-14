@@ -10,6 +10,7 @@ namespace TGC.Group.Model
         /*                                      CONSTANTES
         /******************************************************************************************/
         private const string PATH_GUISANTE_OBJ = "..\\..\\Media\\Objetos\\guisante-TgcScene.xml";
+        private const string PATH_SUPER_GUISANTE_OBJ = "..\\..\\Media\\Objetos\\SuperGuisante-TgcScene.xml";
         private const string PATH_OBJ = "..\\..\\Media\\Objetos\\pea-TgcScene.xml";
         private const string PATH_TEXTURA_ON = "..\\..\\Media\\Texturas\\HUD_Peashooter_sel.jpg";
         private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\HUD_Peashooter.jpg";
@@ -31,10 +32,11 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public class t_LanzaguisantesInstancia
         {
-            public float x, y, z, zActual;
+            public float x, y, z;
             public int fila;
             public float tiempo;
             public t_Objeto3D guisante { get; set; }
+            public t_Objeto3D SuperGuisante { get; set; }
             public t_Objeto3D.t_instancia Lanzaguisante;
             public t_PlantaInstancia planta;
             public GameModel game;
@@ -49,7 +51,7 @@ namespace TGC.Group.Model
 
                 x = Lanzaguisante.pos.X;
                 y = Lanzaguisante.pos.Y + 5;
-                zActual = z = Lanzaguisante.pos.Z;
+                z = Lanzaguisante.pos.Z;
 
                 this.planta = planta;
 
@@ -58,118 +60,108 @@ namespace TGC.Group.Model
                 guisante = t_Objeto3D.Crear(game, PATH_GUISANTE_OBJ);
                 guisante.Set_Size(0.04F, 0.04F, 0.04F);
                 guisante.Inst_CreateAndSelect(x, y, z);
+
+                // Guisantes para la super
+                SuperGuisante = t_Objeto3D.Crear(game, PATH_SUPER_GUISANTE_OBJ);
+                SuperGuisante.Set_Size(0.1F, 0.1F, 0.1F);
+                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
+                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
+                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
+                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
+                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
+                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
             }
 
             public void update(bool ShowBoundingBoxWithKey)
             {
                 guisante.Update(ShowBoundingBoxWithKey);
+                SuperGuisante.Update(ShowBoundingBoxWithKey);
 
-                bool choca = false;
+                colision(guisante, game._zombie);
+                colision(guisante, game._zombieCono);
+                colision(guisante, game._zombieBalde);
 
-                for(int i= game._zombie._InstZombie.Count-1; i>=0; i--)
+                colision(SuperGuisante, game._zombie);
+                colision(SuperGuisante, game._zombieCono);
+                colision(SuperGuisante, game._zombieBalde);
+
+
+                for (int j = 0; j < SuperGuisante._instancias.Count; j++)
                 {
-                    if (guisante._instanciaActual.pos.Y != -1.5F)
+                    SuperGuisante.Inst_Select(SuperGuisante._instancias[j]);
+                    if (SuperGuisante._instanciaActual.pos.Y != -5F)
                     {
-                        //El guisante esta en camino
-                        t_ZombieComun.t_ZombieInstancia zombie = game._zombie._InstZombie[i];
-                        if (fila == zombie.fila)
-                        {
-                            // Si estan en la misma fila, pueden chocar
-                            if ((zActual > zombie.zombie.pos.Z - 1) && (zActual < zombie.zombie.pos.Z + 1))
-                            {
-                                // Choca
-                                choca = true;
-                                guisante._instanciaActual.pos.Y = -1.5F;
-                                zombie.vida--;
-                                game._zombie._InstZombie[i] = zombie;
-                                if (zombie.vida <= 0)
-                                {
-                                    game._zombie._Zombie.Inst_Delete(zombie.zombie);
-                                    game._zombie._InstZombie.Remove(zombie);
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (!choca)
-                {
-                    for (int i = game._zombieCono._InstZombie.Count - 1; i >= 0; i--)
-                    {
-                        if (guisante._instanciaActual.pos.Y != -1.5F)
-                        {
-                            //El guisante esta en camino
-                            t_ZombieComun.t_ZombieInstancia zombie = game._zombieCono._InstZombie[i];
-                            if (fila == zombie.fila)
-                            {
-                                // Si estan en la misma fila, pueden chocar
-                                if ((zActual > zombie.zombie.pos.Z - 1) && (zActual < zombie.zombie.pos.Z + 1))
-                                {
-                                    // Choca
-                                    choca = true;
-                                    guisante._instanciaActual.pos.Y = -1.5F;
-                                    zombie.vida--;
-                                    game._zombieCono._InstZombie[i] = zombie;
-                                    if (zombie.vida <= 0)
-                                    {
-                                        game._zombieCono._Zombie.Inst_Delete(zombie.zombie);
-                                        game._zombieCono._InstZombie.Remove(zombie);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (!choca)
-                {
-                    for (int i = game._zombieBalde._InstZombie.Count - 1; i >= 0; i--)
-                    {
-                        if (guisante._instanciaActual.pos.Y != -1.5F)
-                        {
-                            //El guisante esta en camino
-                            t_ZombieComun.t_ZombieInstancia zombie = game._zombieBalde._InstZombie[i];
-                            if (fila == zombie.fila)
-                            {
-                                // Si estan en la misma fila, pueden chocar
-                                if ((zActual > zombie.zombie.pos.Z - 1) && (zActual < zombie.zombie.pos.Z + 1))
-                                {
-                                    // Choca
-                                    choca = true;
-                                    guisante._instanciaActual.pos.Y = -1.5F;
-                                    zombie.vida--;
-                                    game._zombieBalde._InstZombie[i] = zombie;
-                                    if (zombie.vida <= 0)
-                                    {
-                                        game._zombieBalde._Zombie.Inst_Delete(zombie.zombie);
-                                        game._zombieBalde._InstZombie.Remove(zombie);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
+                        SuperGuisante._instanciaActual.pos.Z += game.ElapsedTime * 50;
                     }
                 }
 
                 if (tiempo > 0)
                 {
                     tiempo -= game.ElapsedTime;
-                    zActual = guisante._instanciaActual.pos.Z += game.ElapsedTime * 50;
+
+                    if (guisante._instanciaActual.pos.Y != -5F)
+                    {
+                        guisante._instanciaActual.pos.Z += game.ElapsedTime * 50;
+                    }
                 }
                 else
                 {
                     tiempo = TIEMPO_GUISANTE;
-                    zActual = guisante._instanciaActual.pos.X = x;
-                    zActual = guisante._instanciaActual.pos.Y = y;
-                    zActual = guisante._instanciaActual.pos.Z = z;
+                    guisante._instanciaActual.pos.X = x;
+                    guisante._instanciaActual.pos.Y = y;
+                    guisante._instanciaActual.pos.Z = z;
+                }
+            }
+
+            private void colision(t_Objeto3D peas, t_ZombieComun zombies)
+            {
+                for (int i = zombies._InstZombie.Count - 1; i >= 0; i--)
+                {
+                    for (int j = 0; j < peas._instancias.Count; j++)
+                    {
+                        peas.Inst_Select(peas._instancias[j]);
+                        if (peas._instanciaActual.pos.Y != -5F)
+                        {
+                            //El guisante esta en camino
+                            t_ZombieComun.t_ZombieInstancia zombie = zombies._InstZombie[i];
+                            if (fila == zombie.fila)
+                            {
+                                // Si estan en la misma fila, pueden chocar
+                                if ((peas._instanciaActual.pos.Z > zombie.zombie.pos.Z - 1) && (peas._instanciaActual.pos.Z < zombie.zombie.pos.Z + 1))
+                                {
+                                    // Choca
+                                    peas._instanciaActual.pos.Y = -5F;
+                                    zombie.vida--;
+                                    zombies._InstZombie[i] = zombie;
+                                    if (zombie.vida <= 0)
+                                    {
+                                        zombies._Zombie.Inst_Delete(zombie.zombie);
+                                        zombies._InstZombie.Remove(zombie);
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            public void super()
+            {
+                for (int j = 0; j < SuperGuisante._instancias.Count; j++)
+                {
+                    SuperGuisante.Inst_Select(SuperGuisante._instancias[j]);
+
+                    SuperGuisante._instanciaActual.pos.X = x;
+                    SuperGuisante._instanciaActual.pos.Y = y;
+                    SuperGuisante._instanciaActual.pos.Z = z;
                 }
             }
 
             public void render()
             {
-                guisante.Render();
+                guisante.Render(true);
+                SuperGuisante.Render(true);
             }
         };
 
@@ -187,6 +179,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public GameModel _game;
         public List<t_LanzaguisantesInstancia> _InstLanzaguisantes;
+        public bool Is_Personal = false;
 
 
 
@@ -237,7 +230,27 @@ namespace TGC.Group.Model
         {
             int LanzaguisanteCreado = base.Update(ShowBoundingBoxWithKey);
 
-            for(int i=0; i<_InstLanzaguisantes.Count; i++)
+            if (_game._camara.Modo_Is_CamaraPersonal())
+            {
+                if (LanzaguisanteCreado == 3)
+                {
+                    // Se seleccionó una planta para controlar
+
+                    Is_Personal = true;
+                }
+            }
+            else
+            {
+                Is_Personal = false;
+            }
+
+            if (Is_Personal && LanzaguisanteCreado == 4)
+            {
+                // Se activo la super
+                _InstLanzaguisantes[_iPersonal].super();
+            }
+
+            for (int i=0; i<_InstLanzaguisantes.Count; i++)
             {
                 _InstLanzaguisantes[i].update(ShowBoundingBoxWithKey);
             }

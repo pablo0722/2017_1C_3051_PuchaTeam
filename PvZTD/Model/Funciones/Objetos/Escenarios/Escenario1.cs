@@ -103,7 +103,7 @@ namespace TGC.Group.Model
         public new void Render()
         {
             base.Render();
-            _Mountain.Render();
+            _Mountain.Render(false);
         }
     }
 }

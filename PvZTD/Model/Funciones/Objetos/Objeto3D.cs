@@ -450,29 +450,32 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      RENDER
         /******************************************************************************************/
-        public void Render()
+        public void Render(bool ocultar)
         {
             for (int i = 0; i < _instancias.Count; i++)
             {
-                for (int j = 0; j < _meshes.mesh.Count; j++)
+                if (_instancias[i].pos.Z >= _game._camara._CamaraAerea.Position.Z+20 || !_game._camara.Modo_Is_CamaraPersonal() || !ocultar)
                 {
-                    if (_ChangeColorMesh)
+                    for (int j = 0; j < _meshes.mesh.Count; j++)
                     {
-                        _meshes.mesh[j].setColor(_meshes.color[j]);
-                    }
-                    else if(_ChangeColorInst)
-                    {
-                        _meshes.mesh[j].setColor(_instancias[i].color);
-                    }
-                    _meshes.mesh[j].Position = _instancias[i].pos;
-                    _meshes.mesh[j].Rotation = _instancias[i].rot;
-                    _meshes.mesh[j].Scale = _instancias[i].size;
-                    _meshes.mesh[j].UpdateMeshTransform();
-                    _meshes.mesh[j].render();
+                        if (_ChangeColorMesh)
+                        {
+                            _meshes.mesh[j].setColor(_meshes.color[j]);
+                        }
+                        else if (_ChangeColorInst)
+                        {
+                            _meshes.mesh[j].setColor(_instancias[i].color);
+                        }
+                        _meshes.mesh[j].Position = _instancias[i].pos;
+                        _meshes.mesh[j].Rotation = _instancias[i].rot;
+                        _meshes.mesh[j].Scale = _instancias[i].size;
+                        _meshes.mesh[j].UpdateMeshTransform();
+                        _meshes.mesh[j].render();
 
-                    if(_ShowBoundingBox)
-                    {
-                        _meshes.mesh[j].BoundingBox.render();
+                        if (_ShowBoundingBox)
+                        {
+                            _meshes.mesh[j].BoundingBox.render();
+                        }
                     }
                 }
             }

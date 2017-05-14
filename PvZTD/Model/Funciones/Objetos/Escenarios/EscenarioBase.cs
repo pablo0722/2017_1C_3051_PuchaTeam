@@ -280,21 +280,29 @@ namespace TGC.Group.Model
         bool PickedAnterior = false;
         public void Update(bool ShowBoundingBoxWithKey, float Rotacion_Cerebros_SegundosPorVuelta)
         {
-            if (t_HUDBox.Is_AnyBoxPicked())
-            {
-                MouseX = ((int)_game.Input.Xpos) * GameModel.CANT_COLUMNAS / (D3DDevice.Instance.Device.Viewport.Width + 1);
-                MouseY = ((int)_game.Input.Ypos) * GameModel.CANT_FILAS / (D3DDevice.Instance.Device.Viewport.Height + 1);
-
-                _game._EscenarioBase.Do_PastoSelect(MouseY, MouseX);
-
-                PickedAnterior = true;
-            }
-            else if(PickedAnterior)
+            if (_game._mouse.ClickDer_RisingDown())
             {
                 _game._EscenarioBase.Do_PastoSelectNone();
-                _game._EscenarioBase.Set_PastoOcupado(MouseY, MouseX);
-
                 PickedAnterior = false;
+            }
+            else
+            {
+                if (t_HUDBox.Is_AnyBoxPicked())
+                {
+                    MouseX = ((int)_game.Input.Xpos) * GameModel.CANT_COLUMNAS / (D3DDevice.Instance.Device.Viewport.Width + 1);
+                    MouseY = ((int)_game.Input.Ypos) * GameModel.CANT_FILAS / (D3DDevice.Instance.Device.Viewport.Height + 1);
+
+                    _game._EscenarioBase.Do_PastoSelect(MouseY, MouseX);
+
+                    PickedAnterior = true;
+                }
+                else if (PickedAnterior)
+                {
+                    _game._EscenarioBase.Do_PastoSelectNone();
+                    _game._EscenarioBase.Set_PastoOcupado(MouseY, MouseX);
+
+                    PickedAnterior = false;
+                }
             }
 
             _Casa.Update(ShowBoundingBoxWithKey);
@@ -321,12 +329,12 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public void Render()
         {
-            _Casa.Render();
-            _Plano.Render();
-            _PastoClaro.Render();
-            _PastoMedio.Render();
-            _PastoOscuro.Render();
-            _Cerebro.Render();
+            _Casa.Render(true);
+            _Plano.Render(false);
+            _PastoClaro.Render(false);
+            _PastoMedio.Render(false);
+            _PastoOscuro.Render(false);
+            _Cerebro.Render(true);
         }
     }
 }

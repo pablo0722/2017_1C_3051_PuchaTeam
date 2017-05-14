@@ -72,8 +72,6 @@ namespace TGC.Group.Model
             _Patatapum = t_Patatapum.Crear(this, 2);
             _repetidor = t_Repetidor.Crear(this, 3);
 
-            p_Func_Camara_Init();
-
             _musica.Do_Play();
 
             _NivelActual = TXT_NIVEL_1;
@@ -130,25 +128,20 @@ namespace TGC.Group.Model
         {
             _escenario1.Render();
 
-            _Sol.Render();
-
-            _zombie.Render();
-            _zombieBalde.Render();
-            _zombieCono.Render();
-
-
-            _Girasol.Render();
-            _Lanzaguisantes.Render();
-            _Patatapum.Render();
-            _repetidor.Render();
-
-            if (_camara.Modo_Is_CamaraAerea())
+            if(Menu.IniciarJuego)
             {
-                Func_Text("H Para cambiar a Camara Primera Persona", 10, 80);
-            }
-            else
-            {
-                Func_Text("H Para cambiar a Camara Aérea", 10, 80);
+            
+                _Sol.Render();
+
+                _zombie.Render();
+                _zombieBalde.Render();
+                _zombieCono.Render();
+
+
+                _Girasol.Render();
+                _Lanzaguisantes.Render();
+                _Patatapum.Render();
+                _repetidor.Render();
             }
         }
 

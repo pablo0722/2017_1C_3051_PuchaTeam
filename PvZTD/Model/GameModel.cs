@@ -51,6 +51,10 @@ namespace TGC.Group.Model
         public Drawer2D _spriteDrawer;
         public t_Hordas _Hordas;
         public Menu _Menu;
+        public t_Super _Super;
+        public int FirstRender = 2;
+
+
 
 
 
@@ -82,6 +86,7 @@ namespace TGC.Group.Model
 
             _spriteDrawer = new Drawer2D();
             _Hordas = new t_Hordas(this);
+            _Super = new t_Super(this);
             _rand = new System.Random(System.Guid.NewGuid().GetHashCode());
             _TiempoTranscurrido = 0;
             _soles = CANT_SOLES_INIT;
@@ -103,24 +108,28 @@ namespace TGC.Group.Model
         public override void Update()
         {
             PreUpdate();
-            
-            if(Menu.IniciarJuego){
-                if (ElapsedTime < 1000)
-                {
-                    _TiempoTranscurrido += ElapsedTime;
-                }
+            if (ElapsedTime < 1000)
+            {
+                _TiempoTranscurrido += ElapsedTime;
+            }
+
+            if (Menu.IniciarJuego)
+            {
+
 
                 _camara.Update(ElapsedTime);
 
                 _Hordas.Update();
+                _Super.Update();
                 pablo_update();
                 jose_update();
             }
             else
             {
-               
+                _camara.UpdateMenu(_TiempoTranscurrido);
                 _Menu.Update();
             }
+
         }
 
         /// <summary>
@@ -130,14 +139,17 @@ namespace TGC.Group.Model
         /// </summary>
         public override void Render()
         {
+
+
             //Inicio el render de la escena, para ejemplos simples. Cuando tenemos postprocesado o shaders es mejor realizar las operaciones según nuestra conveniencia.
             PreRender();
-
+            
             if (Menu.IniciarJuego)
             {
                 DrawText.drawText("Soles:", 100, 0, Color.Yellow);
                 DrawText.drawText(_soles.ToString(), 150, 0, Color.Yellow);
                 _Hordas.Render();
+                _Super.Render();
             }
             else
             {

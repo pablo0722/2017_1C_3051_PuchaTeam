@@ -31,6 +31,7 @@ namespace TGC.Group.Model
         private const string    PATH_TEXTURA_OFF =  "..\\..\\Media\\Texturas\\HUD_Girasol.jpg";
         private const int       PLANTA_VALOR =      50;
         private const float     VIDA =              3;
+        private const int       SUPER_CANT_SOLES =  200;
 
 
 
@@ -46,6 +47,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public GameModel _game;
         public List<t_GirasolInstancia> _InstGirasol;
+        public bool Is_Personal = false;
 
 
 
@@ -123,7 +125,27 @@ namespace TGC.Group.Model
                 _InstGirasol.Add(Girasol);
             }
 
-            for(int i=0; i< _InstGirasol.Count; i++)
+            if (_game._camara.Modo_Is_CamaraPersonal())
+            {
+                if (GirasolCreado == 3)
+                {
+                    // Se seleccionó una planta para controlar
+
+                    Is_Personal = true;
+                }
+            }
+            else
+            {
+                Is_Personal = false;
+            }
+
+            if(Is_Personal && GirasolCreado == 4)
+            {
+                // Se activo la super
+                _game._soles += SUPER_CANT_SOLES;
+            }
+
+            for (int i=0; i< _InstGirasol.Count; i++)
             {
                 if ((_game._TiempoTranscurrido - _InstGirasol[i].TiempoComienzo) >= CantSegundosSegundosAEsperarParaCrearSol * (_InstGirasol[i].SolN + 1))
                 {

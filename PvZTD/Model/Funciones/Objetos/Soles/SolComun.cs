@@ -172,7 +172,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public void Render()
         {
-            _Sol.Render();
+            _Sol.Render(true);
         }
     }
 }

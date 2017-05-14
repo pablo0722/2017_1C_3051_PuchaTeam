@@ -235,6 +235,8 @@ namespace TGC.Group.Model.Funciones.Objetos
 
                 case 1:
                     IniciarJuego = true;
+                    _game._TiempoTranscurrido = 0;
+                    _game._camara.Aerea_Reset();
                     break;
 
                 case 2:

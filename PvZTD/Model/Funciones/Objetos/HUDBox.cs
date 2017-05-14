@@ -13,6 +13,9 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTANTES
         /******************************************************************************************/
+        private const string PATH_TEXTURA_SUPER_ON = "..\\..\\Media\\Texturas\\SuperHojaOn.png";
+        private const string PATH_TEXTURA_SUPER_OVER = "..\\..\\Media\\Texturas\\SuperHojaOver.png";
+        private const string PATH_TEXTURA_SUPER_OFF = "..\\..\\Media\\Texturas\\SuperHojaOff.png";
 
 
 
@@ -39,10 +42,16 @@ namespace TGC.Group.Model
         private GameModel _game;
         private bool _Is_BoxPicked;
         private int _ValorPlanta;
+        public bool _super;
         CustomBitmap BoxBitmapOn;
         CustomBitmap BoxBitmapOff;
         CustomSprite BoxSprite;
+        CustomBitmap SuperBitmapOn;
+        CustomBitmap SuperBitmapOver;
+        CustomBitmap SuperBitmapOff;
+        CustomSprite SuperSprite;
         int x, y, sx, sy;
+        int super_x, super_y, super_sx, super_sy;
 
 
 
@@ -67,6 +76,8 @@ namespace TGC.Group.Model
 
             _ValorPlanta = ValorPlanta;
 
+            _super = false;
+
             BoxBitmapOn = new CustomBitmap(PathTexturaOn, D3DDevice.Instance.Device);
             BoxBitmapOff = new CustomBitmap(PathTexturaOff, D3DDevice.Instance.Device);
             BoxSprite = new CustomSprite();
@@ -79,6 +90,20 @@ namespace TGC.Group.Model
             BoxSprite.Scaling = new Vector2((float)sx/ BoxBitmapOff.Size.Width, (float)sy / BoxBitmapOff.Size.Height);
             BoxSprite.Position = new Vector2(x, y);
             BoxSprite.Rotation = 0;
+
+            SuperBitmapOn = new CustomBitmap(PATH_TEXTURA_SUPER_ON, D3DDevice.Instance.Device);
+            SuperBitmapOver = new CustomBitmap(PATH_TEXTURA_SUPER_OVER, D3DDevice.Instance.Device);
+            SuperBitmapOff = new CustomBitmap(PATH_TEXTURA_SUPER_OFF, D3DDevice.Instance.Device);
+            SuperSprite = new CustomSprite();
+            SuperSprite.Bitmap = SuperBitmapOff;
+            super_sx = (D3DDevice.Instance.Device.Viewport.Width / 2) / 8;
+            super_sy = super_sx;
+            super_x = D3DDevice.Instance.Device.Viewport.Width - (int)(super_sx * 1.5F);
+            super_y = super_sy;
+            SuperSprite.SrcRect = new Rectangle(0, 0, SuperBitmapOff.Size.Width, SuperBitmapOff.Size.Height);
+            SuperSprite.Scaling = new Vector2((float)super_sx / SuperBitmapOff.Size.Width, (float)super_sy / SuperBitmapOff.Size.Height);
+            SuperSprite.Position = new Vector2(super_x, super_y);
+            SuperSprite.Rotation = 0;
         }
 
         public static t_HUDBox Crear(string PathTexturaOn, string PathTexturaOff, GameModel game, byte n, int ValorPlanta)
@@ -112,6 +137,8 @@ namespace TGC.Group.Model
             s_n = s_n & (~(1 << _n));   // Se borra del campo de bits
             BoxBitmapOn.D3dTexture.Dispose();
             BoxBitmapOff.D3dTexture.Dispose();
+            SuperBitmapOn.D3dTexture.Dispose();
+            SuperBitmapOff.D3dTexture.Dispose();
         }
 
 
@@ -129,6 +156,16 @@ namespace TGC.Group.Model
         public bool Is_MouseOver()
         {
             if(_game._mouse.Is_Position(x, x+sx, y, y+sy))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool Is_MouseSuperOver()
+        {
+            if (_game._mouse.Is_Position(super_x, super_x + super_sx, super_y, super_y + super_sy))
             {
                 return true;
             }
@@ -180,6 +217,21 @@ namespace TGC.Group.Model
             BoxSprite.Bitmap = BoxBitmapOff;
         }
 
+        public void Set_Textura_Super_On()
+        {
+            SuperSprite.Bitmap = SuperBitmapOn;
+        }
+
+        public void Set_Textura_Super_Over()
+        {
+            SuperSprite.Bitmap = SuperBitmapOver;
+        }
+
+        public void Set_Textura_Super_Off()
+        {
+            SuperSprite.Bitmap = SuperBitmapOff;
+        }
+
 
 
 
@@ -193,7 +245,7 @@ namespace TGC.Group.Model
         /*                                      UPDATE
         /******************************************************************************************/
         // Devuelve verdadero si se acaba de clickear sobre el HUDBox
-        public bool Update(bool ShowBoundingBoxWithKey, bool ChangeHUDTextureWhenMouseOver)
+        public int Update(bool ShowBoundingBoxWithKey, bool ChangeHUDTextureWhenMouseOver)
         { 
             sx = (D3DDevice.Instance.Device.DisplayMode.Width / 3) / 8;
             sy = sx;
@@ -210,9 +262,14 @@ namespace TGC.Group.Model
                 }
             }
 
-            bool ret = false;
+            int ret = 0;
             if (_game._camara.Modo_Is_CamaraAerea())
             {
+                if (_game._mouse.ClickDer_RisingDown())
+                {
+                    _Is_AnyBoxPicked = false;
+                    _Is_BoxPicked = false;
+                }
                 if (_game._mouse.ClickIzq_RisingDown())
                 {
                     if (_Is_BoxPicked)
@@ -228,7 +285,7 @@ namespace TGC.Group.Model
                         _Is_AnyBoxPicked = true;
                         _Is_BoxPicked = true;
 
-                        ret = true;
+                        ret = 1;
                     }
                 }
                 else if (_game._mouse.ClickIzq_Up())
@@ -245,6 +302,38 @@ namespace TGC.Group.Model
                             }
                         }
                     }
+                }
+            }
+            else if (_game._camara.Modo_Is_CamaraPersonal())
+            {
+                if(_game._Super.Is_Finished())
+                {
+                    _super = true;
+                }
+
+                if (_super)
+                {
+
+                    if (_game._mouse.ClickIzq_RisingDown() && Is_MouseSuperOver())
+                    {
+                        _super = false;
+                        _game._Super.FinishReset();
+
+                        ret = 2;
+                    }
+
+                    if (Is_MouseSuperOver())
+                    {
+                        Set_Textura_Super_Over();
+                    }
+                    else
+                    {
+                        Set_Textura_Super_On();
+                    }
+                }
+                else
+                {
+                    Set_Textura_Super_Off();
                 }
             }
 
@@ -282,12 +371,12 @@ namespace TGC.Group.Model
         // Renderiza todos los objetos relativos a la clase
         public void Render()
         {
-            _game._spriteDrawer.BeginDrawSprite();
-            _game._spriteDrawer.DrawSprite(BoxSprite);
-            _game._spriteDrawer.EndDrawSprite();
-
             if (_game._camara.Modo_Is_CamaraAerea())
             {
+                _game._spriteDrawer.BeginDrawSprite();
+                _game._spriteDrawer.DrawSprite(BoxSprite);
+                _game._spriteDrawer.EndDrawSprite();
+
                 if (_game._soles >= _ValorPlanta)
                 {
                     _game.DrawText.drawText(_ValorPlanta.ToString(), x+sx/4, y+sy/4, System.Drawing.Color.Yellow);
@@ -296,6 +385,12 @@ namespace TGC.Group.Model
                 {
                     _game.DrawText.drawText(_ValorPlanta.ToString(), x + sx / 4, y + sy / 4, System.Drawing.Color.Red);
                 }
+            }
+            else if(_game._camara.Modo_Is_CamaraPersonal())
+            {
+                _game._spriteDrawer.BeginDrawSprite();
+                _game._spriteDrawer.DrawSprite(SuperSprite);
+                _game._spriteDrawer.EndDrawSprite();
             }
         }
     }

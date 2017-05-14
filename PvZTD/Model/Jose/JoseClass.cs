@@ -134,7 +134,7 @@ namespace TGC.Group.Model
 
         private void jose_render()
         {
-            valla.Render();
+            valla.Render(true);
             skyBox.render();
             /*
             renderPasto();
