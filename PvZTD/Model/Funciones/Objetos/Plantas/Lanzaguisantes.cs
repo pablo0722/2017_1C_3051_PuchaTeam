@@ -67,6 +67,9 @@ namespace TGC.Group.Model
                 SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
                 SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
                 SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
+                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
+                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
+                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
             }
 
             public void update(bool ShowBoundingBoxWithKey)
@@ -76,11 +79,11 @@ namespace TGC.Group.Model
 
                 colision(guisante, game._zombie);
                 colision(guisante, game._zombieCono);
-                colision(guisante, game._zombieCono);
+                colision(guisante, game._zombieBalde);
 
                 colision(SuperGuisante, game._zombie);
                 colision(SuperGuisante, game._zombieCono);
-                colision(SuperGuisante, game._zombieCono);
+                colision(SuperGuisante, game._zombieBalde);
 
 
                 for (int j = 0; j < SuperGuisante._instancias.Count; j++)
