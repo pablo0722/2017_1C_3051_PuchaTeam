@@ -252,7 +252,15 @@ namespace TGC.Group.Model
             if (Is_Personal && LanzaguisanteCreado == 4)
             {
                 // Se activo la super
-                _InstLanzaguisantes[_iPersonal].super();
+                int i;
+                for (i = 0; i < _Planta._instancias.Count; i++)
+                {
+                    if (_Planta._instancias[i] == _instPersonal)
+                    {
+                        break;
+                    }
+                }
+                _InstLanzaguisantes[i].super();
             }
 
             for (int i=0; i<_InstLanzaguisantes.Count; i++)

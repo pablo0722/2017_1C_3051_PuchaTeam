@@ -18,7 +18,10 @@ namespace TGC.Group.Model
         public const string IMG_FIN_NIVEL_OVER_PATH =   "..\\..\\Media\\Texturas\\CabezaZombie.png";
         public const string IMG_HORDA_LLEGADA_1_PATH =  "..\\..\\Media\\Texturas\\hordas1.png";
         public const string IMG_HORDA_LLEGADA_2_PATH =  "..\\..\\Media\\Texturas\\hordas2.png";
+        public const string IMG_GAMEOVER_PATH =         "..\\..\\Media\\Texturas\\gameover.png";
         public const string TXT_HORDA_NIVEL =           "total"; // Nombre que va a tener la duracion del nivel dentro del archivo de texto del nivel
+        public const float ROTATION = (GameModel.PI * 3 / 2)/ROTATION_TIME;
+        public const float ROTATION_TIME = 3;
 
 
 
@@ -39,6 +42,7 @@ namespace TGC.Group.Model
         CustomBitmap HordaLlegada2Bitmap;
         CustomBitmap FinNivelBitmap;
         CustomBitmap FinNivelOverBitmap;
+        CustomBitmap GameOverBitmap;
         CustomSprite HordaContornoSprite;
         CustomSprite HordaRellenoSprite;
         CustomSprite HordaIndicadorSprite;
@@ -50,14 +54,24 @@ namespace TGC.Group.Model
         int img_height;
         public bool FinDeNivel = false;
         bool LlegadaHorda = false;
+
         float PrimeraHordaSx;
         float PrimeraHordaSy;
         float PrimeraHordaX;
         float PrimeraHordaY;
+
         float SegundaHordaSx;
         float SegundaHordaSy;
         float SegundaHordaX;
         float SegundaHordaY;
+
+        float GameOverSx;
+        float GameOverSy;
+        float GameOverX;
+        float GameOverY;
+
+        float _TiempoTranscurrido;
+        bool gameover = false;
 
 
 
@@ -82,6 +96,7 @@ namespace TGC.Group.Model
             FinNivelOverBitmap = new CustomBitmap(IMG_FIN_NIVEL_OVER_PATH, D3DDevice.Instance.Device);
             HordaLlegada1Bitmap = new CustomBitmap(IMG_HORDA_LLEGADA_1_PATH, D3DDevice.Instance.Device);
             HordaLlegada2Bitmap = new CustomBitmap(IMG_HORDA_LLEGADA_2_PATH, D3DDevice.Instance.Device);
+            GameOverBitmap = new CustomBitmap(IMG_GAMEOVER_PATH, D3DDevice.Instance.Device);
 
             img_width = D3DDevice.Instance.Device.Viewport.Width / 3;
             img_height = D3DDevice.Instance.Device.Viewport.Height / 20;
@@ -122,6 +137,7 @@ namespace TGC.Group.Model
                     D3DDevice.Instance.Device.Viewport.Height/3);
             MensajeSprite.Rotation = 0;
 
+            // Otras posiciones y tamaños
             PrimeraHordaSx = ((float)D3DDevice.Instance.Device.Viewport.Width - 100) / HordaLlegada1Bitmap.Width;
             PrimeraHordaSy = PrimeraHordaSx;
             PrimeraHordaX = 50;
@@ -131,6 +147,68 @@ namespace TGC.Group.Model
             SegundaHordaSy = SegundaHordaSx;
             SegundaHordaX = ((float)D3DDevice.Instance.Device.Viewport.Width - SegundaHordaSx * HordaLlegada2Bitmap.Width) / 2;
             SegundaHordaY = (D3DDevice.Instance.Device.Viewport.Height - SegundaHordaSy * HordaLlegada2Bitmap.Height) / 2;
+
+            GameOverSx = ((float)D3DDevice.Instance.Device.Viewport.Width /4) / GameOverBitmap.Width;
+            GameOverSy = GameOverSx;
+            GameOverX = ((float)D3DDevice.Instance.Device.Viewport.Width - GameOverSx * GameOverBitmap.Width) / 2;
+            GameOverY = (D3DDevice.Instance.Device.Viewport.Height - GameOverSy * GameOverBitmap.Height) / 2;
+        }
+
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************/
+        /*                                      UPDATE
+        /******************************************************************************************/
+        public void ClearScene()
+        {
+            _game._Lanzaguisantes._InstLanzaguisantes.Clear();
+            _game._Lanzaguisantes._InstPlanta.Clear();
+            _game._Lanzaguisantes._Planta.Inst_DeleteAll();
+            _game._Lanzaguisantes._HUDBox._Is_BoxPicked = false;
+
+            _game._repetidor._InstRepetidor.Clear();
+            _game._repetidor._InstPlanta.Clear();
+            _game._repetidor._Planta.Inst_DeleteAll();
+            _game._repetidor._HUDBox._Is_BoxPicked = false;
+
+            _game._Patatapum._InstPatatapum.Clear();
+            _game._Patatapum._InstPlanta.Clear();
+            _game._Patatapum._Planta.Inst_DeleteAll();
+            _game._Patatapum._HUDBox._Is_BoxPicked = false;
+
+            _game._Girasol._InstGirasol.Clear();
+            _game._Girasol._InstPlanta.Clear();
+            _game._Girasol._Planta.Inst_DeleteAll();
+            _game._Girasol._HUDBox._Is_BoxPicked = false;
+
+            t_HUDBox._Is_AnyBoxPicked = false;
+
+            _game._zombie._InstZombie.Clear();
+            _game._zombie._Zombie.Inst_DeleteAll();
+            _game._zombie._NivelActual = null;
+
+            _game._zombieCono._InstZombie.Clear();
+            _game._zombieCono._Zombie.Inst_DeleteAll();
+            _game._zombieCono._NivelActual = null;
+
+            _game._zombieBalde._InstZombie.Clear();
+            _game._zombieBalde._Zombie.Inst_DeleteAll();
+            _game._zombieBalde._NivelActual = null;
+
+            _game._EscenarioBase.Set_PastoDesocupadoAll();
+
+            _game._TiempoTranscurrido = 0;
+            FinDeNivel = false;
+            gameover = false;
+            t_ZombieComun.gameover = false;
+            _TiempoTranscurrido = 0;
         }
 
 
@@ -151,6 +229,7 @@ namespace TGC.Group.Model
             LlegadaHorda = false;
             if (String.Compare(_NivelActual, _game._NivelActual) != 0)
             {
+                gameover = false;
                 FinDeNivel = false;
                 _NivelActual = _game._NivelActual;
                 string txt_nivel = System.IO.File.ReadAllText(_game._NivelActual);
@@ -180,7 +259,47 @@ namespace TGC.Group.Model
             HordaIndicadorSprite.Position = new Vector2(x - img_height / 2,
                     D3DDevice.Instance.Device.Viewport.Height - img_height * 1.5F);
 
-            if (_game._TiempoTranscurrido > tiempo / 2 - 5 && _game._TiempoTranscurrido < tiempo/2)
+
+            if (gameover)
+            {
+                // GAMEOVER
+                _game._TiempoTranscurrido -= _game.ElapsedTime;
+                _TiempoTranscurrido += _game.ElapsedTime;
+                if (_TiempoTranscurrido < ROTATION_TIME)
+                {
+                    MensajeSprite.SrcRect = new Rectangle(0, 0, GameOverBitmap.Width, GameOverBitmap.Height);
+                    MensajeSprite.Scaling = new Vector2(GameOverSx, GameOverSy);
+                    MensajeSprite.Position = new Vector2(GameOverX, GameOverY);
+                    MensajeSprite.Bitmap = GameOverBitmap;
+                    MensajeSprite.RotationCenter = new Vector2(GameOverSx * GameOverBitmap.Width / 2, GameOverSy * GameOverBitmap.Height / 2);
+
+                    MensajeSprite.Rotation = -_TiempoTranscurrido * ROTATION;
+                }
+                else if (_TiempoTranscurrido > ROTATION_TIME * 1.5F)
+                {
+                    ClearScene();
+                    _NivelActual = null;
+                    Menu.IniciarJuego = false;
+                    MensajeSprite.Rotation = 0;
+                }
+            }
+            if (t_ZombieComun.gameover && !gameover)
+            {
+                // GAMEOVER
+                System.Windows.Forms.Cursor.Show();
+                _game._TiempoTranscurrido -= _game.ElapsedTime;
+
+                MensajeSprite.SrcRect = new Rectangle(0, 0, GameOverBitmap.Width, GameOverBitmap.Height);
+                MensajeSprite.Scaling = new Vector2(GameOverSx, GameOverSy);
+                MensajeSprite.Position = new Vector2(GameOverX, GameOverY);
+                MensajeSprite.Bitmap = GameOverBitmap;
+                MensajeSprite.RotationCenter = new Vector2(GameOverSx * GameOverBitmap.Width / 2, GameOverSy * GameOverBitmap.Height / 2);
+                _TiempoTranscurrido = 0;
+                gameover = true;
+                _game._camara.Modo_Aerea();
+            }
+
+            if (!gameover && _game._TiempoTranscurrido > tiempo / 2 - 5 && _game._TiempoTranscurrido < tiempo/2)
             {
                 // PRIMERA HORDA
 
@@ -191,7 +310,7 @@ namespace TGC.Group.Model
                 LlegadaHorda = true;
             }
 
-            if (_game._TiempoTranscurrido > tiempo - 5 && _game._TiempoTranscurrido < tiempo)
+            if (!gameover && _game._TiempoTranscurrido > tiempo - 5 && _game._TiempoTranscurrido < tiempo)
             {
                 // SEGUNDA HORDA
 
@@ -202,7 +321,7 @@ namespace TGC.Group.Model
                 LlegadaHorda = true;
             }
 
-            if (FinDeNivel)
+            if (!gameover && FinDeNivel)
             {
                 // FIN DEL NIVEL
 
@@ -222,27 +341,8 @@ namespace TGC.Group.Model
                     {
                         if (String.Compare(_game._NivelActual, GameModel.TXT_NIVEL_1) == 0)
                         {
-                            _game._Lanzaguisantes._InstLanzaguisantes.Clear();
-                            _game._Lanzaguisantes._InstPlanta.Clear();
-                            _game._Lanzaguisantes._Planta.Inst_DeleteAll();
-
-                            _game._repetidor._InstRepetidor.Clear();
-                            _game._repetidor._InstPlanta.Clear();
-                            _game._repetidor._Planta.Inst_DeleteAll();
-
-                            _game._Patatapum._InstPatatapum.Clear();
-                            _game._Patatapum._InstPlanta.Clear();
-                            _game._Patatapum._Planta.Inst_DeleteAll();
-
-                            _game._Girasol._InstGirasol.Clear();
-                            _game._Girasol._InstPlanta.Clear();
-                            _game._Girasol._Planta.Inst_DeleteAll();
-
-                            _game._EscenarioBase.Set_PastoDesocupadoAll();
-
-                            _game._TiempoTranscurrido = 0;
+                            ClearScene();
                             _game._NivelActual = GameModel.TXT_NIVEL_2;
-                            FinDeNivel = false;
                         }
                     }
                 }
@@ -255,13 +355,15 @@ namespace TGC.Group.Model
                     MensajeSprite.Bitmap = FinNivelBitmap;
                 }
             }
-            if (_game._TiempoTranscurrido > tiempo &&
+            if (!gameover &&
+                _game._TiempoTranscurrido > tiempo &&
                 _game._zombie._InstZombie.Count == 0 &&
                 _game._zombieCono._InstZombie.Count == 0 &&
                 _game._zombieBalde._InstZombie.Count == 0)
             {
                 // FIN DEL NIVEL
 
+                System.Windows.Forms.Cursor.Show();
                 _game._camara.Modo_Aerea();
                 FinDeNivel = true;
             }
@@ -287,7 +389,7 @@ namespace TGC.Group.Model
             _game._spriteDrawer.DrawSprite(HordaContornoSprite);
             _game._spriteDrawer.DrawSprite(HordaIndicadorSprite);
 
-            if(LlegadaHorda || FinDeNivel)
+            if(LlegadaHorda || FinDeNivel || t_ZombieComun.gameover)
             {
                 _game._spriteDrawer.DrawSprite(MensajeSprite);
             }

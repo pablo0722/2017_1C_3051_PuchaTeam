@@ -34,13 +34,13 @@ namespace TGC.Group.Model
                                     // cada bit es una posicion distinta del BoxHUD de cada planta.
                                     // Si un bit esta en '1', significa que esa posicion esta ocupada.
                                     // Si un bit esta en '0', significa que esa posicion esta libre.
-        private static bool _ShowBoundingBox = false;
-        private static bool _Is_AnyBoxPicked = false;
+        public static bool _ShowBoundingBox = false;
+        public static bool _Is_AnyBoxPicked = false;
 
         // NO ESTATICAS
         private int _n;         // Numero (posicion) del BoxHUD
         private GameModel _game;
-        private bool _Is_BoxPicked;
+        public bool _Is_BoxPicked;
         private int _ValorPlanta;
         public bool _super;
         CustomBitmap BoxBitmapOn;

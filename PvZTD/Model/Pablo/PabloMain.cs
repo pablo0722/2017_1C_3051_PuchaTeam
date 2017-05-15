@@ -90,7 +90,7 @@ namespace TGC.Group.Model
     
         private void pablo_update()
         {
-            if (_Hordas.FinDeNivel == false)
+            if (_Hordas.FinDeNivel == false && !t_ZombieComun.gameover)
             {
                 _escenario1.Update(true, 4);
 

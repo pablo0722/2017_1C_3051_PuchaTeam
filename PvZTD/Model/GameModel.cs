@@ -117,8 +117,6 @@ namespace TGC.Group.Model
 
             if (Menu.IniciarJuego)
             {
-
-
                 _camara.Update(ElapsedTime);
 
                 _Hordas.Update();
@@ -130,6 +128,7 @@ namespace TGC.Group.Model
             {
                 _camara.UpdateMenu(_TiempoTranscurrido);
                 _Menu.Update();
+                _NivelActual = TXT_NIVEL_1;
             }
 
         }

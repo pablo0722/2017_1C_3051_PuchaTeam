@@ -45,6 +45,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public GameModel _game;
         public List<t_PatatapumInstancia> _InstPatatapum;
+        public bool Is_Personal = false;
 
 
 
@@ -116,6 +117,34 @@ namespace TGC.Group.Model
         public new void Update(bool ShowBoundingBoxWithKey)
         {
             int PatatapumCreado = base.Update(ShowBoundingBoxWithKey);
+
+            if (_game._camara.Modo_Is_CamaraPersonal())
+            {
+                if (PatatapumCreado == 3)
+                {
+                    // Se seleccionó una planta para controlar
+
+                    Is_Personal = true;
+                }
+            }
+            else
+            {
+                Is_Personal = false;
+            }
+
+            if (Is_Personal && PatatapumCreado == 4)
+            {
+                // Se activo la super
+                int i;
+                for (i = 0; i < _Planta._instancias.Count; i++)
+                {
+                    if (_Planta._instancias[i] == _instPersonal)
+                    {
+                        break;
+                    }
+                }
+                //_InstPatatapum[i].super();
+            }
 
             if (PatatapumCreado == 2)
             {
