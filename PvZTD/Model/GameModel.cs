@@ -25,6 +25,7 @@ namespace TGC.Group.Model
 
         // NIVELES
         public const string TXT_NIVEL_1 = "..\\..\\Media\\Txt\\Nivel_1.txt";
+        public const string TXT_NIVEL_2 = "..\\..\\Media\\Txt\\Nivel_2.txt";
 
 
 
@@ -108,7 +109,8 @@ namespace TGC.Group.Model
         public override void Update()
         {
             PreUpdate();
-            if (ElapsedTime < 1000)
+
+            if (FirstRender == 0)
             {
                 _TiempoTranscurrido += ElapsedTime;
             }
@@ -139,25 +141,29 @@ namespace TGC.Group.Model
         /// </summary>
         public override void Render()
         {
-
+            if (FirstRender > 0)
+            {
+                FirstRender--;
+            }
 
             //Inicio el render de la escena, para ejemplos simples. Cuando tenemos postprocesado o shaders es mejor realizar las operaciones según nuestra conveniencia.
             PreRender();
             
+            pablo_render();
+            jose_render();
+
             if (Menu.IniciarJuego)
             {
                 DrawText.drawText("Soles:", 100, 0, Color.Yellow);
                 DrawText.drawText(_soles.ToString(), 150, 0, Color.Yellow);
-                _Hordas.Render();
                 _Super.Render();
+                _Hordas.Render();
             }
             else
             {
                 _Menu.Render();
             }
-            
-            pablo_render();
-            jose_render();
+
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
         }

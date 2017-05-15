@@ -65,8 +65,6 @@ namespace TGC.Group.Model
             _zombieCono = t_ZombieCono.Crear(this);
             _zombieBalde = t_ZombieBalde.Crear(this);
 
-
-
             _Girasol = t_Girasol.Crear(this, 0);
             _Lanzaguisantes = t_Lanzaguisantes.Crear(this, 1);
             _Patatapum = t_Patatapum.Crear(this, 2);
@@ -92,22 +90,25 @@ namespace TGC.Group.Model
     
         private void pablo_update()
         {
-            _escenario1.Update(true, 4);
-
-            _Sol.Update(true, 20);
-            
-            _zombie.Update(true, true);
-            _zombieCono.Update(true, true);
-            _zombieBalde.Update(true, true);
-
-            _Girasol.Update(P_SHOW_AABB_WITH_KEY, 21);
-            _Lanzaguisantes.Update(P_SHOW_AABB_WITH_KEY);
-            _Patatapum.Update(P_SHOW_AABB_WITH_KEY);
-            _repetidor.Update(P_SHOW_AABB_WITH_KEY);
-
-            if (Input.keyPressed(Key.H))
+            if (_Hordas.FinDeNivel == false)
             {
-                _camara.Modo_Change();
+                _escenario1.Update(true, 4);
+
+                _Sol.Update(true, 20);
+
+                _zombie.Update(true, true);
+                _zombieCono.Update(true, true);
+                _zombieBalde.Update(true, true);
+
+                _Girasol.Update(P_SHOW_AABB_WITH_KEY, 21);
+                _Lanzaguisantes.Update(P_SHOW_AABB_WITH_KEY);
+                _Patatapum.Update(P_SHOW_AABB_WITH_KEY);
+                _repetidor.Update(P_SHOW_AABB_WITH_KEY);
+
+                if (Input.keyPressed(Key.H))
+                {
+                    _camara.Modo_Change();
+                }
             }
         }
 

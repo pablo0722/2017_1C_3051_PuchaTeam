@@ -215,7 +215,7 @@ namespace TGC.Group.Model
                 }
                 else
                 {
-                    // Se fija si la fila y columna actual del zombie NO coincide con la de alguna planta, el zombie avanza
+                    // Si la fila y columna actual del zombie NO coincide con la de alguna planta, el zombie avanza
                     Vector3 PosAux = _Zombie._instancias[i].pos;
                     _Zombie._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y, PosAux.Z + velocidad_zombie * _game.ElapsedTime);
                 }
@@ -248,21 +248,24 @@ namespace TGC.Group.Model
                     if (_NZombieActual < _TiemposDeSiguientesZombies.Length)
                     {
                         // Genera los zombies por tiempo
-                        while (_game._TiempoTranscurrido >= _TiemposDeSiguientesZombies[_NZombieActual])
+                        if (_TiemposDeSiguientesZombies[_NZombieActual] > 0)
                         {
-                            int fila = _game._rand.Next(0, 5);
+                            while (_game._TiempoTranscurrido >= _TiemposDeSiguientesZombies[_NZombieActual])
+                            {
+                                int fila = _game._rand.Next(0, 5);
 
-                            _Zombie.Inst_Create(-32 + 21 * fila, 0, 90);
+                                _Zombie.Inst_Create(-32 + 21 * fila, 0, 90);
 
-                            t_ZombieInstancia zombie = new t_ZombieInstancia();
-                            zombie.fila = fila;
-                            zombie.vida = vida_zombie_comun;
-                            zombie.columna = 13;
-                            zombie.zombie = _Zombie._instancias[_Zombie._instancias.Count - 1];
-                            _InstZombie.Add(zombie);
+                                t_ZombieInstancia zombie = new t_ZombieInstancia();
+                                zombie.fila = fila;
+                                zombie.vida = vida_zombie_comun;
+                                zombie.columna = 13;
+                                zombie.zombie = _Zombie._instancias[_Zombie._instancias.Count - 1];
+                                _InstZombie.Add(zombie);
 
-                            _NZombieActual++;
-                            if (_NZombieActual >= _TiemposDeSiguientesZombies.Length) break;
+                                _NZombieActual++;
+                                if (_NZombieActual >= _TiemposDeSiguientesZombies.Length) break;
+                            }
                         }
                     }
                 }

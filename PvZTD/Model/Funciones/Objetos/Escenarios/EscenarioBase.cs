@@ -240,6 +240,17 @@ namespace TGC.Group.Model
             }
         }
 
+        public void Set_PastoDesocupadoAll()
+        {
+            for (int fila = 0; fila < GameModel.CANT_FILAS; fila++)
+            {
+                for (int columna = 0; columna < GameModel.CANT_COLUMNAS; columna++)
+                {
+                    Set_PastoDesocupado(fila, columna);
+                }
+            }
+        }
+
         // Define si un cuadrado de pasto ya esta ocupado
         // 0 <= fila <= CANT_FILAS - 1
         // 0 <= columna <= CANT_COLUMNAS - 1

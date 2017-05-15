@@ -11,10 +11,14 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTANTES
         /******************************************************************************************/
-        public const string IMG_CONTORNO_PATH = "..\\..\\Media\\Texturas\\hordas.png";
-        public const string IMG_RELLENO_PATH = "..\\..\\Media\\Texturas\\orig_60339.jpg";
-        public const string IMG_INDICADOR_PATH = "..\\..\\Media\\Texturas\\CabezaZombie.png";
-        public const string TXT_HORDA_NIVEL = "total"; // Nombre que va a tener el zombie comun dentro del archivo de texto del nivel
+        public const string IMG_CONTORNO_PATH =         "..\\..\\Media\\Texturas\\hordas.png";
+        public const string IMG_RELLENO_PATH =          "..\\..\\Media\\Texturas\\orig_60339.jpg";
+        public const string IMG_INDICADOR_PATH =        "..\\..\\Media\\Texturas\\CabezaZombie.png";
+        public const string IMG_FIN_NIVEL_PATH =        "..\\..\\Media\\Texturas\\frijolito.png";
+        public const string IMG_FIN_NIVEL_OVER_PATH =   "..\\..\\Media\\Texturas\\CabezaZombie.png";
+        public const string IMG_HORDA_LLEGADA_1_PATH =  "..\\..\\Media\\Texturas\\hordas1.png";
+        public const string IMG_HORDA_LLEGADA_2_PATH =  "..\\..\\Media\\Texturas\\hordas2.png";
+        public const string TXT_HORDA_NIVEL =           "total"; // Nombre que va a tener la duracion del nivel dentro del archivo de texto del nivel
 
 
 
@@ -31,14 +35,29 @@ namespace TGC.Group.Model
         CustomBitmap HordaContornoBitmap;
         CustomBitmap HordaRellenoBitmap;
         CustomBitmap HordaIndicadorBitmap;
+        CustomBitmap HordaLlegada1Bitmap;
+        CustomBitmap HordaLlegada2Bitmap;
+        CustomBitmap FinNivelBitmap;
+        CustomBitmap FinNivelOverBitmap;
         CustomSprite HordaContornoSprite;
         CustomSprite HordaRellenoSprite;
         CustomSprite HordaIndicadorSprite;
+        CustomSprite MensajeSprite;
         GameModel _game;
         public string _NivelActual = null;
         float tiempo = 0;
         int img_width;
         int img_height;
+        public bool FinDeNivel = false;
+        bool LlegadaHorda = false;
+        float PrimeraHordaSx;
+        float PrimeraHordaSy;
+        float PrimeraHordaX;
+        float PrimeraHordaY;
+        float SegundaHordaSx;
+        float SegundaHordaSy;
+        float SegundaHordaX;
+        float SegundaHordaY;
 
 
 
@@ -59,10 +78,16 @@ namespace TGC.Group.Model
             HordaContornoBitmap = new CustomBitmap(IMG_CONTORNO_PATH, D3DDevice.Instance.Device);
             HordaRellenoBitmap = new CustomBitmap(IMG_RELLENO_PATH, D3DDevice.Instance.Device);
             HordaIndicadorBitmap = new CustomBitmap(IMG_INDICADOR_PATH, D3DDevice.Instance.Device);
+            FinNivelBitmap = new CustomBitmap(IMG_FIN_NIVEL_PATH, D3DDevice.Instance.Device);
+            FinNivelOverBitmap = new CustomBitmap(IMG_FIN_NIVEL_OVER_PATH, D3DDevice.Instance.Device);
+            HordaLlegada1Bitmap = new CustomBitmap(IMG_HORDA_LLEGADA_1_PATH, D3DDevice.Instance.Device);
+            HordaLlegada2Bitmap = new CustomBitmap(IMG_HORDA_LLEGADA_2_PATH, D3DDevice.Instance.Device);
 
             img_width = D3DDevice.Instance.Device.Viewport.Width / 3;
             img_height = D3DDevice.Instance.Device.Viewport.Height / 20;
 
+
+            // Sprites de Barra de Hordas
             HordaContornoSprite = new CustomSprite();
             HordaContornoSprite.Bitmap = HordaContornoBitmap;
             HordaContornoSprite.SrcRect = new Rectangle(0, 0, HordaContornoBitmap.Width, HordaContornoBitmap.Height);
@@ -74,7 +99,6 @@ namespace TGC.Group.Model
             HordaRellenoSprite = new CustomSprite();
             HordaRellenoSprite.Bitmap = HordaRellenoBitmap;
             HordaRellenoSprite.SrcRect = new Rectangle(0, 0, HordaRellenoBitmap.Width, HordaRellenoBitmap.Height);
-            //HordaRellenoSprite.Scaling = new Vector2((float)img_width / HordaRellenoBitmap.Width, (float)img_height / HordaRellenoBitmap.Height);
             HordaRellenoSprite.Scaling = new Vector2(0, (float)img_height / HordaRellenoBitmap.Height);
             HordaRellenoSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width - img_width * 1.1F,
                     D3DDevice.Instance.Device.Viewport.Height - img_height * 1.5F);
@@ -83,11 +107,30 @@ namespace TGC.Group.Model
             HordaIndicadorSprite = new CustomSprite();
             HordaIndicadorSprite.Bitmap = HordaIndicadorBitmap;
             HordaIndicadorSprite.SrcRect = new Rectangle(0, 0, HordaIndicadorBitmap.Width, HordaIndicadorBitmap.Height);
-            //HordaRellenoSprite.Scaling = new Vector2((float)img_width / HordaRellenoBitmap.Width, (float)img_height / HordaRellenoBitmap.Height);
             HordaIndicadorSprite.Scaling = new Vector2((float)img_height / HordaIndicadorBitmap.Height, (float)img_height / HordaIndicadorBitmap.Height);
             HordaIndicadorSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width - img_height * 1.1F,
                     D3DDevice.Instance.Device.Viewport.Height - img_height * 1.5F);
             HordaIndicadorSprite.Rotation = 0;
+
+
+            // Sprite de Fin de Nivel
+            MensajeSprite = new CustomSprite();
+            MensajeSprite.Bitmap = FinNivelBitmap;
+            MensajeSprite.SrcRect = new Rectangle(0, 0, FinNivelBitmap.Width, FinNivelBitmap.Height);
+            MensajeSprite.Scaling = new Vector2((float)D3DDevice.Instance.Device.Viewport.Width/3 / FinNivelBitmap.Height, (float)D3DDevice.Instance.Device.Viewport.Height/3 / FinNivelBitmap.Height);
+            MensajeSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width/3,
+                    D3DDevice.Instance.Device.Viewport.Height/3);
+            MensajeSprite.Rotation = 0;
+
+            PrimeraHordaSx = ((float)D3DDevice.Instance.Device.Viewport.Width - 100) / HordaLlegada1Bitmap.Width;
+            PrimeraHordaSy = PrimeraHordaSx;
+            PrimeraHordaX = 50;
+            PrimeraHordaY = (D3DDevice.Instance.Device.Viewport.Height - PrimeraHordaSx * HordaLlegada1Bitmap.Height) / 2;
+
+            SegundaHordaSx = ((float)D3DDevice.Instance.Device.Viewport.Width * 1.5F / 2) / HordaLlegada2Bitmap.Width;
+            SegundaHordaSy = SegundaHordaSx;
+            SegundaHordaX = ((float)D3DDevice.Instance.Device.Viewport.Width - SegundaHordaSx * HordaLlegada2Bitmap.Width) / 2;
+            SegundaHordaY = (D3DDevice.Instance.Device.Viewport.Height - SegundaHordaSy * HordaLlegada2Bitmap.Height) / 2;
         }
 
 
@@ -105,8 +148,10 @@ namespace TGC.Group.Model
         // Renderiza todos los objetos relativos a la clase
         public void Update()
         {
+            LlegadaHorda = false;
             if (String.Compare(_NivelActual, _game._NivelActual) != 0)
             {
+                FinDeNivel = false;
                 _NivelActual = _game._NivelActual;
                 string txt_nivel = System.IO.File.ReadAllText(_game._NivelActual);
                 string[] tags = txt_nivel.Split('<', '>');
@@ -134,6 +179,92 @@ namespace TGC.Group.Model
 
             HordaIndicadorSprite.Position = new Vector2(x - img_height / 2,
                     D3DDevice.Instance.Device.Viewport.Height - img_height * 1.5F);
+
+            if (_game._TiempoTranscurrido > tiempo / 2 - 5 && _game._TiempoTranscurrido < tiempo/2)
+            {
+                // PRIMERA HORDA
+
+                MensajeSprite.SrcRect = new Rectangle(0, 0, HordaLlegada1Bitmap.Width, HordaLlegada1Bitmap.Height);
+                MensajeSprite.Scaling = new Vector2(PrimeraHordaSx, PrimeraHordaSy);
+                MensajeSprite.Position = new Vector2(PrimeraHordaX, PrimeraHordaY);
+                MensajeSprite.Bitmap = HordaLlegada1Bitmap;
+                LlegadaHorda = true;
+            }
+
+            if (_game._TiempoTranscurrido > tiempo - 5 && _game._TiempoTranscurrido < tiempo)
+            {
+                // SEGUNDA HORDA
+
+                MensajeSprite.SrcRect = new Rectangle(0, 0, HordaLlegada2Bitmap.Width, HordaLlegada2Bitmap.Height);
+                MensajeSprite.Scaling = new Vector2(SegundaHordaSx, SegundaHordaSy);
+                MensajeSprite.Position = new Vector2(SegundaHordaX, SegundaHordaY);
+                MensajeSprite.Bitmap = HordaLlegada2Bitmap;
+                LlegadaHorda = true;
+            }
+
+            if (FinDeNivel)
+            {
+                // FIN DEL NIVEL
+
+                FinDeNivel = true;
+                _game._TiempoTranscurrido -= _game.ElapsedTime;
+
+                if (_game._mouse.Is_Position(D3DDevice.Instance.Device.Viewport.Width/3, D3DDevice.Instance.Device.Viewport.Width*2/3,
+                                             D3DDevice.Instance.Device.Viewport.Height/3, D3DDevice.Instance.Device.Viewport.Height*2/3))
+                {
+                    MensajeSprite.SrcRect = new Rectangle(0, 0, FinNivelBitmap.Width, FinNivelBitmap.Height);
+                    MensajeSprite.Scaling = new Vector2((float)D3DDevice.Instance.Device.Viewport.Width / 3 / FinNivelBitmap.Height, (float)D3DDevice.Instance.Device.Viewport.Height / 3 / FinNivelBitmap.Height);
+                    MensajeSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width / 3,
+                            D3DDevice.Instance.Device.Viewport.Height / 3);
+                    MensajeSprite.Bitmap = FinNivelOverBitmap;
+
+                    if (_game._mouse.ClickIzq_RisingDown())
+                    {
+                        if (String.Compare(_game._NivelActual, GameModel.TXT_NIVEL_1) == 0)
+                        {
+                            _game._Lanzaguisantes._InstLanzaguisantes.Clear();
+                            _game._Lanzaguisantes._InstPlanta.Clear();
+                            _game._Lanzaguisantes._Planta.Inst_DeleteAll();
+
+                            _game._repetidor._InstRepetidor.Clear();
+                            _game._repetidor._InstPlanta.Clear();
+                            _game._repetidor._Planta.Inst_DeleteAll();
+
+                            _game._Patatapum._InstPatatapum.Clear();
+                            _game._Patatapum._InstPlanta.Clear();
+                            _game._Patatapum._Planta.Inst_DeleteAll();
+
+                            _game._Girasol._InstGirasol.Clear();
+                            _game._Girasol._InstPlanta.Clear();
+                            _game._Girasol._Planta.Inst_DeleteAll();
+
+                            _game._EscenarioBase.Set_PastoDesocupadoAll();
+
+                            _game._TiempoTranscurrido = 0;
+                            _game._NivelActual = GameModel.TXT_NIVEL_2;
+                            FinDeNivel = false;
+                        }
+                    }
+                }
+                else
+                {
+                    MensajeSprite.SrcRect = new Rectangle(0, 0, FinNivelBitmap.Width, FinNivelBitmap.Height);
+                    MensajeSprite.Scaling = new Vector2((float)D3DDevice.Instance.Device.Viewport.Width / 3 / FinNivelBitmap.Height, (float)D3DDevice.Instance.Device.Viewport.Height / 3 / FinNivelBitmap.Height);
+                    MensajeSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width / 3,
+                            D3DDevice.Instance.Device.Viewport.Height / 3);
+                    MensajeSprite.Bitmap = FinNivelBitmap;
+                }
+            }
+            if (_game._TiempoTranscurrido > tiempo &&
+                _game._zombie._InstZombie.Count == 0 &&
+                _game._zombieCono._InstZombie.Count == 0 &&
+                _game._zombieBalde._InstZombie.Count == 0)
+            {
+                // FIN DEL NIVEL
+
+                _game._camara.Modo_Aerea();
+                FinDeNivel = true;
+            }
         }
 
 
@@ -155,6 +286,12 @@ namespace TGC.Group.Model
             _game._spriteDrawer.DrawSprite(HordaRellenoSprite);
             _game._spriteDrawer.DrawSprite(HordaContornoSprite);
             _game._spriteDrawer.DrawSprite(HordaIndicadorSprite);
+
+            if(LlegadaHorda || FinDeNivel)
+            {
+                _game._spriteDrawer.DrawSprite(MensajeSprite);
+            }
+
             _game._spriteDrawer.EndDrawSprite();
         }
     }

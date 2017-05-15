@@ -13,6 +13,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public const string IMG_CONTORNO_PATH = "..\\..\\Media\\Texturas\\Super.png";
         public const string IMG_RELLENO_PATH = "..\\..\\Media\\Texturas\\Sfondo_verde.jpg";
+        public const string IMG_RELLENO_COMPLETO_PATH = "..\\..\\Media\\Texturas\\Verde_claro.jpg";
         public const string IMG_INDICADOR_PATH = "..\\..\\Media\\Texturas\\frijolito.png";
         public const string IMG_INDICADOR_FINISH_PATH = "..\\..\\Media\\Texturas\\atomoVerde.png";
         public const string TXT_HORDA_NIVEL = "total"; // Nombre que va a tener el zombie comun dentro del archivo de texto del nivel
@@ -33,6 +34,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         CustomBitmap SuperContornoBitmap;
         CustomBitmap SuperRellenoBitmap;
+        CustomBitmap SuperRellenoCompletoBitmap;
         CustomBitmap SuperIndicadorBitmap;
         CustomBitmap SuperIndicadorFinishBitmap;
         CustomSprite SuperContornoSprite;
@@ -66,6 +68,7 @@ namespace TGC.Group.Model
 
             SuperContornoBitmap = new CustomBitmap(IMG_CONTORNO_PATH, D3DDevice.Instance.Device);
             SuperRellenoBitmap = new CustomBitmap(IMG_RELLENO_PATH, D3DDevice.Instance.Device);
+            SuperRellenoCompletoBitmap = new CustomBitmap(IMG_RELLENO_COMPLETO_PATH, D3DDevice.Instance.Device);
             SuperIndicadorBitmap = new CustomBitmap(IMG_INDICADOR_PATH, D3DDevice.Instance.Device);
             SuperIndicadorFinishBitmap = new CustomBitmap(IMG_INDICADOR_FINISH_PATH, D3DDevice.Instance.Device);
 
@@ -136,35 +139,41 @@ namespace TGC.Group.Model
         // Renderiza todos los objetos relativos a la clase
         public void Update()
         {
-            float sy = (float)img_height / SuperRellenoBitmap.Height;
+            float sy;
             float y;
 
             _TiempoTranscurrido += _game.ElapsedTime;
 
 
-            sy = _TiempoTranscurrido * sy / TIEMPO;
-            if (sy > (float)img_height / SuperRellenoBitmap.Height)
+            sy = _TiempoTranscurrido / TIEMPO;
+            if (sy > 1)
             {
+                sy = (float)img_height / SuperRellenoCompletoBitmap.Height;
                 Finished = true;
-                sy = (float)img_height / SuperRellenoBitmap.Height;
                 SuperIndicadorSprite.Bitmap = SuperIndicadorFinishBitmap;
                 SuperIndicadorSprite.Rotation = _TiempoTranscurrido * ROTATION;
 
-                y = D3DDevice.Instance.Device.Viewport.Height - (img_height * 0.2F) - sy * SuperRellenoBitmap.Height;
-                SuperIndicadorSprite.Position = new Vector2(img_width / 2, y);
+                SuperRellenoSprite.Bitmap = SuperRellenoCompletoBitmap;
+                SuperRellenoSprite.SrcRect = new Rectangle(0, 0, SuperRellenoCompletoBitmap.Width, SuperRellenoCompletoBitmap.Height);
+                SuperRellenoSprite.Scaling = new Vector2((float)img_width / SuperRellenoCompletoBitmap.Width, sy);
+                y = D3DDevice.Instance.Device.Viewport.Height - (img_height * 0.2F) - sy * SuperRellenoCompletoBitmap.Height;
+                SuperIndicadorSprite.Position = new Vector2(img_width / 2, y - img_width / 2);
             }
             else
             {
+                sy = sy * img_height / SuperRellenoBitmap.Height;
                 Finished = false;
                 SuperIndicadorSprite.Bitmap = SuperIndicadorBitmap;
                 SuperIndicadorSprite.Rotation = 0;
 
+                SuperRellenoSprite.Bitmap = SuperRellenoBitmap;
+                SuperRellenoSprite.SrcRect = new Rectangle(0, 0, SuperRellenoBitmap.Width, SuperRellenoBitmap.Height);
+                SuperRellenoSprite.Scaling = new Vector2((float)img_width / SuperRellenoBitmap.Width, sy);
                 y = D3DDevice.Instance.Device.Viewport.Height - (img_height * 0.2F) - sy * SuperRellenoBitmap.Height;
                 SuperIndicadorSprite.Position = new Vector2(img_width / 2, y - img_width / 2);
             }
 
             SuperRellenoSprite.Position = new Vector2(img_width / 2, y);
-            SuperRellenoSprite.Scaling = new Vector2((float)img_width / SuperRellenoBitmap.Width, sy);
         }
 
 
