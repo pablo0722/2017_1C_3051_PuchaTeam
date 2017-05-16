@@ -55,6 +55,7 @@ namespace TGC.Group.Model
         public float velocidad_zombie = VELOCIDAD_ZOMBIE;
         public float vida_zombie_comun = VIDA_ZOMBIE_COMUN;
         public string _TxtZombieNivel = "Zcomun"; // Nombre que va a tener el zombie comun dentro del archivo de texto del nivel
+        public static bool gameover = false;
 
 
 
@@ -132,6 +133,13 @@ namespace TGC.Group.Model
 
                             if (planta.vida <= 0)
                             {
+                                if (_game._Girasol.Is_Personal)
+                                {
+                                    if (_game._Girasol._instPersonal == _game._Girasol._Planta._instancias[j])
+                                    {
+                                        _game._camara.Modo_Aerea();
+                                    }
+                                }
                                 _game._Girasol._Planta.Inst_Delete(_game._Girasol._Planta._instancias[j]);
                                 _game._Girasol._InstGirasol.Remove(_game._Girasol._InstGirasol[j]);
                                 _game._Girasol._InstPlanta.Remove(_game._Girasol._InstPlanta[j]);
@@ -155,6 +163,13 @@ namespace TGC.Group.Model
 
                                 if (planta.vida <= 0)
                                 {
+                                    if (_game._Lanzaguisantes.Is_Personal)
+                                    {
+                                        if (_game._Lanzaguisantes._instPersonal == _game._Lanzaguisantes._Planta._instancias[j])
+                                        {
+                                            _game._camara.Modo_Aerea();
+                                        }
+                                    }
                                     _game._Lanzaguisantes._Planta.Inst_Delete(_game._Lanzaguisantes._Planta._instancias[j]);
                                     _game._Lanzaguisantes._InstLanzaguisantes.Remove(_game._Lanzaguisantes._InstLanzaguisantes[j]);
                                     _game._Lanzaguisantes._InstPlanta.Remove(_game._Lanzaguisantes._InstPlanta[j]);
@@ -179,6 +194,13 @@ namespace TGC.Group.Model
 
                                 if (planta.vida <= 0)
                                 {
+                                    if (_game._Patatapum.Is_Personal)
+                                    {
+                                        if (_game._Patatapum._instPersonal == _game._Patatapum._Planta._instancias[j])
+                                        {
+                                            _game._camara.Modo_Aerea();
+                                        }
+                                    }
                                     _game._Patatapum._Planta.Inst_Delete(_game._Patatapum._Planta._instancias[j]);
                                     _game._Patatapum._InstPatatapum.Remove(_game._Patatapum._InstPatatapum[j]);
                                     _game._Patatapum._InstPlanta.Remove(_game._Patatapum._InstPlanta[j]);
@@ -203,6 +225,13 @@ namespace TGC.Group.Model
 
                                 if (planta.vida <= 0)
                                 {
+                                    if(_game._repetidor.Is_Personal)
+                                    {
+                                        if(_game._repetidor._instPersonal == _game._repetidor._Planta._instancias[j])
+                                        {
+                                            _game._camara.Modo_Aerea();
+                                        }
+                                    }
                                     _game._repetidor._Planta.Inst_Delete(_game._repetidor._Planta._instancias[j]);
                                     _game._repetidor._InstRepetidor.Remove(_game._repetidor._InstRepetidor[j]);
                                     _game._repetidor._InstPlanta.Remove(_game._repetidor._InstPlanta[j]);
@@ -215,14 +244,22 @@ namespace TGC.Group.Model
                 }
                 else
                 {
-                    // Se fija si la fila y columna actual del zombie NO coincide con la de alguna planta, el zombie avanza
+                    // Si la fila y columna actual del zombie NO coincide con la de alguna planta, el zombie avanza
                     Vector3 PosAux = _Zombie._instancias[i].pos;
-                    _Zombie._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y, PosAux.Z + velocidad_zombie * _game.ElapsedTime);
+                    if (PosAux.Z < -75)
+                    {
+                        gameover = true;
+                    }
+                    else
+                    {
+                        _Zombie._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y, PosAux.Z + velocidad_zombie*10 * _game.ElapsedTime);
+                    }
                 }
             }
             
             if (String.Compare(_NivelActual, _game._NivelActual)!=0)
             {
+                gameover = false;
                 _NivelActual = _game._NivelActual;
                 string txt_nivel = System.IO.File.ReadAllText(_game._NivelActual);
                 string[] tags = txt_nivel.Split('<', '>');
@@ -248,21 +285,24 @@ namespace TGC.Group.Model
                     if (_NZombieActual < _TiemposDeSiguientesZombies.Length)
                     {
                         // Genera los zombies por tiempo
-                        while (_game._TiempoTranscurrido >= _TiemposDeSiguientesZombies[_NZombieActual])
+                        if (_TiemposDeSiguientesZombies[_NZombieActual] > 0)
                         {
-                            int fila = _game._rand.Next(0, 5);
+                            while (_game._TiempoTranscurrido >= _TiemposDeSiguientesZombies[_NZombieActual])
+                            {
+                                int fila = _game._rand.Next(0, 5);
 
-                            _Zombie.Inst_Create(-32 + 21 * fila, 0, 90);
+                                _Zombie.Inst_Create(-32 + 21 * fila, 0, 90);
 
-                            t_ZombieInstancia zombie = new t_ZombieInstancia();
-                            zombie.fila = fila;
-                            zombie.vida = vida_zombie_comun;
-                            zombie.columna = 13;
-                            zombie.zombie = _Zombie._instancias[_Zombie._instancias.Count - 1];
-                            _InstZombie.Add(zombie);
+                                t_ZombieInstancia zombie = new t_ZombieInstancia();
+                                zombie.fila = fila;
+                                zombie.vida = vida_zombie_comun;
+                                zombie.columna = 13;
+                                zombie.zombie = _Zombie._instancias[_Zombie._instancias.Count - 1];
+                                _InstZombie.Add(zombie);
 
-                            _NZombieActual++;
-                            if (_NZombieActual >= _TiemposDeSiguientesZombies.Length) break;
+                                _NZombieActual++;
+                                if (_NZombieActual >= _TiemposDeSiguientesZombies.Length) break;
+                            }
                         }
                     }
                 }

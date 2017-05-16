@@ -112,6 +112,8 @@ namespace TGC.Group.Model
                 _Cerebro.Inst_CreateAndSelect();
                 _Cerebro.Inst_Move(-13 * 1.6F * i, 0, 0);
             }
+
+            Set_PastoDesocupadoAll();
         }
 
         public static t_EscenarioBase Crear(GameModel game, string PathCasa, string PathPlano,
@@ -240,11 +242,28 @@ namespace TGC.Group.Model
             }
         }
 
+        public void Set_PastoDesocupadoAll()
+        {
+            for (int fila = 0; fila < GameModel.CANT_FILAS; fila++)
+            {
+                Set_PastoOcupado(fila, 0);
+            }
+            for (int columna = 1; columna < GameModel.CANT_COLUMNAS; columna++)
+            {
+                for (int fila = 0; fila < GameModel.CANT_FILAS; fila++)
+                {
+                    Set_PastoDesocupado(fila, columna);
+                }
+            }
+        }
+
         // Define si un cuadrado de pasto ya esta ocupado
         // 0 <= fila <= CANT_FILAS - 1
         // 0 <= columna <= CANT_COLUMNAS - 1
         public static bool Is_PastoOcupado(int fila, int columna)
         {
+            if (columna == 0) return false;
+
             if (columna < GameModel.CANT_COLUMNAS / 2)
             {
                 if ((_PastoLugar1 & (1 << (columna * GameModel.CANT_FILAS + fila))) != 0)

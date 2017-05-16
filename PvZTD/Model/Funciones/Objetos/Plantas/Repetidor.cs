@@ -334,7 +334,15 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
             if (Is_Personal && LanzaguisanteCreado == 4)
             {
                 // Se activo la super
-                _InstRepetidor[_iPersonal].super();
+                int i;
+                for (i=0; i<_Planta._instancias.Count; i++)
+                {
+                    if (_Planta._instancias[i] == _instPersonal)
+                    {
+                        break;
+                    }
+                }
+                _InstRepetidor[i].super();
             }
 
             for (int i = 0; i < _InstRepetidor.Count; i++)

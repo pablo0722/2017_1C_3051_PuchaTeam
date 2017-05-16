@@ -314,6 +314,10 @@ namespace TGC.Group.Model
 
             _instancias.Remove(_instanciaActual);
         }
+        public void Inst_DeleteAll()
+        {
+            _instancias.Clear();
+        }
 
         public void Inst_Delete(t_instancia inst)
         {

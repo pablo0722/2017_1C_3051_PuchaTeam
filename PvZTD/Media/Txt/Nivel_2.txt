@@ -1,10 +1,10 @@
 <total>
 (tiempos)
-,30,
+,20,
 ---
 <Zcomun>
 (tiempos)
-,1,1,1,
+,1,2,3,
 ---
 <Zcono>
 (tiempos)
@@ -12,4 +12,4 @@
 ---
 <Zbalde>
 (tiempos)
-,29,
+,0,
