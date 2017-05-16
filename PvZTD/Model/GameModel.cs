@@ -83,7 +83,7 @@ namespace TGC.Group.Model
             //Device de DirectX para crear primitivas.
             //var d3dDevice = D3DDevice.Instance.Device;
             _Menu = Menu.Crear(this);
-
+           
             _spriteDrawer = new Drawer2D();
             _Hordas = new t_Hordas(this);
             _Super = new t_Super(this);
@@ -146,14 +146,16 @@ namespace TGC.Group.Model
             
             if (Menu.IniciarJuego)
             {
-                DrawText.drawText("Soles:", 100, 0, Color.Yellow);
-                DrawText.drawText(_soles.ToString(), 150, 0, Color.Yellow);
+    //            DrawText.drawText("Soles:", 100, 0, Color.Yellow);
+    //            DrawText.drawText(_soles.ToString(), 150, 0, Color.Yellow);
                 _Hordas.Render();
                 _Super.Render();
             }
             else
             {
                 _Menu.Render();
+                DrawText.drawText(_mouse.Position().X.ToString(), 100, 0, Color.Yellow);
+                DrawText.drawText(_mouse.Position().Y.ToString(), 150, 0, Color.Yellow);
             }
             
             pablo_render();

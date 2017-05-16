@@ -46,7 +46,7 @@ namespace TGC.Group.Model.Funciones.Objetos
         Coordenadas CoordenadasOpciones;
         Coordenadas CoordenadasComoJugar;
 
-
+        MenuOpciones _menuOpciones;
 
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
@@ -54,7 +54,7 @@ namespace TGC.Group.Model.Funciones.Objetos
         private Menu( GameModel game)
         {
             _game = game;
-
+            _menuOpciones = MenuOpciones.Crear(game);
             CoordenadasIP.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.33F);
             CoordenadasIP.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.38F);
             CoordenadasIP.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.57F);
@@ -106,6 +106,9 @@ namespace TGC.Group.Model.Funciones.Objetos
         {
             BoxBitmapBase.D3dTexture.Dispose();
             BoxBitmapIP.D3dTexture.Dispose();
+            BoxBitmapComoJugar.D3dTexture.Dispose();
+            BoxBitmapOpciones.D3dTexture.Dispose();
+            BoxBitmapSalida.D3dTexture.Dispose();
         }
 
         /******************************************************************************************/
@@ -201,55 +204,62 @@ namespace TGC.Group.Model.Funciones.Objetos
         public void Update()
         {
 
-
-            int sectorMenu = Is_MouseOver();
-            switch (sectorMenu)
+            if (MenuOpciones.SalirOpciones)
             {
-                case 0:
-                    Set_Textura_Base();
-                    break;
-
-                case 1:
-                    Set_Textura_IP();
-                    break;
-
-                case 2:
-                    Set_Textura_Salida();
-                    break;
-
-                case 3:
-                    Set_Textura_Opcionese();
-                    break;
-
-                case 4:
-                    Set_Textura_ComoJugar();
-                    break;
-
-                default: break;
+                _menuOpciones.Update();
             }
-            int sectorMenuClick = Is_MouseClicker();
-            switch (sectorMenuClick)
+            else
             {
-                case 0:
-                    break;
+                int sectorMenu = Is_MouseOver();
+                switch (sectorMenu)
+                {
+                    case 0:
+                        Set_Textura_Base();
+                        break;
 
-                case 1:
-                    IniciarJuego = true;
-                    _game._TiempoTranscurrido = 0;
-                    _game._camara.Aerea_Reset();
-                    break;
+                    case 1:
+                        Set_Textura_IP();
+                        break;
 
-                case 2:
-                    System.Environment.Exit(1);
-                    break;
+                    case 2:
+                        Set_Textura_Salida();
+                        break;
 
-                case 3:
-                    break;
+                    case 3:
+                        Set_Textura_Opcionese();
+                        break;
 
-                case 4:
-                    break;
+                    case 4:
+                        Set_Textura_ComoJugar();
+                        break;
 
-                default: break;
+                    default: break;
+                }
+                int sectorMenuClick = Is_MouseClicker();
+                switch (sectorMenuClick)
+                {
+                    case 0:
+                        break;
+
+                    case 1:
+                        IniciarJuego = true;
+                        _game._TiempoTranscurrido = 0;
+                        _game._camara.Aerea_Reset();
+                        break;
+
+                    case 2:
+                        System.Environment.Exit(1);
+                        break;
+
+                    case 3:
+                        MenuOpciones.SalirOpciones = true;
+                        break;
+
+                    case 4:
+                        break;
+
+                    default: break;
+                }
             }
 
         }
@@ -262,9 +272,16 @@ namespace TGC.Group.Model.Funciones.Objetos
         // Renderiza todos los objetos relativos a la clase
         public void Render()
         {
-            _game._spriteDrawer.BeginDrawSprite();
-            _game._spriteDrawer.DrawSprite(BoxSprite);
-            _game._spriteDrawer.EndDrawSprite();  
+            if (MenuOpciones.SalirOpciones)
+            {
+                _menuOpciones.Render();
+            }
+            else
+            {
+                _game._spriteDrawer.BeginDrawSprite();
+                _game._spriteDrawer.DrawSprite(BoxSprite);
+                _game._spriteDrawer.EndDrawSprite();
+            }
         }
 
     }
