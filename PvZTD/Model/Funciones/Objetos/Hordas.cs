@@ -275,7 +275,7 @@ namespace TGC.Group.Model
 
                     MensajeSprite.Rotation = -_TiempoTranscurrido * ROTATION;
                 }
-                else if (_TiempoTranscurrido > ROTATION_TIME * 1.5F)
+                else if (_TiempoTranscurrido > ROTATION_TIME * 3F)
                 {
                     ClearScene();
                     _NivelActual = null;

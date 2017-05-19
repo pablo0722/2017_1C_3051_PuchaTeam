@@ -12,7 +12,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Zombies
         /*                                      CONSTANTES
         /******************************************************************************************/
         private const string PATH_OBJ = "..\\..\\Media\\Objetos\\zombieBalde-TgcScene.xml";
-        private const int VIDA_ZOMBIE_BALDE = 9;
+        private const int VIDA_ZOMBIE_BALDE = 30;
 
 
         public t_ZombieBalde(GameModel game) : base(game, PATH_OBJ)

@@ -17,6 +17,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
         private const int PLANTA_VALOR = 200;
         private const float VIDA_PLANTA = 3;
         private const float TIEMPO_GUISANTE = 4;
+        private const float DANIO_SUPER = 10;
 
 
 
@@ -177,7 +178,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                     if (zombie.fila >= FilaCenter-1 && zombie.fila <= FilaCenter + 1 &&
                        zombie.columna >= ComulnaCenter - 1 && zombie.columna <= ComulnaCenter + 1)
                     {
-                        zombie.vida-=30;
+                        zombie.vida-= DANIO_SUPER;
                         zombies._InstZombie[i] = zombie;
                         if (zombie.vida <= 0)
                         {
@@ -214,6 +215,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                                     ret.columna = zombie.columna;
 
                                     peas._instanciaActual.pos.Y = -5F;
+                                    peas._instanciaActual.pos.Z = 0F;
                                     zombie.vida--;
                                     zombies._InstZombie[i] = zombie;
                                     if (zombie.vida <= 0)
@@ -221,7 +223,6 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                                         zombies._Zombie.Inst_Delete(zombie.zombie);
                                         zombies._InstZombie.Remove(zombie);
                                     }
-                                    break;
                                 }
                             }
                         }

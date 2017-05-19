@@ -31,7 +31,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         private const string PATH_OBJ = "..\\..\\Media\\Objetos\\zombie-TgcScene.xml";
         private const float VELOCIDAD_ZOMBIE = -2F;
-        private const float VIDA_ZOMBIE_COMUN = 3; //10
+        private const float VIDA_ZOMBIE_COMUN = 10; //10
 
 
 
@@ -252,7 +252,7 @@ namespace TGC.Group.Model
                     }
                     else
                     {
-                        _Zombie._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y, PosAux.Z + velocidad_zombie*10 * _game.ElapsedTime);
+                        _Zombie._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y, PosAux.Z + velocidad_zombie * _game.ElapsedTime);
                     }
                 }
             }

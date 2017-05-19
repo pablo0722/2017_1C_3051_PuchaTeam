@@ -17,6 +17,7 @@ namespace TGC.Group.Model
         private const int PLANTA_VALOR = 100;
         private const float VIDA_PLANTA = 3;
         private const float TIEMPO_GUISANTE = 3;
+        private const float DANIO_SUPER = 30;
 
 
 
@@ -40,6 +41,8 @@ namespace TGC.Group.Model
             public t_Objeto3D.t_instancia Lanzaguisante;
             public t_PlantaInstancia planta;
             public GameModel game;
+            public bool flagSuper = false;
+            public float DanioSuper = DANIO_SUPER; 
 
             public t_LanzaguisantesInstancia(GameModel game, t_PlantaInstancia planta, t_Objeto3D.t_instancia Lanzaguisante)
             {
@@ -65,11 +68,7 @@ namespace TGC.Group.Model
                 SuperGuisante = t_Objeto3D.Crear(game, PATH_SUPER_GUISANTE_OBJ);
                 SuperGuisante.Set_Size(0.1F, 0.1F, 0.1F);
                 SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
-                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
-                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
-                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
-                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
-                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
+
             }
 
             public void update(bool ShowBoundingBoxWithKey)
@@ -77,10 +76,13 @@ namespace TGC.Group.Model
                 guisante.Update(ShowBoundingBoxWithKey);
                 SuperGuisante.Update(ShowBoundingBoxWithKey);
 
+                flagSuper = false;
                 colision(guisante, game._zombie);
                 colision(guisante, game._zombieCono);
                 colision(guisante, game._zombieBalde);
 
+                DanioSuper = DANIO_SUPER;
+                flagSuper = true;
                 colision(SuperGuisante, game._zombie);
                 colision(SuperGuisante, game._zombieCono);
                 colision(SuperGuisante, game._zombieBalde);
@@ -135,15 +137,44 @@ namespace TGC.Group.Model
                                 if ((peas._instanciaActual.pos.Z > zombie.zombie.pos.Z - 1) && (peas._instanciaActual.pos.Z < zombie.zombie.pos.Z + 3))
                                 {
                                     // Choca
-                                    peas._instanciaActual.pos.Y = -5F;
-                                    zombie.vida--;
-                                    zombies._InstZombie[i] = zombie;
-                                    if (zombie.vida <= 0)
+                                    if(flagSuper)
                                     {
-                                        zombies._Zombie.Inst_Delete(zombie.zombie);
-                                        zombies._InstZombie.Remove(zombie);
+                                        if (zombie.vida > DanioSuper)
+                                        {
+                                            zombie.vida -= DanioSuper;
+                                            DanioSuper -= zombie.vida;
+                                            peas._instanciaActual.pos.Y = -5F;
+                                            peas._instanciaActual.pos.Z = 0F;
+                                            return;
+                                        }
+                                        else
+                                        {
+                                            DanioSuper -= zombie.vida;
+                                            if (DanioSuper <= 0)
+                                            {
+                                                peas._instanciaActual.pos.Y = -5F;
+                                                peas._instanciaActual.pos.Z = 0F;
+                                                return;
+                                            }
+
+                                            zombie.vida=0;
+                                            zombies._InstZombie[i] = zombie;
+                                            zombies._Zombie.Inst_Delete(zombie.zombie);
+                                            zombies._InstZombie.Remove(zombie);
+                                        }
                                     }
-                                    break;
+                                    else
+                                    {
+                                        zombie.vida--;
+                                        peas._instanciaActual.pos.Y = -5F;
+                                        peas._instanciaActual.pos.Z = 0F;
+                                        zombies._InstZombie[i] = zombie;
+                                        if (zombie.vida <= 0)
+                                        {
+                                            zombies._Zombie.Inst_Delete(zombie.zombie);
+                                            zombies._InstZombie.Remove(zombie);
+                                        }
+                                    }
                                 }
                             }
                         }
