@@ -10,8 +10,8 @@ namespace TGC.Group.Model.Funciones.Objetos
 {
     class MenuOpciones
     { 
-    public CustomBitmap mi_Bitmap; // es donde se carga la imagen
-    public CustomSprite mi_sprite; // Es como una instancia de la imagen. es para cargar la imagen una sola vez y poder dibujarla varias veces.
+    //public CustomBitmap mi_Bitmap = null; // es donde se carga la imagen
+    //public CustomSprite mi_sprite = null; // Es como una instancia de la imagen. es para cargar la imagen una sola vez y poder dibujarla varias veces.
     private GameModel _game;
 
     public CustomBitmap BoxBitmapMenuOpciones;

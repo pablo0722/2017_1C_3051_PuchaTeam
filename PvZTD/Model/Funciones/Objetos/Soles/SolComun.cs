@@ -123,14 +123,14 @@ namespace TGC.Group.Model
             // Caida
             for (int i = _Sol._instancias.Count-1; i >= 0; i--)
             {
-                if (_Sol._instancias[i].pos.Y < 6)
+                if (_Sol._instancias[i].pos.Y < -6)
+                {
+                    _Sol._instancias.Remove(_Sol._instancias[i]);
+                }
+                else if (_Sol._instancias[i].pos.Y < 6)
                 {
                     Vector3 PosAux = _Sol._instancias[i].pos;
                     _Sol._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y + _game.ElapsedTime * VELOCIDAD_CAIDA * (1F / 10F), PosAux.Z);
-                }
-                else if (_Sol._instancias[i].pos.Y < -6)
-                {
-                    _Sol._instancias.Remove(_Sol._instancias[i]);
                 }
                 else
                 {

@@ -126,6 +126,7 @@ namespace TGC.Group.Model
 
             if ( (_game.Input.keyPressed(Key.Escape) || _game._mouse.ClickDer_RisingDown()) && _game._camara.Modo_Is_CamaraPersonal())
             {
+                _Planta.Inst_ShaderGirar(false);
                 _instPersonal = null;
                 _game._camara.Modo_Aerea();
             }
@@ -143,6 +144,7 @@ namespace TGC.Group.Model
                 
                 _CrearPlanta = false;
                 _sCrearPlanta = false;
+                _Planta.Inst_ShaderGirar(false);
                 ret = 2;
             }
 
@@ -168,6 +170,8 @@ namespace TGC.Group.Model
 
                     _CrearPlanta = true;
                     _sCrearPlanta = true;
+                    _Planta.Inst_ShaderGirar(true);
+
                     ret = 1;
                 }
             }

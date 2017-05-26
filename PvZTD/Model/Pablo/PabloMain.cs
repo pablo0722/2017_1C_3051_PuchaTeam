@@ -2,11 +2,7 @@
 using TGC.Core.Example;
 using TGC.Group.Model.Funciones.Objetos.Zombies;
 using TGC.Group.Model.Funciones.Objetos.Plantas;
-
-using Microsoft.DirectX;
 using TGC.Group.Model.Funciones.Objetos;
-using System.Drawing;
-using TGC.Core.Direct3D;
 
 namespace TGC.Group.Model
 {
@@ -73,6 +69,25 @@ namespace TGC.Group.Model
             _musica.Do_Play();
 
             _NivelActual = TXT_NIVEL_1;
+
+
+
+            // Shaders
+            /*
+            Microsoft.DirectX.Direct3D.Effect effect;
+
+            effect = TgcShaders.loadEffect("..\\..\\Media\\Shaders\\ShaderPrueba.fx");
+
+            // Cargamos las variables de shader, color del fog.
+            effect.SetValue("ColorFog", System.Drawing.Color.Fuchsia.ToArgb());
+            effect.SetValue("CameraPos", TGC.Core.Utils.TgcParserUtils.vector3ToFloat4Array(Camara.Position));
+            effect.SetValue("StartFogDistance", 0.01F);
+            effect.SetValue("EndFogDistance", 10F);
+            effect.SetValue("Density", 10F);
+
+            mesh.Effect = effect;
+            mesh.Technique = "RenderScene";
+            */
         }
 
 

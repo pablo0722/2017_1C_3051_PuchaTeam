@@ -69,6 +69,7 @@ namespace TGC.Group.Model
                                     0.05F, 0.05F, 0.05F,
                                     0, GameModel.PI, 0);
 
+            /*
             _Planta.Mesh_Select(0);
             _Planta.Mesh_Color(153, 228, 153);
 
@@ -86,8 +87,10 @@ namespace TGC.Group.Model
 
             _Planta.Mesh_Select(5);
             _Planta.Mesh_Color(255, 217, 7);
+            */
 
             _InstGirasol = new List<t_GirasolInstancia>();
+            
         }
 
         public static t_Girasol Crear(GameModel game, byte n)

@@ -4,6 +4,7 @@ using Microsoft.DirectX.DirectInput;
 using System.Drawing;
 using System.Collections.Generic;
 
+
 namespace TGC.Group.Model
 {
     public class t_Objeto3D
@@ -13,10 +14,16 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         public class t_instancia
         {
+            public class t_ShadersHabilitados
+            {
+                public bool Girar = false;
+            };
+
             public Vector3 pos;
             public Vector3 rot;
             public Vector3 size;
             public Color color;
+            public t_ShadersHabilitados shaders;
 
             public t_instancia()
             {
@@ -24,6 +31,7 @@ namespace TGC.Group.Model
                 rot = new Vector3(0, 0, 0);
                 size = new Vector3(1, 1, 1);
                 color = Color.FromArgb(0, 255, 255, 255);
+                shaders = new t_ShadersHabilitados();
             }
             public t_instancia(t_instancia inst)
             {
@@ -31,6 +39,7 @@ namespace TGC.Group.Model
                 rot = new Vector3(inst.rot.X, inst.rot.Y, inst.rot.Z);
                 size = new Vector3(inst.size.X, inst.size.Y, inst.size.Z);
                 color = Color.FromArgb(inst.color.A, inst.color.R, inst.color.G, inst.color.B);
+                shaders = new t_ShadersHabilitados();
             }
         };
 
@@ -65,6 +74,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         // ESTATICAS
         public static bool _ShowBoundingBox = false;
+        public static t_shader shader = null;
 
         // NO ESTATICAS
         public t_mesh _meshes;
@@ -92,13 +102,18 @@ namespace TGC.Group.Model
         {
             _game = game;
 
+            if(shader == null)
+            {
+                shader = new t_shader(game);
+            }
+
             _instanciaActual = null;
             _meshes = new t_mesh(PathObj);
             _instancias = new List<t_instancia>();
             _InstanciaBase = new t_instancia();
             _ChangeColorMesh = false;
             _ChangeColorInst = false;
-    }
+        }
 
         public static t_Objeto3D Crear(GameModel game, string PathObj)
         {
@@ -417,6 +432,14 @@ namespace TGC.Group.Model
             }
         }
 
+        //  SHADER INSTANCIAS
+        public void Inst_ShaderGirar(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.Girar = activate;
+        }
+
 
 
 
@@ -473,6 +496,11 @@ namespace TGC.Group.Model
                         _meshes.mesh[j].Position = _instancias[i].pos;
                         _meshes.mesh[j].Rotation = _instancias[i].rot;
                         _meshes.mesh[j].Scale = _instancias[i].size;
+                        
+                        // RENDERIZA TODOS LOS SHADERS
+                        shader.Render(_meshes.mesh[j], _instancias[i].shaders);
+
+
                         _meshes.mesh[j].UpdateMeshTransform();
                         _meshes.mesh[j].render();
 
