@@ -165,7 +165,7 @@ namespace TGC.Group.Model
                // DrawText.drawText(_mouse.Position().Y.ToString(), 150, 0, Color.Yellow);
             }
 
-            t_ToonShading.RenderGlobal();
+            t_shader.PostProc();
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();

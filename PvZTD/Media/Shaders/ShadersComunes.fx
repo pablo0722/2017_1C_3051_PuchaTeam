@@ -1,7 +1,3 @@
-/**************************************************************************************/
-/* Variables comunes */
-/**************************************************************************************/
-
 //Matrices de transformacion
 float4x4 matWorld; //Matriz de transformacion World
 float4x4 matWorldView; //Matriz World * View
@@ -20,26 +16,55 @@ sampler2D diffuseMap = sampler_state
 	MIPFILTER = LINEAR;
 };
 
-// variable de fogs
-float4 ColorFog;
+
+
+
+
+
+
+
+
+
+/******************************************************************************************/
+/*                                      vvvvv VARIABLES vvvvv
+/******************************************************************************************/
+float time = 0;
 float4 CameraPos;
-float StartFogDistance;
-float EndFogDistance;
-float Density;
+
+// variable de fogs
+float4 FogColor;
+float FogStartDistance;
+float FogEndDistance;
+float FogDensity;
+/******************************************************************************************/
+/*                                      ^^^^^ VARIABLES ^^^^^
+/******************************************************************************************/
+
+
+
+
+
+
+
+
+
 
 //Input del Vertex Shader
 struct VS_INPUT_VERTEX
 {
-	float4 Position : POSITION0;
-	float3 Texture : TEXCOORD0;
+	float4 Position :	POSITION0;
+	float4 Color :		COLOR0;
+	float3 Texture :	TEXCOORD0;
+	//float2 Texcoord :	TEXCOORD0;
 };
 
 //Output del Vertex Shader
 struct VS_OUTPUT_VERTEX
 {
-	float4 Position : POSITION0;
-	float2 Texture:    TEXCOORD0;
-	float1 Fog:     FOG;
+	float4 Position :	POSITION0;
+	float2 Texture:		TEXCOORD0;
+	float1 Fog:			FOG;
+	//float4 Color :		COLOR0;
 };
 
 //Vertex Shader
@@ -56,7 +81,7 @@ VS_OUTPUT_VERTEX vs_main(VS_INPUT_VERTEX input)
 	//output.Fog = saturate((EndFogDistance - CameraPosWorld.z) / (EndFogDistance - StartFogDistance));
 	//calcula fog Exponencial
 	float DistFog = distance(input.Position.xyz, CameraPosWorld.xyz);
-	output.Fog = saturate(exp((StartFogDistance - DistFog)*Density));
+	output.Fog = saturate(exp((FogStartDistance - DistFog)*FogDensity));
 	//Calcula fog exponencial 2
 	//output.Fog = saturate(exp((StartFogDistance-DistFog)*Density*(StartFogDistance-DistFog)*Density));
 	return output;
@@ -70,12 +95,22 @@ float4 ps_main(VS_OUTPUT_VERTEX input) : COLOR0
 	float4 fvBaseColor = tex2D(diffuseMap, input.Texture);
 	// combino fog y textura
 	float4 fogFactor = float4(input.Fog,input.Fog,input.Fog,input.Fog);
-	float4 fvFogColor = (1.0 - fogFactor) * ColorFog;
+	float4 fvFogColor = (1.0 - fogFactor) * FogColor;
 	return fogFactor * fvBaseColor + fvFogColor;
 }
 
 // ------------------------------------------------------------------
-technique RenderScene
+technique RenderComun
+{
+	pass Pass_0
+	{
+		VertexShader = compile vs_3_0 vs_main();
+		PixelShader = compile ps_3_0 ps_main();
+	}
+}
+
+// ------------------------------------------------------------------
+technique RenderGirar
 {
 	pass Pass_0
 	{

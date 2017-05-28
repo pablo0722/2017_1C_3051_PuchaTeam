@@ -117,9 +117,6 @@
     <Compile Include="Model\Funciones\Mouse.cs" />
     <Compile Include="Model\Funciones\Objetos\Objeto3D.cs" />
     <Compile Include="Model\Funciones\Colision.cs" />
-    <Compile Include="Model\Funciones\Shaders\Girar.cs" />
-    <Compile Include="Model\Funciones\Shaders\fog.cs" />
-    <Compile Include="Model\Funciones\Shaders\ToonShading.cs" />
     <Compile Include="Model\Funciones\Shaders\Shaders.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\Jose\JoseClass.cs" />
