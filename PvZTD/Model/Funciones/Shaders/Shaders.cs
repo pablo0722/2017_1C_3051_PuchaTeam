@@ -117,7 +117,7 @@ namespace TGC.Group.Model
             // SHADERS COMUNES
         public void RenderFog(TgcMesh mesh)
         {
-            const float AMPLITUD = 0.01F;
+            const float AMPLITUD = 0.005F;
             const float FRECUENCIA = (1 / 10F); // en vueltas por segundo
             const float OFFSET = AMPLITUD / 2;
 

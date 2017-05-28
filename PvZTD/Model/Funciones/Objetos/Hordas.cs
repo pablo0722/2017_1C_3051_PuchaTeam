@@ -14,8 +14,8 @@ namespace TGC.Group.Model
         public const string IMG_CONTORNO_PATH =         "..\\..\\Media\\Texturas\\hordas.png";
         public const string IMG_RELLENO_PATH =          "..\\..\\Media\\Texturas\\orig_60339.jpg";
         public const string IMG_INDICADOR_PATH =        "..\\..\\Media\\Texturas\\CabezaZombie.png";
-        public const string IMG_FIN_NIVEL_PATH =        "..\\..\\Media\\Texturas\\frijolito.png";
-        public const string IMG_FIN_NIVEL_OVER_PATH =   "..\\..\\Media\\Texturas\\CabezaZombie.png";
+        public const string IMG_FIN_NIVEL_PATH =        "..\\..\\Media\\Texturas\\Victory.jpg";
+        public const string IMG_FIN_NIVEL_OVER_PATH =   "..\\..\\Media\\Texturas\\Victory.jpg";
         public const string IMG_HORDA_LLEGADA_1_PATH =  "..\\..\\Media\\Texturas\\hordas1.png";
         public const string IMG_HORDA_LLEGADA_2_PATH =  "..\\..\\Media\\Texturas\\hordas2.png";
         public const string IMG_GAMEOVER_PATH =         "..\\..\\Media\\Texturas\\gameover.png";
