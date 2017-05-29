@@ -18,13 +18,6 @@ sampler2D diffuseMap = sampler_state
 
 
 
-
-
-
-
-
-
-
 /******************************************************************************************/
 /*                                      vvvvv VARIABLES vvvvv
 /******************************************************************************************/
@@ -39,13 +32,6 @@ float FogDensity;
 /******************************************************************************************/
 /*                                      ^^^^^ VARIABLES ^^^^^
 /******************************************************************************************/
-
-
-
-
-
-
-
 
 
 
@@ -167,3 +153,62 @@ technique RenderGirar
 		PixelShader = compile ps_3_0 ps_mainGirar();
 	}
 }
+// -------------------------------------------------------------------
+//Vertex Shader
+VS_OUTPUT_VERTEX vs_mainSol(VS_INPUT_VERTEX input)
+{
+	VS_OUTPUT_VERTEX output;
+
+	// Animar posicion
+	float y = input.Position.y;
+	float Z = input.Position.z;
+	input.Position.y = y * cos(time*2) - Z * sin(time*2);
+	input.Position.z = Z * cos(time*2) + y * sin(time*2);
+
+	//Proyectar posicion
+	output.Position = mul(input.Position, matWorldViewProj);
+
+	//Propago las coordenadas de textura
+	output.Texture = input.Texture;
+
+	float4 CameraPosWorld = mul(CameraPos, matWorld);
+
+	//calcula fog Exponencial
+	float DistFog = distance(input.Position.xyz, CameraPosWorld.xyz);
+	output.Fog = saturate(exp((FogStartDistance - DistFog)*FogDensity));
+
+	// Animar color
+	input.Color.r = abs(sin(4 * time));
+	input.Color.g = abs(sin(4 * time));
+	input.Color.b = 0;
+
+	//Propago el color x vertice
+	output.Color = input.Color;
+
+	return output;
+}
+//Pixel Shader
+float4 ps_mainSol(VS_OUTPUT_VERTEX input) : COLOR0
+{
+	// Obtener el texel de textura
+	// diffuseMap es el sampler, Texcoord son las coordenadas interpoladas
+	float4 fvBaseColor = tex2D(diffuseMap, input.Texture);
+	// combino fog y textura
+	// combino fog y textura
+	//float4 fogFactor = float4(input.Fog, input.Fog, input.Fog, input.Fog);
+	//float4 fvFogColor = (1.0 - fogFactor) * FogColor;
+
+	return fvBaseColor*0.5+ input.Color*0.5;
+}
+
+technique RenderSol
+{
+	pass Pass_0
+	{
+		VertexShader = compile vs_3_0 vs_mainSol();
+		PixelShader = compile ps_3_0 ps_mainSol();
+	}
+}
+
+
+

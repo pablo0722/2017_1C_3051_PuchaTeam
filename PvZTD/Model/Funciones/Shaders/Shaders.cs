@@ -68,7 +68,7 @@ namespace TGC.Group.Model
         /*                                      INIT SHADERS
         /******************************************************************************************/
 
-            // SHADERS COMUNES (Se aplican a todos los meshes)
+        // SHADERS COMUNES (Se aplican a todos los meshes)
         public void InitFog()
         {
             const int COLOR_R = 64; // Color Rojo
@@ -85,13 +85,6 @@ namespace TGC.Group.Model
         {
             effect.SetValue("time", 0);
         }
-
-
-
-
-
-
-
 
 
 
@@ -112,7 +105,15 @@ namespace TGC.Group.Model
             // Renderiza shaders especiales
             if (shaders.Girar)
                 RenderGirar(mesh);
+
+            if(shaders.GirarSoles)
+                RenderSol(mesh);
+
+
+
+
         }
+
 
             // SHADERS COMUNES
         public void RenderFog(TgcMesh mesh)
@@ -130,14 +131,10 @@ namespace TGC.Group.Model
             mesh.Technique = "RenderGirar";
         }
 
-
-
-
-
-
-
-
-
+        public void RenderSol(TgcMesh mesh)
+        {
+            mesh.Technique = "RenderSol";
+        }
 
         /******************************************************************************************/
         /*                                      SHADER DE POST PROCESAMIENTO

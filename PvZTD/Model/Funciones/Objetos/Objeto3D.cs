@@ -17,7 +17,9 @@ namespace TGC.Group.Model
             public class t_ShadersHabilitados
             {
                 public bool Girar = false;
+                public bool GirarSoles = false;
             };
+
 
             public Vector3 pos;
             public Vector3 rot;
@@ -438,6 +440,13 @@ namespace TGC.Group.Model
             if (_instanciaActual == null) return;
 
             _instanciaActual.shaders.Girar = activate;
+        }
+
+        public void Inst_ShaderGirarSoles(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.GirarSoles = activate;
         }
 
 
