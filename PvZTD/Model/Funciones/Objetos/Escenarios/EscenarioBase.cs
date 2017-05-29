@@ -146,6 +146,9 @@ namespace TGC.Group.Model
         // 0 <= columna <= CANT_COLUMNAS - 1
         public void Do_PastoSelect(int fila, int columna)
         {
+            if (fila >= GameModel.CANT_FILAS) return;
+            if (columna >= GameModel.CANT_COLUMNAS) return;
+
             Do_PastoSelectNone();
 
             if (columna%2 == 0)

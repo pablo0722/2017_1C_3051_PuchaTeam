@@ -54,6 +54,7 @@ namespace TGC.Group.Model
         public Menu _Menu;
         public t_Super _Super;
         public int FirstRender = 2;
+        public t_shader shader = null;
 
 
 
@@ -81,6 +82,8 @@ namespace TGC.Group.Model
         /// </summary>
         public override void Init()
         {
+            shader = new t_shader(this);
+
             //Device de DirectX para crear primitivas.
             //var d3dDevice = D3DDevice.Instance.Device;
             _Menu = Menu.Crear(this);
@@ -109,6 +112,9 @@ namespace TGC.Group.Model
         public override void Update()
         {
             PreUpdate();
+
+            if (shader.time2 >= 0)
+                shader.time2 += ElapsedTime;
 
             if (FirstRender == 0)
             {
@@ -144,12 +150,22 @@ namespace TGC.Group.Model
             {
                 FirstRender--;
             }
-
-            //Inicio el render de la escena, para ejemplos simples. Cuando tenemos postprocesado o shaders es mejor realizar las operaciones según nuestra conveniencia.
-            PreRender();
             
+            // POST PROCESAMIENTO
+            shader.PostProc();
+
+            PostRender();
+        }
+
+        public void RenderScene()
+        {
             pablo_render();
             jose_render();
+        }
+
+        public void RenderHud()
+        {
+            jose_renderHud();
 
             if (Menu.IniciarJuego)
             {
@@ -161,14 +177,9 @@ namespace TGC.Group.Model
             else
             {
                 _Menu.Render();
-             //   DrawText.drawText(_mouse.Position().X.ToString(), 100, 0, Color.Yellow);
-               // DrawText.drawText(_mouse.Position().Y.ToString(), 150, 0, Color.Yellow);
+                //   DrawText.drawText(_mouse.Position().X.ToString(), 100, 0, Color.Yellow);
+                // DrawText.drawText(_mouse.Position().Y.ToString(), 150, 0, Color.Yellow);
             }
-
-            t_shader.PostProc();
-
-            //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
-            PostRender();
         }
 
         /// <summary>

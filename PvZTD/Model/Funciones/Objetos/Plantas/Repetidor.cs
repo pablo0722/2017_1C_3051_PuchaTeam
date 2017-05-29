@@ -11,6 +11,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
         /******************************************************************************************/
         private const string PATH_GUISANTE_OBJ = "..\\..\\Media\\Objetos\\guisante-TgcScene.xml";
         private const string PATH_SUPER_GUISANTE_OBJ = "..\\..\\Media\\Objetos\\SuperGuisante2-TgcScene.xml";
+        private const string PATH_EXPLOSION_OBJ = "..\\..\\Media\\Objetos\\Explosion-TgcScene.xml";
         private const string PATH_OBJ = "..\\..\\Media\\Objetos\\repetidora-TgcScene.xml";
         private const string PATH_TEXTURA_ON = "..\\..\\Media\\Texturas\\HUD_repeater_sel.png";
         private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\HUD_repeater.png";
@@ -50,6 +51,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
             public int fila;
             public t_Objeto3D obj_guisante { get; set; }
             public t_Objeto3D SuperGuisante { get; set; }
+            public t_Objeto3D obj_explosion { get; set; }
             public t_Objeto3D.t_instancia Repetidor;
             public t_PlantaInstancia planta;
             public GameModel _game;
@@ -70,6 +72,13 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                 this.planta = planta;
 
                 fila = planta.fila;
+
+                obj_explosion = t_Objeto3D.Crear(game, PATH_EXPLOSION_OBJ);
+                obj_explosion.Set_Size(0.04F, 0.04F, 0.04F);
+                obj_explosion.Set_Position(x, -100, z);
+                obj_explosion.Inst_CreateAndSelect(new Microsoft.DirectX.Vector3(0, -100, 0));
+                obj_explosion.Inst_ShaderExplosion(true);
+                obj_explosion.Inst_Set_PositionX(x);
 
                 obj_guisante = t_Objeto3D.Crear(game, PATH_GUISANTE_OBJ);
                 obj_guisante.Set_Size(0.04F, 0.04F, 0.04F);
@@ -96,7 +105,9 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                 // Guisantes para la super
                 SuperGuisante = t_Objeto3D.Crear(game, PATH_SUPER_GUISANTE_OBJ);
                 SuperGuisante.Set_Size(0.1F, 0.1F, 0.1F);
-                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
+                SuperGuisante.Inst_CreateAndSelect(x, -100F, z);
+
+                SuperGuisante.Inst_ShaderBolaDeExplosion(true);
             }
 
             public void update(bool ShowBoundingBoxWithKey)
@@ -108,6 +119,12 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                 colision(obj_guisante, _game._zombieCono);
                 colision(obj_guisante, _game._zombieBalde);
 
+                if(_game.shader.time2 > 3)
+                {
+                    obj_explosion.Inst_Set_PositionY(-100);
+                    obj_explosion.Inst_ShaderExplosion(false);
+                }
+
                 // Para onda expansiva de la super
                 t_celda CeldaZombie;
                 CeldaZombie = colision(SuperGuisante, _game._zombie);
@@ -116,6 +133,11 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                     OndaExpansiva(_game._zombie, CeldaZombie.fila, CeldaZombie.columna);
                     OndaExpansiva(_game._zombieCono, CeldaZombie.fila, CeldaZombie.columna);
                     OndaExpansiva(_game._zombieBalde, CeldaZombie.fila, CeldaZombie.columna);
+                    obj_explosion.Inst_Set_PositionZ(t_EscenarioBase.PASTO_POS_Z_INICIAL + (t_EscenarioBase.PASTO_RAZON * (CeldaZombie.columna)));
+                    obj_explosion.Inst_Set_PositionY(Repetidor.pos.Y + 5);
+                    _game.shader.time2 = 0;
+                    obj_explosion.Inst_ShaderExplosion(true);
+                    _game.shader.ExplosionLightPosition = new Microsoft.DirectX.Vector4(obj_explosion._instanciaActual.pos.X, obj_explosion._instanciaActual.pos.Y+20, obj_explosion._instanciaActual.pos.Z, 1);
                 }
                 CeldaZombie = colision(SuperGuisante, _game._zombieCono);
                 if (CeldaZombie.fila >= 0)
@@ -123,6 +145,11 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                     OndaExpansiva(_game._zombie, CeldaZombie.fila, CeldaZombie.columna);
                     OndaExpansiva(_game._zombieCono, CeldaZombie.fila, CeldaZombie.columna);
                     OndaExpansiva(_game._zombieBalde, CeldaZombie.fila, CeldaZombie.columna);
+                    obj_explosion.Inst_Set_PositionZ(t_EscenarioBase.PASTO_POS_Z_INICIAL + (t_EscenarioBase.PASTO_RAZON * (CeldaZombie.columna)));
+                    obj_explosion.Inst_Set_PositionY(Repetidor.pos.Y + 5);
+                    _game.shader.time2 = 0;
+                    obj_explosion.Inst_ShaderExplosion(true);
+                    _game.shader.ExplosionLightPosition = new Microsoft.DirectX.Vector4(obj_explosion._instanciaActual.pos.X, obj_explosion._instanciaActual.pos.Y+20, obj_explosion._instanciaActual.pos.Z, 1);
                 }
                 CeldaZombie = colision(SuperGuisante, _game._zombieBalde);
                 if (CeldaZombie.fila >= 0)
@@ -130,6 +157,11 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                     OndaExpansiva(_game._zombie, CeldaZombie.fila, CeldaZombie.columna);
                     OndaExpansiva(_game._zombieCono, CeldaZombie.fila, CeldaZombie.columna);
                     OndaExpansiva(_game._zombieBalde, CeldaZombie.fila, CeldaZombie.columna);
+                    obj_explosion.Inst_Set_PositionZ(t_EscenarioBase.PASTO_POS_Z_INICIAL + (t_EscenarioBase.PASTO_RAZON * (CeldaZombie.columna)));
+                    obj_explosion.Inst_Set_PositionY(Repetidor.pos.Y + 5);
+                    _game.shader.time2 = 0;
+                    obj_explosion.Inst_ShaderExplosion(true);
+                    _game.shader.ExplosionLightPosition = new Microsoft.DirectX.Vector4(obj_explosion._instanciaActual.pos.X, obj_explosion._instanciaActual.pos.Y+20, obj_explosion._instanciaActual.pos.Z, 1);
                 }
 
                 // Avance de SuperGuisantes
@@ -139,9 +171,9 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                     if (SuperGuisante._instanciaActual.pos.Z > 150F)
                     {
                         SuperGuisante._instanciaActual.pos.Z = 0F;
-                        SuperGuisante._instanciaActual.pos.Y = -5F;
+                        SuperGuisante._instanciaActual.pos.Y = -100F;
                     }
-                    if (SuperGuisante._instanciaActual.pos.Y != -5F)
+                    if (SuperGuisante._instanciaActual.pos.Y != -100F)
                     {
                         SuperGuisante._instanciaActual.pos.Z += _game.ElapsedTime * 50;
                     }
@@ -199,7 +231,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                 {
                     peas.Inst_Select(peas._instancias[i_guisante]);
 
-                    if (peas._instanciaActual.pos.Y != -5F)
+                    if (peas._instanciaActual.pos.Y != -100F)
                     {
                         for (int i = zombies._InstZombie.Count - 1; i >= 0; i--)
                         {
@@ -214,7 +246,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                                     ret.fila = zombie.fila;
                                     ret.columna = zombie.columna;
 
-                                    peas._instanciaActual.pos.Y = -5F;
+                                    peas._instanciaActual.pos.Y = -100F;
                                     peas._instanciaActual.pos.Z = 0F;
                                     zombie.vida--;
                                     zombies._InstZombie[i] = zombie;
@@ -248,6 +280,9 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
             {
                 obj_guisante.Render(true);
                 SuperGuisante.Render(true);
+                TGC.Core.Direct3D.D3DDevice.Instance.Device.RenderState.AlphaBlendEnable = true;
+                obj_explosion.Render(true);
+                TGC.Core.Direct3D.D3DDevice.Instance.Device.RenderState.AlphaBlendEnable = false;
             }
         };
 

@@ -135,27 +135,11 @@ namespace TGC.Group.Model
         private void jose_render()
         {
             valla.Render(true);
+        }
+
+        private void jose_renderHud()
+        {
             skyBox.render();
-            /*
-            renderPasto();
-            for (int i = 0; i < j_meshCasa.Count; i++) 
-            {
-                j_meshCasa[i].render();
-            }
-
-            for (int j = 0; j < 5; j++)
-            {
-                for (int i = 0; i < j_meshBrain.Count; i++)
-                {
-                    j_meshBrain[i].render();
-                    j_meshBrain[i].move(-RAZON_PASTO*1.6F, 0,0);
-                }
-            }
-            j_meshBrain[0].move(RAZON_PASTO * 1.6F * 5, 0, 0);
-            j_meshBrain[1].move(RAZON_PASTO * 1.6F * 5, 0, 0);
-
-            
-            */
         }
         /******************************************************************************************
          *                 DISPOSE - Se ejecuta al finalizar el juego. Libera la memoria

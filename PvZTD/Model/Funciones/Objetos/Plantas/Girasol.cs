@@ -48,6 +48,7 @@ namespace TGC.Group.Model
         public GameModel _game;
         public List<t_GirasolInstancia> _InstGirasol;
         public bool Is_Personal = false;
+        private float TiempoDesdeQueActivoLaSuper;
 
 
 
@@ -64,6 +65,8 @@ namespace TGC.Group.Model
         private t_Girasol(GameModel game, byte n) : base(PATH_OBJ, PATH_TEXTURA_ON, PATH_TEXTURA_OFF, game, n, PLANTA_VALOR, VIDA)
         {
             _game = game;
+
+            TiempoDesdeQueActivoLaSuper = -1;
 
             _Planta.Set_Transform(  0, 0, 0,
                                     0.05F, 0.05F, 0.05F,
@@ -119,7 +122,15 @@ namespace TGC.Group.Model
         {
             int GirasolCreado = base.Update(ShowBoundingBoxWithKey);
 
-            if(GirasolCreado == 2)
+            if (TiempoDesdeQueActivoLaSuper > 3)
+            {
+                _Planta.Inst_ShaderAllSuperGirasol(false);
+                TiempoDesdeQueActivoLaSuper = -1;
+            }
+            if (TiempoDesdeQueActivoLaSuper >= 0)
+                TiempoDesdeQueActivoLaSuper += _game.ElapsedTime;
+
+            if (GirasolCreado == 2)
             {
                 // Girasol ubicado
                 t_GirasolInstancia Girasol = new t_GirasolInstancia();
@@ -146,6 +157,14 @@ namespace TGC.Group.Model
             {
                 // Se activo la super
                 _game._soles += SUPER_CANT_SOLES;
+
+                // activo el shader de super de girasol
+                t_Objeto3D.t_instancia instaux = _Planta._instanciaActual;
+                _Planta.Inst_Select(_instPersonal);
+                _Planta.Inst_ShaderSuperGirasol(true);
+                _Planta.Inst_Select(instaux);
+
+                TiempoDesdeQueActivoLaSuper = 0;
             }
 
             for (int i=0; i< _InstGirasol.Count; i++)

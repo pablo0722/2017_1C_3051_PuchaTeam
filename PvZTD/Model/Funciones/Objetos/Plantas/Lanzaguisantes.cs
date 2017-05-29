@@ -67,8 +67,9 @@ namespace TGC.Group.Model
                 // Guisantes para la super
                 SuperGuisante = t_Objeto3D.Crear(game, PATH_SUPER_GUISANTE_OBJ);
                 SuperGuisante.Set_Size(0.1F, 0.1F, 0.1F);
-                SuperGuisante.Inst_CreateAndSelect(x, -5F, z);
+                SuperGuisante.Inst_CreateAndSelect(x, -100F, z);
 
+                SuperGuisante.Inst_ShaderBolaDeFuego(true);
             }
 
             public void update(bool ShowBoundingBoxWithKey)
@@ -94,9 +95,9 @@ namespace TGC.Group.Model
                     if (SuperGuisante._instanciaActual.pos.Z > 150F)
                     {
                         SuperGuisante._instanciaActual.pos.Z = 0F;
-                        SuperGuisante._instanciaActual.pos.Y = -5F;
+                        SuperGuisante._instanciaActual.pos.Y = -100F;
                     }
-                    if (SuperGuisante._instanciaActual.pos.Y != -5F)
+                    if (SuperGuisante._instanciaActual.pos.Y != -100F)
                     {
                         SuperGuisante._instanciaActual.pos.Z += game.ElapsedTime * 50;
                     }
@@ -106,7 +107,7 @@ namespace TGC.Group.Model
                 {
                     tiempo -= game.ElapsedTime;
 
-                    if (guisante._instanciaActual.pos.Y != -5F)
+                    if (guisante._instanciaActual.pos.Y != -100F)
                     {
                         guisante._instanciaActual.pos.Z += game.ElapsedTime * 50;
                     }
@@ -127,7 +128,7 @@ namespace TGC.Group.Model
                     for (int j = 0; j < peas._instancias.Count; j++)
                     {
                         peas.Inst_Select(peas._instancias[j]);
-                        if (peas._instanciaActual.pos.Y != -5F)
+                        if (peas._instanciaActual.pos.Y != -100F)
                         {
                             //El guisante esta en camino
                             t_ZombieComun.t_ZombieInstancia zombie = zombies._InstZombie[i];
@@ -143,7 +144,7 @@ namespace TGC.Group.Model
                                         {
                                             zombie.vida -= DanioSuper;
                                             DanioSuper -= zombie.vida;
-                                            peas._instanciaActual.pos.Y = -5F;
+                                            peas._instanciaActual.pos.Y = -100F;
                                             peas._instanciaActual.pos.Z = 0F;
                                             return;
                                         }
@@ -152,7 +153,7 @@ namespace TGC.Group.Model
                                             DanioSuper -= zombie.vida;
                                             if (DanioSuper <= 0)
                                             {
-                                                peas._instanciaActual.pos.Y = -5F;
+                                                peas._instanciaActual.pos.Y = -100F;
                                                 peas._instanciaActual.pos.Z = 0F;
                                                 return;
                                             }
@@ -166,7 +167,7 @@ namespace TGC.Group.Model
                                     else
                                     {
                                         zombie.vida--;
-                                        peas._instanciaActual.pos.Y = -5F;
+                                        peas._instanciaActual.pos.Y = -100F;
                                         peas._instanciaActual.pos.Z = 0F;
                                         zombies._InstZombie[i] = zombie;
                                         if (zombie.vida <= 0)

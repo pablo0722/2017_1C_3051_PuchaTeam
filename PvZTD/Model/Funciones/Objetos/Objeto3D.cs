@@ -17,6 +17,10 @@ namespace TGC.Group.Model
             public class t_ShadersHabilitados
             {
                 public bool Girar = false;
+                public bool BolaDeFuego = false;
+                public bool BolaDeExplosion = false;
+                public bool Explosion = false;
+                public bool SuperGirasol = false;
             };
 
             public Vector3 pos;
@@ -74,7 +78,6 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         // ESTATICAS
         public static bool _ShowBoundingBox = false;
-        public static t_shader shader = null;
 
         // NO ESTATICAS
         public t_mesh _meshes;
@@ -101,11 +104,6 @@ namespace TGC.Group.Model
         private t_Objeto3D(GameModel game, string PathObj)
         {
             _game = game;
-
-            if(shader == null)
-            {
-                shader = new t_shader(game);
-            }
 
             _instanciaActual = null;
             _meshes = new t_mesh(PathObj);
@@ -440,6 +438,42 @@ namespace TGC.Group.Model
             _instanciaActual.shaders.Girar = activate;
         }
 
+        public void Inst_ShaderBolaDeFuego(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.BolaDeFuego = activate;
+        }
+
+        public void Inst_ShaderBolaDeExplosion(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.BolaDeExplosion = activate;
+        }
+
+        public void Inst_ShaderExplosion(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.Explosion = activate;
+        }
+
+        public void Inst_ShaderSuperGirasol(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.SuperGirasol = activate;
+        }
+
+        public void Inst_ShaderAllSuperGirasol(bool activate)
+        {
+            for (int i = 0; i < _instancias.Count; i++)
+            {
+                _instancias[i].shaders.SuperGirasol = activate;
+            }
+        }
+
 
 
 
@@ -481,6 +515,8 @@ namespace TGC.Group.Model
         {
             for (int i = 0; i < _instancias.Count; i++)
             {
+                if(_instancias[i].pos.Y < -90) return;
+
                 if (_instancias[i].pos.Z >= _game._camara._CamaraAerea.Position.Z+20 || !_game._camara.Modo_Is_CamaraPersonal() || !ocultar)
                 {
                     for (int j = 0; j < _meshes.mesh.Count; j++)
@@ -498,7 +534,7 @@ namespace TGC.Group.Model
                         _meshes.mesh[j].Scale = _instancias[i].size;
                         
                         // RENDERIZA TODOS LOS SHADERS
-                        shader.Render(_meshes.mesh[j], _instancias[i].shaders);
+                        _game.shader.Render(_meshes.mesh[j], _instancias[i].shaders);
 
 
                         _meshes.mesh[j].UpdateMeshTransform();
