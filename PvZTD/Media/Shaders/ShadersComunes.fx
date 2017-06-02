@@ -43,13 +43,6 @@ sampler2D lightMap = sampler_state
 
 
 
-
-
-
-
-
-
-
 /******************************************************************************************/
 /*                                      vvvvv VARIABLES vvvvv
 /******************************************************************************************/
@@ -288,7 +281,7 @@ VS_OUTPUT_SHADOWMAP vs_ShadowMap(VS_INPUT_SHADOWMAP input)
 	output.Position = mul(input.Position, matWorld);					// uso el del mesh
 	output.Position = mul(output.Position, g_mViewLightProj);		// pero visto desde la pos. de la luz
 
-											// devuelvo: profundidad = z/w
+																	// devuelvo: profundidad = z/w
 	output.Depth.xy = output.Position.zw;
 
 	return output;
@@ -337,7 +330,6 @@ struct VS_INPUT_GIRAR
 	float4 Color :		COLOR0;
 	float1 Fog:			FOG;
 	float2 Texture :	TEXCOORD0;
-	float3 Normal :		NORMAL;
 };
 
 // Estructura Output del Vertex Shader
@@ -347,7 +339,6 @@ struct VS_OUTPUT_GIRAR
 	float2 Texture:		TEXCOORD0;
 	float1 Fog:			FOG;
 	float4 Color :		COLOR0;
-	float3 Normal :		TEXCOORD2;
 	float4 Pos3D :		TEXCOORD1;
 	float4 PosLight :	TEXCOORD3;
 };
@@ -357,9 +348,6 @@ VS_OUTPUT_GIRAR vs_Girar(VS_INPUT_GIRAR input)
 {
 	VS_OUTPUT_GIRAR output;
 
-
-	// propago la normal
-	output.Normal = mul(input.Normal, (float3x3)matWorldView);
 
 	// propago la posicion del vertice en World space
 	output.Pos3D = mul(input.Position, matWorld);
@@ -402,7 +390,6 @@ float4 ps_Girar(VS_OUTPUT_GIRAR input) : COLOR0
 	// diffuseMap es el sampler, Texcoord son las coordenadas interpoladas
 	float4 fvBaseColor = tex2D(diffuseMap, input.Texture);
 	// combino fog y textura
-	// combino fog y textura
 	float4 fogFactor = float4(input.Fog, input.Fog, input.Fog, input.Fog);
 	float4 fvFogColor = (1.0 - fogFactor) * FogColor;
 
@@ -437,17 +424,17 @@ technique TecnicaGirar
 // Estructura Input del Vertex Shader
 struct VS_INPUT_BOLA_DE_FUEGO
 {
-	float4 Position :		POSITION;
-	float2 Texture : TEXCOORD0;
-	float4 Color : COLOR0;
+	float4 Position :	POSITION;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
 };
 
 // Estructura Output del Vertex Shader
 struct VS_OUTPUT_BOLA_DE_FUEGO
 {
 	float4 Position :	POSITION0;
-	float2 Texture : TEXCOORD0;
-	float4 Color : COLOR0;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
 };
 
 // Vertex Shader
@@ -462,15 +449,12 @@ VS_OUTPUT_BOLA_DE_FUEGO vs_BolaDeFuego(VS_INPUT_BOLA_DE_FUEGO input)
 	//Propago las coordenadas de textura
 	output.Texture = input.Texture;
 
-	//Propago el color x vertice
-	output.Color = input.Color;
-
-
 	float factor = fmod(abs(input.Position.z*(sin(time / 1.5))) + abs(input.Position.y*(sin(time / 1.7))), 2)/2;
 
 	output.Color.r = factor;
 	output.Color.g = 0;
 	output.Color.b = 0;
+	output.Color.a = 1;
 
 
 	return output;
@@ -514,17 +498,17 @@ technique TecnicaBolaDeFuego
 // Estructura Input del Vertex Shader
 struct VS_INPUT_BOLA_DE_EXPLOSION
 {
-	float4 Position :		POSITION;
-	float2 Texture : TEXCOORD0;
-	float4 Color : COLOR0;
+	float4 Position :	POSITION;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
 };
 
 // Estructura Output del Vertex Shader
 struct VS_OUTPUT_BOLA_DE_EXPLOSION
 {
 	float4 Position :	POSITION0;
-	float2 Texture : TEXCOORD0;
-	float4 Color : COLOR0;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
 };
 
 // Vertex Shader
@@ -534,24 +518,21 @@ VS_OUTPUT_BOLA_DE_EXPLOSION vs_BolaDeExplosion(VS_INPUT_BOLA_DE_EXPLOSION input)
 
 
 	//Proyectar posicion
-	input.Position.x = input.Position.x * (1 + sin(time*5)/3);
-	input.Position.y = input.Position.y * (1 + sin(time*5)/3);
-	input.Position.z = input.Position.z * (1 + sin(time*5)/3);
+	input.Position.x = input.Position.x * (1 + sin(time * 5) / 3);
+	input.Position.y = input.Position.y * (1 + sin(time * 5) / 3);
+	input.Position.z = input.Position.z * (1 + sin(time * 5) / 3);
+
 	output.Position = mul(input.Position, matWorldViewProj);
-
-	//Propago las coordenadas de textura
+	
 	output.Texture = input.Texture;
-
-	//Propago el color x vertice
-	output.Color = input.Color;
 
 
 	float factor = fmod(abs(input.Position.z*(sin(time / 1.5))) + abs(input.Position.y*(sin(time / 1.7))), 2) / 2;
 
 	output.Color.r = factor;
-	output.Color.g = 0;
-	output.Color.b = factor;
-
+	output.Color.g = factor;
+	output.Color.b = 0;
+	output.Color.a = 1;
 
 	return output;
 }
@@ -636,15 +617,15 @@ VS_OUTPUT_EXPLOSION vs_Explosion(VS_INPUT_EXPLOSION input)
 }
 
 // Pixel Shader
-float4 ps_Explosion(VS_OUTPUT_EXPLOSION input) : COLOR0
+void ps_Explosion(VS_OUTPUT_EXPLOSION input, out float4 o_color  : COLOR0)
 {
-	// Obtener el texel de textura
-	// diffuseMap es el sampler, Texcoord son las coordenadas interpoladas
-	float4 fvBaseColor = tex2D(diffuseMap, input.Texture);
+	// Animar color
+	input.Color.r = abs(sin(4 * time));
+	input.Color.g = abs(sin(4 * time));
+	input.Color.b = 0;
 
-	fvBaseColor.a = 1-saturate(time2/3);
-
-	return fvBaseColor;
+	//Propago el color x vertice
+	o_color = input.Color;
 }
 
 // TECNICA
@@ -735,4 +716,86 @@ technique TecnicaSuperGirasol
 }
 /******************************************************************************************/
 /*                                      ^^^^^ SHADER SUPER GIRASOL ^^^^^
+/******************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+/******************************************************************************************/
+/*                                      ^^^^^ SHADER GIRAR SOL ^^^^^
+/******************************************************************************************/
+// Estructura Input del Vertex Shader
+struct VS_INPUT_GIRAR_SOL
+{
+	float4 Position :	POSITION0;
+	float4 Color :		COLOR0;
+	float2 Texture :	TEXCOORD0;
+};
+
+// Estructura Output del Vertex Shader
+struct VS_OUTPUT_GIRAR_SOL
+{
+	float4 Position :		POSITION0;
+	float2 Texture:			TEXCOORD0;
+	float4 Color :			COLOR0;
+};
+
+VS_OUTPUT_GIRAR_SOL vs_GirarSol(VS_INPUT_GIRAR_SOL input)
+{
+	VS_OUTPUT_GIRAR_SOL output;
+
+	// Animar posicion
+	float y = input.Position.y;
+	float Z = input.Position.z;
+	input.Position.y = y * cos(time * 2) - Z * sin(time * 2);
+	input.Position.z = Z * cos(time * 2) + y * sin(time * 2);
+
+	//Proyectar posicion
+	output.Position = mul(input.Position, matWorldViewProj);
+
+	//Propago las coordenadas de textura
+	output.Texture = input.Texture;
+
+	//Propago el color x vertice
+	output.Color = input.Color;
+
+
+	float factor = fmod(abs(input.Position.z*(sin(time / 1.5))) + abs(input.Position.y*(sin(time / 1.7))), 2) / 2;
+
+	output.Color.r = factor;
+	output.Color.g = 0;
+	output.Color.b = factor;
+
+
+	return output;
+}
+
+//Pixel Shader
+float4 ps_GirarSol(VS_OUTPUT_GIRAR_SOL input) : COLOR0
+{
+	// Obtener el texel de textura
+	// diffuseMap es el sampler, Texcoord son las coordenadas interpoladas
+	float4 fvBaseColor = tex2D(diffuseMap, input.Texture);
+
+	fvBaseColor.a = 1 - saturate(time2 / 3);
+
+	return fvBaseColor;
+}
+
+technique RenderSol
+{
+	pass Pass_0
+	{
+		VertexShader = compile vs_3_0 vs_GirarSol();
+		PixelShader = compile ps_3_0 ps_GirarSol();
+	}
+}
+/******************************************************************************************/
+/*                                      ^^^^^ SHADER GIRAR SOL ^^^^^
 /******************************************************************************************/

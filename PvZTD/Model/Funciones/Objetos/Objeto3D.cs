@@ -21,7 +21,9 @@ namespace TGC.Group.Model
                 public bool BolaDeExplosion = false;
                 public bool Explosion = false;
                 public bool SuperGirasol = false;
+                public bool GirarSoles = false;
             };
+
 
             public Vector3 pos;
             public Vector3 rot;
@@ -437,7 +439,7 @@ namespace TGC.Group.Model
 
             _instanciaActual.shaders.Girar = activate;
         }
-
+        
         public void Inst_ShaderBolaDeFuego(bool activate)
         {
             if (_instanciaActual == null) return;
@@ -472,6 +474,12 @@ namespace TGC.Group.Model
             {
                 _instancias[i].shaders.SuperGirasol = activate;
             }
+        }
+        public void Inst_ShaderGirarSoles(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.GirarSoles = activate;
         }
 
 

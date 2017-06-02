@@ -148,13 +148,6 @@ namespace TGC.Group.Model
 
 
 
-
-
-
-
-
-
-
         /******************************************************************************************/
         /*                                      RENDERIZA SHADERS (Sin post procesamiento)
         /******************************************************************************************/
@@ -191,9 +184,13 @@ namespace TGC.Group.Model
 
             if (shaders.Explosion)
                 RenderExplosion(mesh);
+
+            if(shaders.GirarSoles)
+                RenderSol(mesh);
         }
 
-        // SHADERS COMUNES
+
+            // SHADERS COMUNES
         private void RenderFog(TgcMesh mesh)
         {
             const float AMPLITUD = 0.002F;
@@ -246,14 +243,10 @@ namespace TGC.Group.Model
             mesh.Technique = "TecnicaSuperGirasol";
         }
 
-
-
-
-
-
-
-
-
+        public void RenderSol(TgcMesh mesh)
+        {
+            mesh.Technique = "RenderSol";
+        }
 
         /******************************************************************************************/
         /*                                      SHADER DE POST PROCESAMIENTO

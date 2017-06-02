@@ -95,6 +95,7 @@ namespace TGC.Group.Model
         public void Do_CreateSol()
         {
             _Sol.Inst_CreateAndSelect(0, 65, _game._rand.Next(-60, 60));
+            _Sol.Inst_ShaderGirarSoles(true);
         }
 
 
@@ -113,7 +114,7 @@ namespace TGC.Group.Model
         {
             _Sol.Update(ShowBoundingBoxWithKey);
 
-            _Sol.Inst_RotateAll(_game.ElapsedTime * ROTACION_SEG_POR_VUELTA / (2*GameModel.PI), 0, 0);
+            //_Sol.Inst_RotateAll(_game.ElapsedTime * ROTACION_SEG_POR_VUELTA / (2*GameModel.PI), 0, 0);
             
             if (_game.Input.keyPressed(Microsoft.DirectX.DirectInput.Key.K))
             {
