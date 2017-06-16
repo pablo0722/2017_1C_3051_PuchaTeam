@@ -41,7 +41,10 @@ namespace TGC.Group.Model
         private Texture g_pShadowMap; // Texture to which the shadow map is rendered
         private bool DoShadow = false;
         public float time2 = 0;
+        public float timeExplota = 0;
         public Vector4 ExplosionLightPosition = new Vector4(0, -100, 0, 1);
+        private Texture texFuego;
+        private Texture texFuegoAlpha;
 
 
 
@@ -60,6 +63,7 @@ namespace TGC.Group.Model
             _game = game;
 
             time2 = -1;
+            timeExplota = -1;
 
             effect = TgcShaders.loadEffect(PATH_SHADER);
 
@@ -70,6 +74,7 @@ namespace TGC.Group.Model
 
             // Init Shaders Especiales
             InitGirar();
+            InitFuego();    // Para jalapeño
         }
 
 
@@ -146,6 +151,14 @@ namespace TGC.Group.Model
             effect.SetValue("time", 0);
         }
 
+        private void InitFuego()
+        {
+            texFuego = Texture.FromBitmap(D3DDevice.Instance.Device,
+                (Bitmap)Image.FromFile("..\\..\\Media\\Texturas\\fire\\fire_perturbed.jpg"), Usage.None, Pool.Managed);
+            texFuegoAlpha = Texture.FromBitmap(D3DDevice.Instance.Device,
+                (Bitmap)Image.FromFile("..\\..\\Media\\Texturas\\fire\\fire_perturbed_alpha.jpg"), Usage.None, Pool.Managed);
+        }
+
 
 
         /******************************************************************************************/
@@ -154,7 +167,9 @@ namespace TGC.Group.Model
         public void Render(TgcMesh mesh, t_Objeto3D.t_instancia.t_ShadersHabilitados shaders)
         {
             effect.SetValue("time2", time2);
+            effect.SetValue("timeExplota", timeExplota);
             effect.SetValue("time", _game._TiempoTranscurrido);
+            effect.SetValue("frameTime", _game.ElapsedTime);
             effect.SetValue("CameraPos", TgcParserUtils.vector3ToFloat4Array(_game.Camara.Position));
 
             // Renderiza shaders comunes
@@ -187,6 +202,12 @@ namespace TGC.Group.Model
 
             if(shaders.GirarSoles)
                 RenderSol(mesh);
+
+            if (shaders.fuegoJalapenio)
+                fuegoJalapenio(mesh);
+
+            if (shaders.JalapenioExplota)
+                JalapenioExplota(mesh);
         }
 
 
@@ -236,6 +257,7 @@ namespace TGC.Group.Model
         private void RenderExplosion(TgcMesh mesh)
         {
             mesh.Technique = "TecnicaExplosion";
+            TGC.Core.Direct3D.D3DDevice.Instance.Device.RenderState.AlphaBlendEnable = true;    // Activa canal alpha en shaders
         }
 
         private void RenderSuperGirasol(TgcMesh mesh)
@@ -248,6 +270,21 @@ namespace TGC.Group.Model
             mesh.Technique = "RenderSol";
         }
 
+        public void fuegoJalapenio(TgcMesh mesh)
+        {
+            effect.SetValue("texFuego", texFuego);
+            effect.SetValue("texFuegoAlpha", texFuegoAlpha);
+
+            mesh.Technique = "TecnicaFuego";
+
+            TGC.Core.Direct3D.D3DDevice.Instance.Device.RenderState.AlphaBlendEnable = true;    // Activa canal alpha en shaders
+        }
+
+        public void JalapenioExplota(TgcMesh mesh)
+        {
+            mesh.Technique = "TecnicaExplotaJalapenio";
+        }
+
         /******************************************************************************************/
         /*                                      SHADER DE POST PROCESAMIENTO
         /******************************************************************************************/
@@ -257,13 +294,15 @@ namespace TGC.Group.Model
             g_LightDir = new Vector3(-0.1F, -1, 0);
             g_LightDir.Normalize();
 
+
             //Genero el shadow map
             PostProcShadow();
 
             D3DDevice.Instance.Device.BeginScene();
+
             // Dibujo la escena pp dicha
             D3DDevice.Instance.Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
-
+            
             _game.RenderScene();
             _game.RenderHud();
         }

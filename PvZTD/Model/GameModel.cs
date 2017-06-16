@@ -116,6 +116,9 @@ namespace TGC.Group.Model
             if (shader.time2 >= 0)
                 shader.time2 += ElapsedTime;
 
+            if (shader.timeExplota >= 0)
+                shader.timeExplota += ElapsedTime;
+
             if (FirstRender == 0)
             {
                 _TiempoTranscurrido += ElapsedTime;
@@ -150,17 +153,18 @@ namespace TGC.Group.Model
             {
                 FirstRender--;
             }
-            
+
             // POST PROCESAMIENTO
             shader.PostProc();
+
 
             PostRender();
         }
 
         public void RenderScene()
         {
-            pablo_render();
             jose_render();
+            pablo_render();
         }
 
         public void RenderHud()

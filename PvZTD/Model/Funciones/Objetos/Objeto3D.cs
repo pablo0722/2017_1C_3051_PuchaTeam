@@ -22,6 +22,8 @@ namespace TGC.Group.Model
                 public bool Explosion = false;
                 public bool SuperGirasol = false;
                 public bool GirarSoles = false;
+                public bool fuegoJalapenio = false;
+                public bool JalapenioExplota = false;
             };
 
 
@@ -481,6 +483,25 @@ namespace TGC.Group.Model
 
             _instanciaActual.shaders.GirarSoles = activate;
         }
+        public void Inst_ShaderFuegoJalapenio(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.fuegoJalapenio = activate;
+        }
+        public void Inst_ShaderAllFuegoJalapenio(bool activate)
+        {
+            for (int i = 0; i < _instancias.Count; i++)
+            {
+                _instancias[i].shaders.fuegoJalapenio = activate;
+            }
+        }
+        public void Inst_ShaderJalapenioExplota(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.JalapenioExplota = activate;
+        }
 
 
 
@@ -523,7 +544,7 @@ namespace TGC.Group.Model
         {
             for (int i = 0; i < _instancias.Count; i++)
             {
-                if(_instancias[i].pos.Y < -90) return;
+                if(_instancias[i].pos.Y < -90) continue;
 
                 if (_instancias[i].pos.Z >= _game._camara._CamaraAerea.Position.Z+20 || !_game._camara.Modo_Is_CamaraPersonal() || !ocultar)
                 {
@@ -547,6 +568,8 @@ namespace TGC.Group.Model
 
                         _meshes.mesh[j].UpdateMeshTransform();
                         _meshes.mesh[j].render();
+
+                        TGC.Core.Direct3D.D3DDevice.Instance.Device.RenderState.AlphaBlendEnable = false;    // Desactiva canal alpha en shaders
 
                         if (_ShowBoundingBox)
                         {

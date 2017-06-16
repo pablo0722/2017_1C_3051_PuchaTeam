@@ -280,9 +280,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
             {
                 obj_guisante.Render(true);
                 SuperGuisante.Render(true);
-                TGC.Core.Direct3D.D3DDevice.Instance.Device.RenderState.AlphaBlendEnable = true;
                 obj_explosion.Render(true);
-                TGC.Core.Direct3D.D3DDevice.Instance.Device.RenderState.AlphaBlendEnable = false;
             }
         };
 

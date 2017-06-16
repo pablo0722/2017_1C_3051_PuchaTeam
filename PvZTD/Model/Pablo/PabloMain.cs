@@ -29,6 +29,7 @@ namespace TGC.Group.Model
         public t_Lanzaguisantes _Lanzaguisantes;
         public t_Repetidor _repetidor;
         public t_Patatapum _Patatapum;
+        public t_Jalapenio _Jalapenio;
         public t_SolComun _Sol;
         public t_ZombieComun _zombie;
         public t_ZombieCono _zombieCono;
@@ -65,6 +66,7 @@ namespace TGC.Group.Model
             _Lanzaguisantes = t_Lanzaguisantes.Crear(this, 1);
             _Patatapum = t_Patatapum.Crear(this, 2);
             _repetidor = t_Repetidor.Crear(this, 3);
+            _Jalapenio = t_Jalapenio.Crear(this, 5);
 
             _musica.Do_Play();
 
@@ -119,6 +121,7 @@ namespace TGC.Group.Model
                 _Lanzaguisantes.Update(P_SHOW_AABB_WITH_KEY);
                 _Patatapum.Update(P_SHOW_AABB_WITH_KEY);
                 _repetidor.Update(P_SHOW_AABB_WITH_KEY);
+                _Jalapenio.Update(P_SHOW_AABB_WITH_KEY);
 
                 if (Input.keyPressed(Key.H))
                 {
@@ -156,8 +159,9 @@ namespace TGC.Group.Model
 
                 _Girasol.Render();
                 _Lanzaguisantes.Render();
-                _Patatapum.Render();
                 _repetidor.Render();
+                _Patatapum.Render();
+                _Jalapenio.Render();
             }
         }
 

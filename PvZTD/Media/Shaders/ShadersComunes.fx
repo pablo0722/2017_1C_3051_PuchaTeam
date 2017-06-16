@@ -47,36 +47,64 @@ sampler2D lightMap = sampler_state
 /*                                      vvvvv VARIABLES vvvvv
 /******************************************************************************************/
 float time = 0;
+float frameTime = 0;
 float time2 = 0;
 float4 CameraPos;
 
 // Variables de fogs
-float4 FogColor;
-float FogStartDistance;
-float FogEndDistance;
-float FogDensity;
+	float4 FogColor;
+	float FogStartDistance;
+	float FogEndDistance;
+	float FogDensity;
 
 // Variables de ShadowMap
-float4x4 g_mViewLightProj;
-float4x4 g_mProjLight;
-float3   g_vLightPos;  // posicion de la luz (en World Space) = pto que representa patch emisor Bj
-float3   g_vLightDir;  // Direcion de la luz (en World Space) = normal al patch Bj
-texture  g_txShadow;	// textura para el shadow map
-sampler2D g_samShadow =
-sampler_state
-{
-	Texture = <g_txShadow>;
-	MinFilter = Point;
-	MagFilter = Point;
-	MipFilter = Point;
-	AddressU = Clamp;
-	AddressV = Clamp;
-};
+	float4x4 g_mViewLightProj;
+	float4x4 g_mProjLight;
+	float3   g_vLightPos;  // posicion de la luz (en World Space) = pto que representa patch emisor Bj
+	float3   g_vLightDir;  // Direcion de la luz (en World Space) = normal al patch Bj
+	texture  g_txShadow;	// textura para el shadow map
+	sampler2D g_samShadow =
+	sampler_state
+	{
+		Texture = <g_txShadow>;
+		MinFilter = Point;
+		MagFilter = Point;
+		MipFilter = Point;
+		AddressU = Clamp;
+		AddressV = Clamp;
+	};
 
-//Variables de la luz de explosion
-float ExplosionLightOn; //Color RGB de las 4 luces
-float4 ExplosionLightPosition; //Posicion de las 4 luces
-float ExplosionLightAttenuation; //Factor de atenuacion de las 4 luces
+// Variables de la luz de explosion
+	float ExplosionLightOn; //Color RGB de las 4 luces
+	float4 ExplosionLightPosition; //Posicion de las 4 luces
+	float ExplosionLightAttenuation; //Factor de atenuacion de las 4 luces
+
+
+// Efecto Explosion del Jalapeño ()
+	float timeExplota = 0;
+
+// Efecto Fuego del Jalapeño ()
+	texture texFuego;
+	sampler2D FuegoMap = sampler_state
+	{
+		Texture = (texFuego);
+		ADDRESSU = WRAP;
+		ADDRESSV = WRAP;
+		MINFILTER = LINEAR;
+		MAGFILTER = LINEAR;
+		MIPFILTER = LINEAR;
+	};
+
+	texture texFuegoAlpha;
+	sampler2D FuegoAlphaMap = sampler_state
+	{
+		Texture = (texFuegoAlpha);
+		ADDRESSU = WRAP;
+		ADDRESSV = WRAP;
+		MINFILTER = LINEAR;
+		MAGFILTER = LINEAR;
+		MIPFILTER = LINEAR;
+	};
 /******************************************************************************************/
 /*                                      ^^^^^ VARIABLES ^^^^^
 /******************************************************************************************/
@@ -229,6 +257,10 @@ float4 ps_Comun(VS_OUTPUT input) : COLOR0
 	// combino fog y textura
 	float4 fogFactor = float4(input.Fog,input.Fog,input.Fog,input.Fog);
 	float4 fvFogColor = (1.0 - fogFactor) * FogColor;
+
+	fvBaseColor.a = 1;
+	fvFogColor.a = 1;
+	fogFactor.a = 1;
 
 	return (fogFactor * fvBaseColor) * 0.8 + (fvFogColor) * 0.2;
 }
@@ -393,6 +425,11 @@ float4 ps_Girar(VS_OUTPUT_GIRAR input) : COLOR0
 	float4 fogFactor = float4(input.Fog, input.Fog, input.Fog, input.Fog);
 	float4 fvFogColor = (1.0 - fogFactor) * FogColor;
 
+	fvBaseColor.a = 2;
+	fvFogColor.a = 2;
+	fogFactor.a = 2;
+	input.Color.a = 0;
+
 	return 0.25*(fogFactor * fvBaseColor + fvFogColor) + 0.75*input.Color;
 }
 
@@ -466,6 +503,8 @@ float4 ps_BolaDeFuego(VS_OUTPUT_BOLA_DE_FUEGO input) : COLOR0
 	// Obtener el texel de textura
 	// diffuseMap es el sampler, Texcoord son las coordenadas interpoladas
 	//float4 fvBaseColor = tex2D(diffuseMap, input.Texture);
+
+	input.Color.a = 1;
 
 	return input.Color;
 }
@@ -544,6 +583,8 @@ float4 ps_BolaDeExplosion(VS_OUTPUT_BOLA_DE_EXPLOSION input) : COLOR0
 	// diffuseMap es el sampler, Texcoord son las coordenadas interpoladas
 	//float4 fvBaseColor = tex2D(diffuseMap, input.Texture);
 
+	input.Color.a = 1;
+
 	return input.Color;
 }
 
@@ -611,7 +652,6 @@ VS_OUTPUT_EXPLOSION vs_Explosion(VS_INPUT_EXPLOSION input)
 
 	//Propago el color x vertice
 	output.Color = input.Color;
-	output.Color.a = 0.1;
 
 	return output;
 }
@@ -620,9 +660,12 @@ VS_OUTPUT_EXPLOSION vs_Explosion(VS_INPUT_EXPLOSION input)
 void ps_Explosion(VS_OUTPUT_EXPLOSION input, out float4 o_color  : COLOR0)
 {
 	// Animar color
-	input.Color.r = abs(sin(4 * time));
-	input.Color.g = abs(sin(4 * time));
+	float4 fvBaseColor = tex2D(diffuseMap, input.Texture);
+
+	input.Color.r = fvBaseColor.r * abs(cos(time2*1.5707963267948966192313216916398/4));
+	input.Color.g = fvBaseColor.g * abs(cos(time2*1.5707963267948966192313216916398/4));
 	input.Color.b = 0;
+	input.Color.a = abs(cos(time2*1.5707963267948966192313216916398/3));
 
 	//Propago el color x vertice
 	o_color = input.Color;
@@ -701,6 +744,8 @@ float4 ps_SuperGirasol(VS_OUTPUT_SUPER_GIRASOL input) : COLOR0
 	// Obtener el texel de textura
 	// diffuseMap es el sampler, Texcoord son las coordenadas interpoladas
 	float4 fvBaseColor = tex2D(diffuseMap, input.Texture);
+
+	fvBaseColor.a = 1;
 
 	return fvBaseColor*0.5+input.Color*0.5;
 }
@@ -785,6 +830,8 @@ float4 ps_GirarSol(VS_OUTPUT_GIRAR_SOL input) : COLOR0
 
 	fvBaseColor.a = 1 - saturate(time2 / 3);
 
+	fvBaseColor.a = 1;
+
 	return fvBaseColor;
 }
 
@@ -798,4 +845,161 @@ technique RenderSol
 }
 /******************************************************************************************/
 /*                                      ^^^^^ SHADER GIRAR SOL ^^^^^
+/******************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/******************************************************************************************/
+/*                                      vvvvv SHADER EXPLOTA JALAPENIO vvvvv
+/******************************************************************************************/
+// Estructura Input del Vertex Shader
+struct VS_INPUT_EXPLOTA_JALAPENIO
+{
+	float4 Position :	POSITION0;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Estructura Output del Vertex Shader
+struct VS_OUTPUT_EXPLOTA_JALAPENIO
+{
+	float4 Position :	POSITION0;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Vertex Shader
+VS_OUTPUT_EXPLOTA_JALAPENIO vs_ExplotaJalapenio(VS_INPUT_EXPLOTA_JALAPENIO input)
+{
+	VS_OUTPUT_EXPLOTA_JALAPENIO output;
+
+	input.Position.x = input.Position.x * (1 + saturate(atan(timeExplota*1.5 - input.Position.y*0.4)));
+	input.Position.z = input.Position.z * (1 + saturate(atan(timeExplota*1.5 - input.Position.y*0.4))) + 0.25 * sin(timeExplota*timeExplota*10);
+	input.Position.y = input.Position.y * (1 + saturate(atan(timeExplota*1.5 - input.Position.y*0.4)));
+
+	output.Position = mul(input.Position, matWorldViewProj);
+
+	//Propago las coordenadas de textura
+	output.Texture = input.Texture;
+
+	//Propago el color x vertice
+	output.Color = input.Color;
+
+	return output;
+}
+
+// Pixel Shader
+float4 ps_ExplotaJalapenio(VS_OUTPUT_EXPLOTA_JALAPENIO input) : COLOR0
+{
+	float4 output;
+
+	output = tex2D(diffuseMap, input.Texture);
+
+	output.r = saturate(output.r + timeExplota*0.3);
+	output.a = 1;
+
+	return output;
+}
+
+// TECNICA
+technique TecnicaExplotaJalapenio
+{
+	pass Pass_0
+	{
+		VertexShader = compile vs_3_0 vs_ExplotaJalapenio();
+		PixelShader = compile ps_3_0 ps_ExplotaJalapenio();
+	}
+}
+/******************************************************************************************/
+/*                                      ^^^^^ SHADER EXPLOTA JALAPENIO ^^^^^
+/******************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+/******************************************************************************************/
+/*                                      vvvvv SHADER FUEGO vvvvv
+/******************************************************************************************/
+// Estructura Input del Vertex Shader
+struct VS_INPUT_FUEGO
+{
+	float4 Position :	POSITION0;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Estructura Output del Vertex Shader
+struct VS_OUTPUT_FUEGO
+{
+	float4 Position :	POSITION0;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Vertex Shader
+VS_OUTPUT_FUEGO vs_Fuego(VS_INPUT_FUEGO input)
+{
+	VS_OUTPUT_FUEGO output;
+
+	float frecuencia = sin(time * 2 - step(1, input.Position.y)* 1.570796326794896619231);
+	float amplitud = sin(input.Position.y*10) * 20;
+	input.Position.z = input.Position.z + frecuencia*amplitud;
+
+	//Proyectar posicion
+	output.Position = mul(input.Position, matWorldViewProj);
+
+	//Propago las coordenadas de textura
+	output.Texture = input.Texture;
+
+	//Propago el color x vertice
+	output.Color = input.Color;
+
+	return output;
+}
+
+// Pixel Shader
+float4 ps_Fuego(VS_OUTPUT_FUEGO input) : COLOR0
+{
+	float4 output;
+
+output = tex2D(diffuseMap, input.Texture);
+
+float4 fuegoAlpha = tex2D(FuegoAlphaMap, input.Texture); // En FuegoAlphaMap los 3 canales tienen siempre el mismo valor (escala de grises)
+
+float frecuenciaY = abs(sin((time + input.Texture.y) * 4));
+
+output.a = saturate((fuegoAlpha.r*2.5 - 1.25) + frecuenciaY);
+
+return output;
+}
+
+// TECNICA
+technique TecnicaFuego
+{
+	pass Pass_0
+	{
+		VertexShader = compile vs_3_0 vs_Fuego();
+		PixelShader = compile ps_3_0 ps_Fuego();
+	}
+}
+/******************************************************************************************/
+/*                                      ^^^^^ SHADER FUEGO ^^^^^
 /******************************************************************************************/
