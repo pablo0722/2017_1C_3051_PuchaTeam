@@ -31,7 +31,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         private const string PATH_OBJ = "..\\..\\Media\\Objetos\\zombie-TgcScene.xml";
         private const float VELOCIDAD_ZOMBIE = -2F;
-        private const float VIDA_ZOMBIE_COMUN = 10; //10
+        private const float VIDA_ZOMBIE_COMUN = 10;
 
 
 
@@ -45,17 +45,20 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      VARIABLES
         /******************************************************************************************/
+        // ESTATICAS
+        static protected GameModel _game;
+        static private int cantZombiesActualmente = 0;
         // NO ESTATICAS
         public string _NivelActual = null;
         public float[] _TiemposDeSiguientesZombies = null;
         public int _NZombieActual = 0;
         public t_Objeto3D _Zombie;
-        protected GameModel _game;
         public List<t_ZombieInstancia> _InstZombie;
         public float velocidad_zombie = VELOCIDAD_ZOMBIE;
         public float vida_zombie_comun = VIDA_ZOMBIE_COMUN;
         public string _TxtZombieNivel = "Zcomun"; // Nombre que va a tener el zombie comun dentro del archivo de texto del nivel
         public static bool gameover = false;
+        public static bool comiendo = false;
 
 
 
@@ -130,6 +133,7 @@ namespace TGC.Group.Model
                             t_Planta.t_PlantaInstancia planta = _game._Girasol._InstPlanta[j];
                             planta.vida -= _game.ElapsedTime;
                             _game._Girasol._InstPlanta[j] = planta;
+                            comiendo = true;
 
                             if (planta.vida <= 0)
                             {
@@ -160,6 +164,7 @@ namespace TGC.Group.Model
                                 t_Planta.t_PlantaInstancia planta = _game._Lanzaguisantes._InstPlanta[j];
                                 planta.vida -= _game.ElapsedTime;
                                 _game._Lanzaguisantes._InstPlanta[j] = planta;
+                                comiendo = true;
 
                                 if (planta.vida <= 0)
                                 {
@@ -191,6 +196,7 @@ namespace TGC.Group.Model
                                 t_Planta.t_PlantaInstancia planta = _game._Patatapum._InstPlanta[j];
                                 planta.vida -= _game.ElapsedTime;
                                 _game._Patatapum._InstPlanta[j] = planta;
+                                comiendo = true;
 
                                 if (planta.vida <= 0)
                                 {
@@ -222,6 +228,7 @@ namespace TGC.Group.Model
                                 t_Planta.t_PlantaInstancia planta = _game._repetidor._InstPlanta[j];
                                 planta.vida -= _game.ElapsedTime;
                                 _game._repetidor._InstPlanta[j] = planta;
+                                comiendo = true;
 
                                 if (planta.vida <= 0)
                                 {
@@ -298,6 +305,9 @@ namespace TGC.Group.Model
                                 zombie.vida = vida_zombie_comun;
                                 zombie.columna = 13;
                                 zombie.zombie = _Zombie._instancias[_Zombie._instancias.Count - 1];
+                                _game._sonidos.Do_PlayLoop(t_Sonidos.WALK_ID);
+                                _game._sonidos.Do_PlayLoop(t_Sonidos.ROAR_ID);
+                                cantZombiesActualmente++;
                                 _InstZombie.Add(zombie);
 
                                 _NZombieActual++;
@@ -306,6 +316,18 @@ namespace TGC.Group.Model
                         }
                     }
                 }
+            }
+        }
+
+        public static void removeZombie(t_ZombieComun zombies, t_ZombieInstancia zombie)
+        {
+            zombies._Zombie.Inst_Delete(zombie.zombie);
+            zombies._InstZombie.Remove(zombie);
+            cantZombiesActualmente--;
+            if (cantZombiesActualmente == 0)
+            {
+                _game._sonidos.Do_Stop(t_Sonidos.WALK_ID);
+                _game._sonidos.Do_Stop(t_Sonidos.ROAR_ID);
             }
         }
 

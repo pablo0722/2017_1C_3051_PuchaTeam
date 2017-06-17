@@ -214,8 +214,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                         zombies._InstZombie[i] = zombie;
                         if (zombie.vida <= 0)
                         {
-                            zombies._Zombie.Inst_Delete(zombie.zombie);
-                            zombies._InstZombie.Remove(zombie);
+                            t_ZombieComun.removeZombie(zombies, zombie);
                         }
                     }
                 }
@@ -252,8 +251,7 @@ namespace TGC.Group.Model.Funciones.Objetos.Plantas
                                     zombies._InstZombie[i] = zombie;
                                     if (zombie.vida <= 0)
                                     {
-                                        zombies._Zombie.Inst_Delete(zombie.zombie);
-                                        zombies._InstZombie.Remove(zombie);
+                                        t_ZombieComun.removeZombie(zombies, zombie);
                                     }
                                 }
                             }

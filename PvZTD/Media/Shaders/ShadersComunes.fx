@@ -37,6 +37,7 @@ sampler2D lightMap = sampler_state
 /******************************************************************************************/
 #define SMAP_SIZE 1024
 #define EPSILON 0.05f
+#define PI 3.1415926535897932384626433832795
 /******************************************************************************************/
 /*                                      ^^^^^ CONSTANTES ^^^^^
 /******************************************************************************************/
@@ -84,6 +85,7 @@ float4 CameraPos;
 	float timeExplota = 0;
 
 // Efecto Fuego del Jalapeño ()
+	int fuegoGirar;
 	texture texFuego;
 	sampler2D FuegoMap = sampler_state
 	{
@@ -99,6 +101,17 @@ float4 CameraPos;
 	sampler2D FuegoAlphaMap = sampler_state
 	{
 		Texture = (texFuegoAlpha);
+		ADDRESSU = WRAP;
+		ADDRESSV = WRAP;
+		MINFILTER = LINEAR;
+		MAGFILTER = LINEAR;
+		MIPFILTER = LINEAR;
+	};
+
+	texture texQuemado;
+	sampler2D QuemadoMap = sampler_state
+	{
+		Texture = (texQuemado);
 		ADDRESSU = WRAP;
 		ADDRESSV = WRAP;
 		MINFILTER = LINEAR;
@@ -959,9 +972,18 @@ VS_OUTPUT_FUEGO vs_Fuego(VS_INPUT_FUEGO input)
 {
 	VS_OUTPUT_FUEGO output;
 
-	float frecuencia = sin(time * 2 - step(1, input.Position.y)* 1.570796326794896619231);
-	float amplitud = sin(input.Position.y*10) * 20;
-	input.Position.z = input.Position.z + frecuencia*amplitud;
+	float Y = input.Position.y / 50; // Y normalizada al tamaño maximo del objeto
+	float frecuencia = 2;
+	float fase = - Y * PI/2;
+	float amplitud = Y*15;
+
+	input.Position.z = input.Position.z + amplitud*sin(time*frecuencia + fase);
+
+	// Girar si estoy en modo CamaraPersonal
+	float X = input.Position.x; // Y normalizada al tamaño maximo del objeto
+	float Z = input.Position.z; // Y normalizada al tamaño maximo del objeto
+	input.Position.x = ( fuegoGirar ) * ( X * cos(PI/2) + Z * sin(PI/2) ) + (1 - fuegoGirar) * (X);
+	input.Position.z = ( fuegoGirar ) * ( Z * cos(PI/2) - X * sin(PI / 2) ) + (1 - fuegoGirar) * (Z);
 
 	//Proyectar posicion
 	output.Position = mul(input.Position, matWorldViewProj);
@@ -980,15 +1002,15 @@ float4 ps_Fuego(VS_OUTPUT_FUEGO input) : COLOR0
 {
 	float4 output;
 
-output = tex2D(diffuseMap, input.Texture);
+	output = tex2D(diffuseMap, input.Texture);
 
-float4 fuegoAlpha = tex2D(FuegoAlphaMap, input.Texture); // En FuegoAlphaMap los 3 canales tienen siempre el mismo valor (escala de grises)
+	float4 fuegoAlpha = tex2D(FuegoAlphaMap, input.Texture); // En FuegoAlphaMap los 3 canales tienen siempre el mismo valor (escala de grises)
 
-float frecuenciaY = abs(sin((time + input.Texture.y) * 4));
+	float frecuenciaY = abs(sin((time + input.Texture.y) * 5));
 
-output.a = saturate((fuegoAlpha.r*2.5 - 1.25) + frecuenciaY);
+	output.a = saturate((fuegoAlpha.r*2.5 - 1.25) + frecuenciaY);
 
-return output;
+	return output;
 }
 
 // TECNICA
@@ -1002,4 +1024,72 @@ technique TecnicaFuego
 }
 /******************************************************************************************/
 /*                                      ^^^^^ SHADER FUEGO ^^^^^
+/******************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+/******************************************************************************************/
+/*                                      vvvvv SHADER QUEMADO vvvvv
+/******************************************************************************************/
+// Estructura Input del Vertex Shader
+struct VS_INPUT_QUEMADO
+{
+	float4 Position :	POSITION0;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Estructura Output del Vertex Shader
+struct VS_OUTPUT_QUEMADO
+{
+	float4 Position :	POSITION0;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Vertex Shader
+VS_OUTPUT_QUEMADO vs_Quemado(VS_INPUT_QUEMADO input)
+{
+	VS_OUTPUT_QUEMADO output = input;
+
+	//Proyectar posicion
+	output.Position = mul(input.Position, matWorldViewProj);
+
+	return output;
+}
+
+// Pixel Shader
+float4 ps_Quemado(VS_OUTPUT_QUEMADO input) : COLOR0
+{
+	float4 output;
+
+	output = tex2D(diffuseMap, input.Texture);
+
+	input.Texture[1] = input.Texture[1] + time;
+
+	float4 fuego = tex2D(QuemadoMap, input.Texture); // En FuegoAlphaMap los 3 canales tienen siempre el mismo valor (escala de grises)
+
+	output = output*0.25 + fuego*0.75;
+
+	return output;
+}
+
+// TECNICA
+technique TecnicaQuemado
+{
+	pass Pass_0
+	{
+		VertexShader = compile vs_3_0 vs_Quemado();
+		PixelShader = compile ps_3_0 ps_Quemado();
+	}
+}
+/******************************************************************************************/
+/*                                      ^^^^^ SHADER QUEMADO ^^^^^
 /******************************************************************************************/

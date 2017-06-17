@@ -43,8 +43,8 @@ namespace TGC.Group.Model
         public float time2 = 0;
         public float timeExplota = 0;
         public Vector4 ExplosionLightPosition = new Vector4(0, -100, 0, 1);
-        private Texture texFuego;
         private Texture texFuegoAlpha;
+        private Texture texQuemado;
 
 
 
@@ -75,6 +75,7 @@ namespace TGC.Group.Model
             // Init Shaders Especiales
             InitGirar();
             InitFuego();    // Para jalapeño
+            InitQuemado();    // Para jalapeño
         }
 
 
@@ -153,10 +154,14 @@ namespace TGC.Group.Model
 
         private void InitFuego()
         {
-            texFuego = Texture.FromBitmap(D3DDevice.Instance.Device,
-                (Bitmap)Image.FromFile("..\\..\\Media\\Texturas\\fire\\fire_perturbed.jpg"), Usage.None, Pool.Managed);
             texFuegoAlpha = Texture.FromBitmap(D3DDevice.Instance.Device,
                 (Bitmap)Image.FromFile("..\\..\\Media\\Texturas\\fire\\fire_perturbed_alpha.jpg"), Usage.None, Pool.Managed);
+        }
+
+        private void InitQuemado()
+        {
+            texQuemado = Texture.FromBitmap(D3DDevice.Instance.Device,
+                (Bitmap)Image.FromFile("..\\..\\Media\\Texturas\\fire\\fire_noise.jpg"), Usage.None, Pool.Managed);
         }
 
 
@@ -203,11 +208,17 @@ namespace TGC.Group.Model
             if(shaders.GirarSoles)
                 RenderSol(mesh);
 
+            if (shaders.JalapenioExplota)
+                JalapenioExplota(mesh);
+
             if (shaders.fuegoJalapenio)
                 fuegoJalapenio(mesh);
 
-            if (shaders.JalapenioExplota)
-                JalapenioExplota(mesh);
+            if (shaders.fuegoJalapenioGirado)
+                fuegoJalapenioGirado(mesh);
+
+            if (shaders.zombieQuemado)
+                zombieQuemado(mesh);
         }
 
 
@@ -270,9 +281,15 @@ namespace TGC.Group.Model
             mesh.Technique = "RenderSol";
         }
 
+        public void JalapenioExplota(TgcMesh mesh)
+        {
+            mesh.Technique = "TecnicaExplotaJalapenio";
+        }
+
         public void fuegoJalapenio(TgcMesh mesh)
         {
-            effect.SetValue("texFuego", texFuego);
+            effect.SetValue("fuegoGirar", 0);
+
             effect.SetValue("texFuegoAlpha", texFuegoAlpha);
 
             mesh.Technique = "TecnicaFuego";
@@ -280,9 +297,22 @@ namespace TGC.Group.Model
             TGC.Core.Direct3D.D3DDevice.Instance.Device.RenderState.AlphaBlendEnable = true;    // Activa canal alpha en shaders
         }
 
-        public void JalapenioExplota(TgcMesh mesh)
+        public void fuegoJalapenioGirado(TgcMesh mesh)
         {
-            mesh.Technique = "TecnicaExplotaJalapenio";
+            effect.SetValue("fuegoGirar", 1);
+
+            effect.SetValue("texFuegoAlpha", texFuegoAlpha);
+
+            mesh.Technique = "TecnicaFuego";
+
+            TGC.Core.Direct3D.D3DDevice.Instance.Device.RenderState.AlphaBlendEnable = true;    // Activa canal alpha en shaders
+        }
+
+        public void zombieQuemado(TgcMesh mesh)
+        {
+            effect.SetValue("texQuemado", texQuemado);
+
+            mesh.Technique = "TecnicaQuemado";
         }
 
         /******************************************************************************************/

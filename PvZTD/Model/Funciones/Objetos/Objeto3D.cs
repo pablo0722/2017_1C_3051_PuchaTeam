@@ -22,8 +22,10 @@ namespace TGC.Group.Model
                 public bool Explosion = false;
                 public bool SuperGirasol = false;
                 public bool GirarSoles = false;
-                public bool fuegoJalapenio = false;
                 public bool JalapenioExplota = false;
+                public bool fuegoJalapenio = false;
+                public bool fuegoJalapenioGirado = false;
+                public bool zombieQuemado = false;
             };
 
 
@@ -483,6 +485,12 @@ namespace TGC.Group.Model
 
             _instanciaActual.shaders.GirarSoles = activate;
         }
+        public void Inst_ShaderJalapenioExplota(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.JalapenioExplota = activate;
+        }
         public void Inst_ShaderFuegoJalapenio(bool activate)
         {
             if (_instanciaActual == null) return;
@@ -496,11 +504,18 @@ namespace TGC.Group.Model
                 _instancias[i].shaders.fuegoJalapenio = activate;
             }
         }
-        public void Inst_ShaderJalapenioExplota(bool activate)
+        public void Inst_ShaderAllFuegoJalapenioGirado(bool activate)
+        {
+            for (int i = 0; i < _instancias.Count; i++)
+            {
+                _instancias[i].shaders.fuegoJalapenioGirado = activate;
+            }
+        }
+        public void Inst_ShaderZombieQuemado(bool activate)
         {
             if (_instanciaActual == null) return;
 
-            _instanciaActual.shaders.JalapenioExplota = activate;
+            _instanciaActual.shaders.zombieQuemado = activate;
         }
 
 

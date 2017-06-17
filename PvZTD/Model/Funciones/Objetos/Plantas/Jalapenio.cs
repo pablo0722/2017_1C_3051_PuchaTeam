@@ -18,6 +18,7 @@ namespace TGC.Group.Model
         private const float VIDA_PLANTA = 3;
         private const float SUPER_TIEMPO_PREV = 3;
         private const float SUPER_TIEMPO_POST = 4;
+        private const float DANIO_SUPER = 15;
 
 
 
@@ -55,14 +56,12 @@ namespace TGC.Group.Model
                 _FuegoObj = t_Objeto3D.Crear(_game, PATH_OBJ_FUEGO);
                 _FuegoObj.Set_Size(1, 0.5F, 0.5F);
 
-                for (int i = 0; i < GameModel.CANT_COLUMNAS + 2; i++)
+                for (int i = GameModel.CANT_COLUMNAS + 1; i >= 0; i--)
                 {
-                    _FuegoObj.Inst_CreateAndSelect(t_EscenarioBase.PASTO_POS_X_INICIAL + _planta.fila * t_EscenarioBase.PASTO_RAZON * t_EscenarioBase.PASTO_AJUSTE + i * 0.1F,
+                    _FuegoObj.Inst_CreateAndSelect(t_EscenarioBase.PASTO_POS_X_INICIAL + _planta.fila * t_EscenarioBase.PASTO_RAZON * t_EscenarioBase.PASTO_AJUSTE - i * 0.1F,
                                                     0,
                                                     t_EscenarioBase.PASTO_POS_Z_INICIAL + (i - 1) * t_EscenarioBase.PASTO_RAZON);
                 }
-
-                _FuegoObj.Inst_ShaderAllFuegoJalapenio(true);
             }
 
             public void super()
@@ -77,6 +76,17 @@ namespace TGC.Group.Model
             public void update(bool ShowBoundingBoxWithKey)
             {
                 _FuegoObj.Update(ShowBoundingBoxWithKey);
+
+                if (_game._camara.Modo_Is_CamaraPersonal())
+                {
+                    _FuegoObj.Inst_ShaderAllFuegoJalapenio(false);
+                    _FuegoObj.Inst_ShaderAllFuegoJalapenioGirado(true);
+                }
+                else
+                {
+                    _FuegoObj.Inst_ShaderAllFuegoJalapenioGirado(false);
+                    _FuegoObj.Inst_ShaderAllFuegoJalapenio(true);
+                }
 
 
                 // SUPER: PREVIO A EXPLOTAR
@@ -94,6 +104,10 @@ namespace TGC.Group.Model
 
                         _JalapenioPlanta.Inst_Delete(_Jalapenio);
                         _game._EscenarioBase.Set_PastoDesocupado(_planta.fila, _planta.columna);
+
+                        QuemarZombies(_game._zombie, _planta.fila, true);
+                        QuemarZombies(_game._zombieCono, _planta.fila, true);
+                        QuemarZombies(_game._zombieBalde, _planta.fila, true);
                     }
                 }
 
@@ -108,7 +122,33 @@ namespace TGC.Group.Model
                     {
                         _superTiempoPost = 0;
                         fuego = false;
+
+                        QuemarZombies(_game._zombie, _planta.fila, false);
+                        QuemarZombies(_game._zombieCono, _planta.fila, false);
+                        QuemarZombies(_game._zombieBalde, _planta.fila, false);
+
                         killMe = true;
+                    }
+                }
+            }
+
+            private void QuemarZombies(t_ZombieComun zombies, int FilaCenter, bool quemar)
+            {
+                for (int i = zombies._InstZombie.Count - 1; i >= 0; i--)
+                {
+                    t_ZombieComun.t_ZombieInstancia zombie = zombies._InstZombie[i];
+
+                    if (zombie.fila == FilaCenter)
+                    {
+                        zombie.vida -= DANIO_SUPER;
+                        zombies._InstZombie[i] = zombie;
+                        zombies._Zombie.Inst_Select(zombie.zombie);
+                        zombies._Zombie.Inst_ShaderZombieQuemado(quemar);
+
+                        if (zombie.vida <= 0)
+                        {
+                            t_ZombieComun.removeZombie(zombies, zombie);
+                        }
                     }
                 }
             }

@@ -47,7 +47,7 @@ namespace TGC.Group.Model
         public float _TiempoTranscurrido;
         public System.Random _rand;
         public int _soles;  // Cantidad de soles
-        public t_Musica _musica;
+        public t_Sonidos _sonidos;
         public string _NivelActual = null;
         public Drawer2D _spriteDrawer;
         public t_Hordas _Hordas;
@@ -98,7 +98,7 @@ namespace TGC.Group.Model
             _camara = new t_Camara(this);
             _mouse = new t_Mouse(this);
             _colision = new t_Colision(this);
-            _musica = new t_Musica();
+            _sonidos = new t_Sonidos(this);
 
             pablo_init();
             jose_init();
@@ -112,6 +112,8 @@ namespace TGC.Group.Model
         public override void Update()
         {
             PreUpdate();
+
+            _sonidos.Update();
 
             if (shader.time2 >= 0)
                 shader.time2 += ElapsedTime;
@@ -139,7 +141,6 @@ namespace TGC.Group.Model
                 _Menu.Update();
                 _NivelActual = TXT_NIVEL_1;
             }
-
         }
 
         /// <summary>
@@ -153,6 +154,16 @@ namespace TGC.Group.Model
             {
                 FirstRender--;
             }
+
+            if (t_ZombieComun.comiendo)
+            {
+                _sonidos.Do_PlayLoop(t_Sonidos.EAT_ID);
+            }
+            else
+            {
+                _sonidos.Do_Stop(t_Sonidos.EAT_ID);
+            }
+            t_ZombieComun.comiendo = false;
 
             // POST PROCESAMIENTO
             shader.PostProc();

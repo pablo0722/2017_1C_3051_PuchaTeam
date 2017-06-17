@@ -51,8 +51,6 @@ namespace TGC.Group.Model
 
         private void pablo_init()
         {
-            _musica.Do_Load(t_Musica.PATH_MUSICA);
-
             _escenario1 = t_Escenario1.Crear(this);
             _EscenarioBase = _escenario1;
 
@@ -68,28 +66,7 @@ namespace TGC.Group.Model
             _repetidor = t_Repetidor.Crear(this, 3);
             _Jalapenio = t_Jalapenio.Crear(this, 5);
 
-            _musica.Do_Play();
-
             _NivelActual = TXT_NIVEL_1;
-
-
-
-            // Shaders
-            /*
-            Microsoft.DirectX.Direct3D.Effect effect;
-
-            effect = TgcShaders.loadEffect("..\\..\\Media\\Shaders\\ShaderPrueba.fx");
-
-            // Cargamos las variables de shader, color del fog.
-            effect.SetValue("ColorFog", System.Drawing.Color.Fuchsia.ToArgb());
-            effect.SetValue("CameraPos", TGC.Core.Utils.TgcParserUtils.vector3ToFloat4Array(Camara.Position));
-            effect.SetValue("StartFogDistance", 0.01F);
-            effect.SetValue("EndFogDistance", 10F);
-            effect.SetValue("Density", 10F);
-
-            mesh.Effect = effect;
-            mesh.Technique = "RenderScene";
-            */
         }
 
 

@@ -1,16 +1,32 @@
 ﻿using TGC.Core.Sound;
-using TGC.Core.Text;
-using System.IO;
+using System.Collections.Generic;
+using Microsoft.DirectX;
 
 namespace TGC.Group.Model
 {
-    public class t_Musica
+    public class t_Sonidos
     {
         /******************************************************************************************/
         /*                                  CONSTANTES
         /******************************************************************************************/
-        // Musicas
-        public const string PATH_MUSICA = "..\\..\\Media\\Musicas\\PvZ_Pool_Stage.mp3";
+        // MUSICA
+        private const string MUSICA_PATH = "..\\..\\Media\\Sonidos\\PvZ_Pool_Stage.wav";
+        static public int MUSICA_ID; // Se carga en el constructor
+
+        // WALK
+        private const string WALK_PATH =    "..\\..\\Media\\Sonidos\\footstepsLeaves.wav";
+        static public int WALK_ID; // Se carga en el constructor
+
+        // EAT
+        private const string EAT_PATH = "..\\..\\Media\\Sonidos\\zombieEating.wav";
+        static public int EAT_ID; // Se carga en el constructor
+
+        // ROAR
+        private const string ROAR_PATH = "..\\..\\Media\\Sonidos\\zombieRoar.wav";
+        static public int ROAR_ID; // Se carga en el constructor
+
+        // Control
+        static public int CANT_ID; // Se carga en el constructor
 
 
 
@@ -24,8 +40,10 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                  VARIABLES
         /******************************************************************************************/
-        private string currentFile = null;
-        private TgcMp3Player mp3Player = null;
+        private List<Tgc3dSound> sonidos;
+        private GameModel _game;
+        public int musicvolume = 100; // de 0  a 100
+        public int fxvolume = 50;  // de 0 a 100
 
 
 
@@ -38,9 +56,37 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                  CONSTRUCTOR
         /******************************************************************************************/
-        public t_Musica()
+        public t_Sonidos(GameModel game)
         {
-            mp3Player = new TgcMp3Player();
+            _game = game;
+
+            sonidos = new List<Tgc3dSound>();
+
+            Do_Load();
+            
+            Do_PlayLoop(MUSICA_ID);
+            Do_Stop(WALK_ID);
+            Do_Stop(EAT_ID);
+            Do_Stop(ROAR_ID);
+        }
+
+
+
+
+
+
+
+
+
+        /******************************************************************************************/
+        /*                                  DESTRUCTOR
+        /******************************************************************************************/
+        ~t_Sonidos()
+        {
+            foreach (var sound in sonidos)
+            {
+                sound.dispose();
+            }
         }
 
 
@@ -56,16 +102,42 @@ namespace TGC.Group.Model
         /*                                  CARGAR MP3
         /******************************************************************************************/
         ///     Cargar un nuevo MP3 si hubo una variacion
-        public void Do_Load(string filePath)
+        private void Do_Load()
         {
-            if (currentFile == null || currentFile != filePath)
-            {
-                currentFile = filePath;
+            Tgc3dSound sound;
+            int id = 0;
 
-                //Cargar archivo
-                mp3Player.closeFile();
-                mp3Player.FileName = currentFile;
-            }
+            sound = new Tgc3dSound(MUSICA_PATH, new Vector3(0, 0, 0), _game.DirectSound.DsDevice);
+            //Hay que configurar la mínima distancia a partir de la cual se empieza a atenuar el sonido 3D
+            sound.MinDistance = 50f;
+            sonidos.Add(sound);
+            MUSICA_ID = id;
+            id++;
+
+            sound = new Tgc3dSound(WALK_PATH, new Vector3(0, 0, 0), _game.DirectSound.DsDevice);
+            //Hay que configurar la mínima distancia a partir de la cual se empieza a atenuar el sonido 3D
+            sound.MinDistance = 50f;
+            sonidos.Add(sound);
+            WALK_ID = id;
+            id++;
+
+            sound = new Tgc3dSound(EAT_PATH, new Vector3(0, 0, 0), _game.DirectSound.DsDevice);
+            //Hay que configurar la mínima distancia a partir de la cual se empieza a atenuar el sonido 3D
+            sound.MinDistance = 50f;
+            sonidos.Add(sound);
+            EAT_ID = id;
+            id++;
+
+            sound = new Tgc3dSound(ROAR_PATH, new Vector3(0, 0, 0), _game.DirectSound.DsDevice);
+            //Hay que configurar la mínima distancia a partir de la cual se empieza a atenuar el sonido 3D
+            sound.MinDistance = 50f;
+            sonidos.Add(sound);
+            ROAR_ID = id;
+            id++;
+
+            CANT_ID = id;
+
+            Update();
         }
 
 
@@ -78,30 +150,22 @@ namespace TGC.Group.Model
 
 
         /******************************************************************************************/
-        /*                                  REPRODUCIR MP3
+        /*                                  REPRODUCIR SONIDOS
         /******************************************************************************************/
-        public void Do_Play()
+        public void Do_PlayLoop(int id)
         {
-            if (currentFile == null || mp3Player == null)
-                return;
+            if (id < 0 || id >= CANT_ID) return;
 
-            var currentState = mp3Player.getStatus();
-            if (currentState == TgcMp3Player.States.Paused)
-            {
-                //Resumir la ejecución del MP3
-                mp3Player.resume();
-            }
-            else if (currentState == TgcMp3Player.States.Stopped)
-            {
-                //Parar y reproducir MP3
-                mp3Player.closeFile();
-                mp3Player.play(true);
-            }
-            else if (currentState == TgcMp3Player.States.Open)
-            {
-                //Reproducir MP3
-                mp3Player.play(true);
-            }
+            //Ejecuta en loop
+            sonidos[id].play(true);
+        }
+
+        public void Do_PlayOnce(int id)
+        {
+            if (id < 0 || id >= CANT_ID) return;
+
+            //Ejecuta una sola vez
+            sonidos[id].play(false);
         }
 
 
@@ -114,19 +178,20 @@ namespace TGC.Group.Model
 
 
         /******************************************************************************************/
-        /*                                  PAUSAR MP3
+        /*                                  UPDATE SONIDOS
         /******************************************************************************************/
-        public void Do_Pause()
+        public void Update()
         {
-            if (currentFile == null || mp3Player != null)
-                return;
+            if (musicvolume == 0)
+                musicvolume = -1000;
 
-            var currentState = mp3Player.getStatus();
-            if (currentState == TgcMp3Player.States.Playing)
-            {
-                //Pausar el MP3
-                mp3Player.pause();
-            }
+            if (fxvolume == 0)
+                fxvolume = -1000;
+
+            sonidos[MUSICA_ID].Position = new Vector3(500 - musicvolume * 5, 0, 0);
+            sonidos[WALK_ID].Position = new Vector3(500 - fxvolume * 5, 0, 0);
+            sonidos[EAT_ID].Position = new Vector3(500 - fxvolume * 5, 0, 0);
+            sonidos[ROAR_ID].Position = new Vector3(500 - fxvolume * 5, 0, 0);
         }
 
 
@@ -139,19 +204,14 @@ namespace TGC.Group.Model
 
 
         /******************************************************************************************/
-        /*                                  DETENER MP3
+        /*                                  DETENER SONIDO
         /******************************************************************************************/
-        public void Do_Stop()
+        public void Do_Stop(int id)
         {
-            if (currentFile == null || mp3Player != null)
-                return;
+            if (id < 0 || id >= CANT_ID) return;
 
-            var currentState = mp3Player.getStatus();
-            if (currentState == TgcMp3Player.States.Playing)
-            {
-                //Parar el MP3
-                mp3Player.stop();
-            }
+            //Ejecuta una sola vez
+            sonidos[id].stop();
         }
     }
 }

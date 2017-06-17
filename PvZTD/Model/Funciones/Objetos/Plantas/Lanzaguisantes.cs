@@ -160,8 +160,7 @@ namespace TGC.Group.Model
 
                                             zombie.vida=0;
                                             zombies._InstZombie[i] = zombie;
-                                            zombies._Zombie.Inst_Delete(zombie.zombie);
-                                            zombies._InstZombie.Remove(zombie);
+                                            t_ZombieComun.removeZombie(zombies, zombie);
                                         }
                                     }
                                     else
@@ -172,8 +171,7 @@ namespace TGC.Group.Model
                                         zombies._InstZombie[i] = zombie;
                                         if (zombie.vida <= 0)
                                         {
-                                            zombies._Zombie.Inst_Delete(zombie.zombie);
-                                            zombies._InstZombie.Remove(zombie);
+                                            t_ZombieComun.removeZombie(zombies, zombie);
                                         }
                                     }
                                 }
