@@ -5,6 +5,8 @@ using Microsoft.DirectX.DirectInput;
 using TGC.Group.Model.Funciones.Objetos;
 using System.Drawing;
 using TGC.Core.Direct3D;
+using TGC.Core.Example;
+using TGC.Core.Text;
 
 namespace TGC.Group.Model.Funciones.Objetos
 {
@@ -14,19 +16,16 @@ namespace TGC.Group.Model.Funciones.Objetos
     //public CustomSprite mi_sprite = null; // Es como una instancia de la imagen. es para cargar la imagen una sola vez y poder dibujarla varias veces.
     private GameModel _game;
 
-    public CustomBitmap BoxBitmapMenuOpciones;
-    public CustomBitmap BoxBitmapIPMenuOpcionesLuz;
-    public CustomBitmap BoxBitmapMenuOpcionesSombra;
-    public CustomBitmap BoxBitmapMenuOpcionesSombraLuz;
+    public CustomBitmap MenuOpcionesSinSombra;
+    public CustomBitmap MenuOpcionesConSombra;
+
 
     public CustomSprite BoxSprite;
     public int x, y, sx, sy;
     public const int POSICION_MENU = 0;
 
-    public const string PathTexturaMenuOpciones = "..\\..\\Media\\Texturas\\MenuOpciones.png";
-    public const string PathTexturaMenuOpcionesLuz = "..\\..\\Media\\Texturas\\MenuOpcionesLuz.png";
-    public const string PathTexturaMenuOpcionesSombra = "..\\..\\Media\\Texturas\\MenuOpcionesSombra.png";
-    public const string PathTexturaMenuOpcionesSombraLuz = "..\\..\\Media\\Texturas\\MenuOpcionesSombraLuz.png";
+    public const string PathTexturaMenuOpcionesSinSombra = "..\\..\\Media\\Texturas\\MenuOpcionesSinSombra.png";
+    public const string PathTexturaMenuOpcionesConSombra = "..\\..\\Media\\Texturas\\MenuOpcionesConSombra.png";
 
     public static bool SalirOpciones = false;
 
@@ -38,61 +37,62 @@ namespace TGC.Group.Model.Funciones.Objetos
         public int FinalY;
     }
         public Coordenadas CoordenadasOpcionesAtras;
-        public Coordenadas CoordenadasOpcionesIluminacion;
         public Coordenadas CoordenadasOpcionesSombra;
         public Coordenadas CoordenadasOpcionesMusicaUP;
         public Coordenadas CoordenadasOpcionesMusicaDOWN;
+        public Coordenadas CoordenadasOpcionesEfectoUP;
+        public Coordenadas CoordenadasOpcionesEfectoDOWN;
 
-        public bool EstadoLuz = false;
-        public bool EstadoSombra = false;
+        public bool EstadoSombra = true;
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
         private MenuOpciones(GameModel game)
     {
         _game = game;
+            
 
-        CoordenadasOpcionesAtras.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.03F);
-        CoordenadasOpcionesAtras.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.41F);
-        CoordenadasOpcionesAtras.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.74F);
-        CoordenadasOpcionesAtras.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.90F);
+        CoordenadasOpcionesAtras.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.03F);
+        CoordenadasOpcionesAtras.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.41F);
+        CoordenadasOpcionesAtras.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.80F);
+        CoordenadasOpcionesAtras.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.95F);
 
-        CoordenadasOpcionesIluminacion.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.27F);
-        CoordenadasOpcionesIluminacion.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.32F);
-        CoordenadasOpcionesIluminacion.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.53F);
-        CoordenadasOpcionesIluminacion.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.62F);
+        CoordenadasOpcionesSombra.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.19F);
+        CoordenadasOpcionesSombra.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.25F);
+        CoordenadasOpcionesSombra.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.40F);
+        CoordenadasOpcionesSombra.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.50F);
 
-        CoordenadasOpcionesSombra.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.20F);
-        CoordenadasOpcionesSombra.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.24F);
-        CoordenadasOpcionesSombra.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.38F);
-        CoordenadasOpcionesSombra.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.46F);
+        CoordenadasOpcionesMusicaUP.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.20F);
+        CoordenadasOpcionesMusicaUP.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.24F);
+        CoordenadasOpcionesMusicaUP.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.23F);
+        CoordenadasOpcionesMusicaUP.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.275F);
 
-        CoordenadasOpcionesMusicaUP.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.20F);
-        CoordenadasOpcionesMusicaUP.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.24F);
-        CoordenadasOpcionesMusicaUP.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.23F);
-        CoordenadasOpcionesMusicaUP.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.27F);
+        CoordenadasOpcionesMusicaDOWN.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.20F);
+        CoordenadasOpcionesMusicaDOWN.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.24F);
+        CoordenadasOpcionesMusicaDOWN.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.28F);
+        CoordenadasOpcionesMusicaDOWN.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.325F);
 
-        CoordenadasOpcionesMusicaDOWN.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.20F);
-        CoordenadasOpcionesMusicaDOWN.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.24F);
-        CoordenadasOpcionesMusicaDOWN.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.28F);
-        CoordenadasOpcionesMusicaDOWN.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.32F);
+        CoordenadasOpcionesEfectoUP.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.48F);
+        CoordenadasOpcionesEfectoUP.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.52F);
+        CoordenadasOpcionesEfectoUP.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.23F);
+        CoordenadasOpcionesEfectoUP.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.275F);
 
-        BoxBitmapMenuOpciones = new CustomBitmap(PathTexturaMenuOpciones, D3DDevice.Instance.Device);
-        BoxBitmapIPMenuOpcionesLuz = new CustomBitmap(PathTexturaMenuOpcionesLuz, D3DDevice.Instance.Device);
-        BoxBitmapMenuOpcionesSombra = new CustomBitmap(PathTexturaMenuOpcionesSombra, D3DDevice.Instance.Device);
-        BoxBitmapMenuOpcionesSombraLuz = new CustomBitmap(PathTexturaMenuOpcionesSombraLuz, D3DDevice.Instance.Device);
+        MenuOpcionesConSombra = new CustomBitmap(PathTexturaMenuOpcionesConSombra, D3DDevice.Instance.Device);
+        MenuOpcionesSinSombra = new CustomBitmap(PathTexturaMenuOpcionesSinSombra, D3DDevice.Instance.Device);
 
         BoxSprite = new CustomSprite();
-        BoxSprite.Bitmap = BoxBitmapMenuOpciones;
-        sx = GameModel._ResolucionPantalla.Width;
-        sy = GameModel._ResolucionPantalla.Height;
+
+        BoxSprite.Bitmap = MenuOpcionesConSombra;
+        sx = D3DDevice.Instance.Device.Viewport.Width;
+        sy = D3DDevice.Instance.Device.Viewport.Height;
         x = 0;
         y = 0;
-        BoxSprite.SrcRect = new Rectangle(0, 0, BoxBitmapMenuOpciones.Size.Width, BoxBitmapMenuOpciones.Size.Height);
-        BoxSprite.Scaling = new Vector2((float)sx / BoxBitmapMenuOpciones.Size.Width, (float)sy / BoxBitmapMenuOpciones.Size.Height);
+        BoxSprite.SrcRect = new Rectangle(0, 0, MenuOpcionesConSombra.Size.Width, MenuOpcionesConSombra.Size.Height);
+        BoxSprite.Scaling = new Vector2((float)sx / MenuOpcionesConSombra.Size.Width, (float)sy / MenuOpcionesConSombra.Size.Height);
         BoxSprite.Position = new Vector2(x, y);
         BoxSprite.Rotation = 0;
-    }
+
+        }
 
     public static MenuOpciones Crear(GameModel game)
     {
@@ -104,31 +104,21 @@ namespace TGC.Group.Model.Funciones.Objetos
     /******************************************************************************************/
     ~MenuOpciones()
     {
-        BoxBitmapMenuOpciones.D3dTexture.Dispose();
-       
-    }
+            MenuOpcionesSinSombra.D3dTexture.Dispose();
+            MenuOpcionesConSombra.D3dTexture.Dispose();
+     }
 
     /******************************************************************************************/
     /*                                      TEXTURAS
     /******************************************************************************************/
-    public void Set_Textura_MenuOpciones()
+    public void Set_Textura_MenuOpcionesConSombra()
     {
-        BoxSprite.Bitmap = BoxBitmapMenuOpciones;
+        BoxSprite.Bitmap = MenuOpcionesConSombra;
     }
 
-    public void Set_Textura_MenuOpcionesLuz()
+    public void Set_Textura_MenuOpcionesSinSombra()
     {
-        BoxSprite.Bitmap = BoxBitmapIPMenuOpcionesLuz;
-    }
-
-    public void Set_Textura_MenuOpcionesSombra()
-    {
-        BoxSprite.Bitmap = BoxBitmapMenuOpcionesSombra;
-    }
-
-    public void Set_Textura_MenuOpcionesSombraLuz()
-    {
-        BoxSprite.Bitmap = BoxBitmapMenuOpcionesSombraLuz;
+        BoxSprite.Bitmap = MenuOpcionesSinSombra;
     }
 
     /******************************************************************************************/
@@ -144,10 +134,6 @@ namespace TGC.Group.Model.Funciones.Objetos
             {
                 return 1;
             }
-            if (_game._mouse.Is_Position(CoordenadasOpcionesIluminacion.InicialX, CoordenadasOpcionesIluminacion.FinalX, CoordenadasOpcionesIluminacion.InicialY, CoordenadasOpcionesIluminacion.FinalY))
-            {
-                return 2;
-            }
             if (_game._mouse.Is_Position(CoordenadasOpcionesSombra.InicialX, CoordenadasOpcionesSombra.FinalX, CoordenadasOpcionesSombra.InicialY, CoordenadasOpcionesSombra.FinalY))
             {
                 return 3;
@@ -160,10 +146,35 @@ namespace TGC.Group.Model.Funciones.Objetos
             {
                 return 5;
             }
-
+            if (_game._mouse.Is_Position(CoordenadasOpcionesEfectoUP.InicialX, CoordenadasOpcionesEfectoUP.FinalX, CoordenadasOpcionesEfectoUP.InicialY, CoordenadasOpcionesEfectoUP.FinalY))
+            {
+                return 6;
             }
-
-        return 0;
+            if (_game._mouse.Is_Position(CoordenadasOpcionesEfectoDOWN.InicialX, CoordenadasOpcionesEfectoDOWN.FinalX, CoordenadasOpcionesEfectoDOWN.InicialY, CoordenadasOpcionesEfectoDOWN.FinalY))
+            {
+                return 7;
+            }
+            }
+            if (_game._mouse.ClickIzq_Down())
+            {
+                if (_game._mouse.Is_Position(CoordenadasOpcionesMusicaUP.InicialX, CoordenadasOpcionesMusicaUP.FinalX, CoordenadasOpcionesMusicaUP.InicialY, CoordenadasOpcionesMusicaUP.FinalY))
+                {
+                    return 4;
+                }
+                if (_game._mouse.Is_Position(CoordenadasOpcionesMusicaDOWN.InicialX, CoordenadasOpcionesMusicaDOWN.FinalX, CoordenadasOpcionesMusicaDOWN.InicialY, CoordenadasOpcionesMusicaDOWN.FinalY))
+                {
+                    return 5;
+                }
+                if (_game._mouse.Is_Position(CoordenadasOpcionesEfectoUP.InicialX, CoordenadasOpcionesEfectoUP.FinalX, CoordenadasOpcionesEfectoUP.InicialY, CoordenadasOpcionesEfectoUP.FinalY))
+                {
+                    return 6;
+                }
+                if (_game._mouse.Is_Position(CoordenadasOpcionesEfectoDOWN.InicialX, CoordenadasOpcionesEfectoDOWN.FinalX, CoordenadasOpcionesEfectoDOWN.InicialY, CoordenadasOpcionesEfectoDOWN.FinalY))
+                {
+                    return 7;
+                }
+            }
+                return 0;
     }
 
 
@@ -182,43 +193,55 @@ namespace TGC.Group.Model.Funciones.Objetos
                 SalirOpciones = false;
                 break;
 
-            case 2:
-                    EstadoLuz = !EstadoLuz;
-                    if (EstadoSombra && EstadoLuz)
+            case 3:
+                EstadoSombra = !EstadoSombra;
+                if (EstadoSombra)
+                {
+                    Set_Textura_MenuOpcionesConSombra();
+                }
+                else 
+                if(!EstadoSombra)
+                {
+                    Set_Textura_MenuOpcionesSinSombra();
+                }
+                break;
+            case 4:
+                    if (_game._sonidos.musicvolume < 100)
                     {
-                        Set_Textura_MenuOpcionesSombraLuz();
+                        if (_game._sonidos.musicvolume < 0)
+                        {
+                            _game._sonidos.musicvolume = 2;
+                        }
+                        else
+                        {
+                            _game._sonidos.musicvolume += 2;
+                        }
                     }
-                    else if (EstadoLuz)
+                        break;
+            case 5:
+                    if (_game._sonidos.musicvolume > 0)
                     {
-                        Set_Textura_MenuOpcionesLuz();
+                        _game._sonidos.musicvolume -= 2;
                     }
-                    else if (EstadoSombra)
+                    break;
+            case 6:
+                if ((_game._sonidos.fxvolume * 2) < 100)
+                {
+                    if (_game._sonidos.fxvolume < 0)
                     {
-                        Set_Textura_MenuOpcionesSombra();
+                        _game._sonidos.fxvolume = 1;
                     }
                     else
                     {
-                        Set_Textura_MenuOpciones();
+                        _game._sonidos.fxvolume++;
                     }
+                }
                 break;
 
-            case 3:
-                EstadoSombra = !EstadoSombra;
-                if (EstadoSombra&&EstadoLuz)
+            case 7:
+                if ((_game._sonidos.fxvolume * 2) > 0)
                 {
-                    Set_Textura_MenuOpcionesSombraLuz();
-                }
-                else if(EstadoSombra)
-                {
-                    Set_Textura_MenuOpcionesSombra();
-                }
-                else if (EstadoLuz)
-                {
-                    Set_Textura_MenuOpcionesLuz();
-                }
-                else 
-                {
-                    Set_Textura_MenuOpciones();
+                    _game._sonidos.fxvolume--;
                 }
                 break;
                 default: break;
@@ -237,9 +260,19 @@ namespace TGC.Group.Model.Funciones.Objetos
         _game._spriteDrawer.BeginDrawSprite();
         _game._spriteDrawer.DrawSprite(BoxSprite);
         _game._spriteDrawer.EndDrawSprite();
-    }
+        if(_game._sonidos.musicvolume>0)
+            _game.DrawText.drawText(_game._sonidos.musicvolume.ToString(), (int)(D3DDevice.Instance.Device.Viewport.Width * 0.175), (int)(D3DDevice.Instance.Device.Viewport.Height * 0.28), Color.Black);
+        else
+            _game.DrawText.drawText("0", (int)(D3DDevice.Instance.Device.Viewport.Width * 0.175), (int)(D3DDevice.Instance.Device.Viewport.Height * 0.28), Color.Black);
 
-}
+        if ((_game._sonidos.fxvolume * 2) > 0)
+            _game.DrawText.drawText((_game._sonidos.fxvolume * 2).ToString(), (int)(D3DDevice.Instance.Device.Viewport.Width * 0.45), (int)(D3DDevice.Instance.Device.Viewport.Height * 0.28), Color.Black);
+        else
+            _game.DrawText.drawText("0", (int)(D3DDevice.Instance.Device.Viewport.Width * 0.45), (int)(D3DDevice.Instance.Device.Viewport.Height * 0.28), Color.Black);
+
+        }
+
+    }
 
 
 
