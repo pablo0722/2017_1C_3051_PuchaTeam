@@ -43,7 +43,6 @@ namespace TGC.Group.Model.Funciones.Objetos
         public Coordenadas CoordenadasOpcionesEfectoUP;
         public Coordenadas CoordenadasOpcionesEfectoDOWN;
 
-        public bool EstadoSombra = true;
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
@@ -194,13 +193,13 @@ namespace TGC.Group.Model.Funciones.Objetos
                 break;
 
             case 3:
-                EstadoSombra = !EstadoSombra;
-                if (EstadoSombra)
+                _game.shader.SombraEnable = !_game.shader.SombraEnable;
+                if (_game.shader.SombraEnable)
                 {
                     Set_Textura_MenuOpcionesConSombra();
                 }
                 else 
-                if(!EstadoSombra)
+                if(!_game.shader.SombraEnable)
                 {
                     Set_Textura_MenuOpcionesSinSombra();
                 }
