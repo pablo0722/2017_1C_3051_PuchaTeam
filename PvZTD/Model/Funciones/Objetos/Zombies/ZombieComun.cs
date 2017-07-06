@@ -14,6 +14,10 @@ namespace TGC.Group.Model
             public float vida;
             public int fila;
             public int columna;
+            public float prev_velocidad;
+            public float velocidad;
+            public float timeEnfriar;
+            public float timeCongelar;
             public t_Objeto3D.t_instancia zombie;
         };
 
@@ -74,6 +78,8 @@ namespace TGC.Group.Model
         protected t_ZombieComun(GameModel game, string path_obj = PATH_OBJ)
         {
             _game = game;
+
+            velocidad_zombie = VELOCIDAD_ZOMBIE;
 
             _Zombie = t_Objeto3D.Crear(_game, path_obj);
 
@@ -259,7 +265,25 @@ namespace TGC.Group.Model
                     }
                     else
                     {
-                        _Zombie._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y, PosAux.Z + velocidad_zombie * _game.ElapsedTime);
+                        t_ZombieComun.t_ZombieInstancia zombie = _InstZombie[i];
+                        zombie.timeEnfriar -= _game.ElapsedTime;
+                        zombie.timeCongelar -= _game.ElapsedTime;
+                        if (_InstZombie[i].zombie.shaders.zombieCongelado && _InstZombie[i].timeCongelar > 0)
+                        {
+                            zombie.velocidad = 0;
+                        }
+                        else if (_InstZombie[i].zombie.shaders.zombieEnfriar && _InstZombie[i].timeEnfriar > 0)
+                        {
+                            zombie.velocidad = t_SnowPea.VEL_ENFRIAR;
+                        }
+                        else
+                        {
+                            zombie.zombie.shaders.zombieEnfriar = false;
+                            zombie.zombie.shaders.zombieCongelado = false;
+                            zombie.velocidad = zombie.prev_velocidad;
+                        }
+                        _InstZombie[i] = zombie;
+                        _Zombie._instancias[i].pos = new Vector3(PosAux.X, PosAux.Y, PosAux.Z + _InstZombie[i].velocidad * _game.ElapsedTime);
                     }
                 }
             }
@@ -268,6 +292,7 @@ namespace TGC.Group.Model
             {
                 gameover = false;
                 _NivelActual = _game._NivelActual;
+                _game._soles = 0;
                 string txt_nivel = System.IO.File.ReadAllText(_game._NivelActual);
                 string[] tags = txt_nivel.Split('<', '>');
                 for(int i=0; i<tags.Length; i++)
@@ -304,6 +329,8 @@ namespace TGC.Group.Model
                                 zombie.fila = fila;
                                 zombie.vida = vida_zombie_comun;
                                 zombie.columna = 13;
+                                zombie.velocidad = VELOCIDAD_ZOMBIE;
+                                zombie.prev_velocidad = VELOCIDAD_ZOMBIE;
                                 zombie.zombie = _Zombie._instancias[_Zombie._instancias.Count - 1];
                                 _game._sonidos.Do_PlayLoop(t_Sonidos.WALK_ID);
                                 _game._sonidos.Do_PlayLoop(t_Sonidos.ROAR_ID);

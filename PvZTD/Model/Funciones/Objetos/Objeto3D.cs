@@ -22,10 +22,14 @@ namespace TGC.Group.Model
                 public bool Explosion = false;
                 public bool SuperGirasol = false;
                 public bool GirarSoles = false;
+                public bool BolaDeHielo = false;
+                public bool zombieEnfriar = false;
+                public bool zombieCongelado = false;
                 public bool JalapenioExplota = false;
                 public bool fuegoJalapenio = false;
                 public bool fuegoJalapenioGirado = false;
                 public bool zombieQuemado = false;
+                public bool SuperNuez = false;
             };
 
 
@@ -516,6 +520,30 @@ namespace TGC.Group.Model
             if (_instanciaActual == null) return;
 
             _instanciaActual.shaders.zombieQuemado = activate;
+        }
+        public void Inst_ShaderBolaDeHielo(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.BolaDeHielo = activate;
+        }
+        public void Inst_ShaderZombieEnfriar(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.zombieEnfriar = activate;
+        }
+        public void Inst_ShaderZombieCongelado(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.zombieCongelado = activate;
+        }
+        public void Inst_ShaderSuperNuez(bool activate)
+        {
+            if (_instanciaActual == null) return;
+
+            _instanciaActual.shaders.SuperNuez = activate;
         }
 
 

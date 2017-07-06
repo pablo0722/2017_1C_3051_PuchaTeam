@@ -25,11 +25,12 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         /*                                      CONSTANTES
         /******************************************************************************************/
-        private const string    PATH_OBJ =          "..\\..\\Media\\Objetos\\mina-TgcScene.xml";
-        private const string    PATH_TEXTURA_ON =   "..\\..\\Media\\Texturas\\HUD_Patatapum_sel.jpg";
-        private const string    PATH_TEXTURA_OFF =  "..\\..\\Media\\Texturas\\HUD_Patatapum.jpg";
-        private const int       PLANTA_VALOR =      25;
-        private const float     VIDA_PLANTA =       3;
+        private const string    PATH_OBJ =          "..\\..\\Media\\Objetos\\Nuez-TgcScene.xml";
+        private const string    PATH_TEXTURA_ON =   "..\\..\\Media\\Texturas\\HUD_nut_sel.jpg";
+        private const string    PATH_TEXTURA_OFF =  "..\\..\\Media\\Texturas\\HUD_nut.jpg";
+        private const int       PLANTA_VALOR =      200;
+        private const float     VIDA_PLANTA =       15;
+        private const float     VIDA_SUPER =        30;
 
 
 
@@ -63,8 +64,8 @@ namespace TGC.Group.Model
         {
             _game = game;
 
-            _Planta.Set_Transform(0, -5.9F, 0,
-                                    0.15F, 0.15F, 0.15F,
+            _Planta.Set_Transform(0, 0, 0,
+                                    0.4F, 0.4F, 0.4F,
                                     0, GameModel.PI, 0);
 
             _Planta.Mesh_Select(0);
@@ -140,6 +141,11 @@ namespace TGC.Group.Model
                 {
                     if (_Planta._instancias[i] == _instPersonal)
                     {
+                        t_PlantaInstancia planta = _InstPlanta[i];
+                        planta.vida = VIDA_SUPER;
+                        _Planta.Inst_Select(_Planta._instancias[i]);
+                        _Planta.Inst_ShaderSuperNuez(true);
+                        _InstPlanta[i] = planta;
                         break;
                     }
                 }

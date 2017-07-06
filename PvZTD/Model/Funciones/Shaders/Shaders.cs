@@ -32,6 +32,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         // ESTATICAS
         private GameModel _game;
+        public bool SombraEnable = true;
         private Effect effect;
         private Vector3 g_LightDir; // direccion de la luz actual
         private Vector3 g_LightPos; // posicion de la luz actual (la que estoy analizando)
@@ -45,6 +46,7 @@ namespace TGC.Group.Model
         public Vector4 ExplosionLightPosition = new Vector4(0, -100, 0, 1);
         private Texture texFuegoAlpha;
         private Texture texQuemado;
+        private Texture texSuperNuez;
 
 
 
@@ -76,6 +78,7 @@ namespace TGC.Group.Model
             InitGirar();
             InitFuego();    // Para jalapeño
             InitQuemado();    // Para jalapeño
+            InitSuperNuez();
         }
 
 
@@ -164,6 +167,12 @@ namespace TGC.Group.Model
                 (Bitmap)Image.FromFile("..\\..\\Media\\Texturas\\fire\\fire_noise.jpg"), Usage.None, Pool.Managed);
         }
 
+        private void InitSuperNuez()
+        {
+            texSuperNuez = Texture.FromBitmap(D3DDevice.Instance.Device,
+                (Bitmap)Image.FromFile("..\\..\\Media\\Texturas\\nuez_texture_metal.jpg"), Usage.None, Pool.Managed);
+        }
+
 
 
         /******************************************************************************************/
@@ -208,6 +217,15 @@ namespace TGC.Group.Model
             if(shaders.GirarSoles)
                 RenderSol(mesh);
 
+            if (shaders.BolaDeHielo)
+                RenderBolaDeHielo(mesh);
+
+            if (shaders.zombieEnfriar)
+                zombieEnfriar(mesh);
+
+            if (shaders.zombieCongelado)
+                zombieCongelado(mesh);
+
             if (shaders.JalapenioExplota)
                 JalapenioExplota(mesh);
 
@@ -219,6 +237,9 @@ namespace TGC.Group.Model
 
             if (shaders.zombieQuemado)
                 zombieQuemado(mesh);
+
+            if (shaders.SuperNuez)
+                SuperNuez(mesh);
         }
 
 
@@ -281,6 +302,21 @@ namespace TGC.Group.Model
             mesh.Technique = "RenderSol";
         }
 
+        private void RenderBolaDeHielo(TgcMesh mesh)
+        {
+            mesh.Technique = "TecnicaBolaDeHielo";
+        }
+
+        public void zombieEnfriar(TgcMesh mesh)
+        {
+            mesh.Technique = "TecnicaEnfriar";
+        }
+
+        public void zombieCongelado(TgcMesh mesh)
+        {
+            mesh.Technique = "TecnicaCongelar";
+        }
+
         public void JalapenioExplota(TgcMesh mesh)
         {
             mesh.Technique = "TecnicaExplotaJalapenio";
@@ -315,24 +351,33 @@ namespace TGC.Group.Model
             mesh.Technique = "TecnicaQuemado";
         }
 
+        public void SuperNuez(TgcMesh mesh)
+        {
+            effect.SetValue("texSuperNuez", texSuperNuez);
+
+            mesh.Technique = "TecnicaNuez";
+        }
+
         /******************************************************************************************/
         /*                                      SHADER DE POST PROCESAMIENTO
         /******************************************************************************************/
         public void PostProc()
         {
-            g_LightPos = new Vector3(20, 100, 0);
-            g_LightDir = new Vector3(-0.1F, -1, 0);
-            g_LightDir.Normalize();
+            if (SombraEnable)
+            {
+                g_LightPos = new Vector3(20, 100, 0);
+                g_LightDir = new Vector3(-0.1F, -1, 0);
+                g_LightDir.Normalize();
 
 
-            //Genero el shadow map
-            PostProcShadow();
+                //Genero el shadow map
+                PostProcShadow();
 
+            }
             D3DDevice.Instance.Device.BeginScene();
 
             // Dibujo la escena pp dicha
             D3DDevice.Instance.Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
-            
             _game.RenderScene();
             _game.RenderHud();
         }
@@ -362,7 +407,6 @@ namespace TGC.Group.Model
             effect.SetValue("g_txShadow", g_pShadowMap);
             DoShadow = true;
             _game.RenderScene();
-            _game.RenderHud();
             DoShadow = false;
 
             // Termino

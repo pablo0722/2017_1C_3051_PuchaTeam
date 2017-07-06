@@ -52,30 +52,30 @@ namespace TGC.Group.Model.Funciones.Objetos
     {
         _game = game;
 
-        CoordenadasOpcionesAtras.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.03F);
-        CoordenadasOpcionesAtras.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.41F);
-        CoordenadasOpcionesAtras.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.74F);
-        CoordenadasOpcionesAtras.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.90F);
+        CoordenadasOpcionesAtras.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.03F);
+        CoordenadasOpcionesAtras.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.41F);
+        CoordenadasOpcionesAtras.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.74F);
+        CoordenadasOpcionesAtras.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.90F);
 
-        CoordenadasOpcionesIluminacion.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.27F);
-        CoordenadasOpcionesIluminacion.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.32F);
-        CoordenadasOpcionesIluminacion.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.53F);
-        CoordenadasOpcionesIluminacion.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.62F);
+        CoordenadasOpcionesIluminacion.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.27F);
+        CoordenadasOpcionesIluminacion.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.32F);
+        CoordenadasOpcionesIluminacion.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.53F);
+        CoordenadasOpcionesIluminacion.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.62F);
 
-        CoordenadasOpcionesSombra.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.20F);
-        CoordenadasOpcionesSombra.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.24F);
-        CoordenadasOpcionesSombra.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.38F);
-        CoordenadasOpcionesSombra.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.46F);
+        CoordenadasOpcionesSombra.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.20F);
+        CoordenadasOpcionesSombra.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.24F);
+        CoordenadasOpcionesSombra.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.38F);
+        CoordenadasOpcionesSombra.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.46F);
 
-        CoordenadasOpcionesMusicaUP.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.20F);
-        CoordenadasOpcionesMusicaUP.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.24F);
-        CoordenadasOpcionesMusicaUP.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.23F);
-        CoordenadasOpcionesMusicaUP.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.27F);
+        CoordenadasOpcionesMusicaUP.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.20F);
+        CoordenadasOpcionesMusicaUP.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.24F);
+        CoordenadasOpcionesMusicaUP.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.23F);
+        CoordenadasOpcionesMusicaUP.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.27F);
 
-        CoordenadasOpcionesMusicaDOWN.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.20F);
-        CoordenadasOpcionesMusicaDOWN.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.24F);
-        CoordenadasOpcionesMusicaDOWN.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.28F);
-        CoordenadasOpcionesMusicaDOWN.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.32F);
+        CoordenadasOpcionesMusicaDOWN.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.20F);
+        CoordenadasOpcionesMusicaDOWN.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.24F);
+        CoordenadasOpcionesMusicaDOWN.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.28F);
+        CoordenadasOpcionesMusicaDOWN.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.32F);
 
         BoxBitmapMenuOpciones = new CustomBitmap(PathTexturaMenuOpciones, D3DDevice.Instance.Device);
         BoxBitmapIPMenuOpcionesLuz = new CustomBitmap(PathTexturaMenuOpcionesLuz, D3DDevice.Instance.Device);
@@ -84,8 +84,8 @@ namespace TGC.Group.Model.Funciones.Objetos
 
         BoxSprite = new CustomSprite();
         BoxSprite.Bitmap = BoxBitmapMenuOpciones;
-        sx = D3DDevice.Instance.Device.Viewport.Width;
-        sy = D3DDevice.Instance.Device.Viewport.Height;
+        sx = GameModel._ResolucionPantalla.Width;
+        sy = GameModel._ResolucionPantalla.Height;
         x = 0;
         y = 0;
         BoxSprite.SrcRect = new Rectangle(0, 0, BoxBitmapMenuOpciones.Size.Width, BoxBitmapMenuOpciones.Size.Height);

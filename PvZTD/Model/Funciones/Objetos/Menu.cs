@@ -55,25 +55,25 @@ namespace TGC.Group.Model.Funciones.Objetos
         {
             _game = game;
             _menuOpciones = MenuOpciones.Crear(game);
-            CoordenadasIP.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.33F);
-            CoordenadasIP.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.38F);
-            CoordenadasIP.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.57F);
-            CoordenadasIP.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.78F);
+            CoordenadasIP.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.33F);
+            CoordenadasIP.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.38F);
+            CoordenadasIP.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.57F);
+            CoordenadasIP.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.78F);
 
-            CoordenadasSalida.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.84F);
-            CoordenadasSalida.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.02);
-            CoordenadasSalida.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.96F);
-            CoordenadasSalida.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.11);
+            CoordenadasSalida.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.84F);
+            CoordenadasSalida.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.02);
+            CoordenadasSalida.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.96F);
+            CoordenadasSalida.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.11);
 
-            CoordenadasOpciones.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.77F);
-            CoordenadasOpciones.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.46F);
-            CoordenadasOpciones.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.96F);
-            CoordenadasOpciones.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.58F);
+            CoordenadasOpciones.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.77F);
+            CoordenadasOpciones.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.46F);
+            CoordenadasOpciones.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.96F);
+            CoordenadasOpciones.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.58F);
 
-            CoordenadasComoJugar.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.77F);
-            CoordenadasComoJugar.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.60F);
-            CoordenadasComoJugar.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.96F);
-            CoordenadasComoJugar.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.72F);
+            CoordenadasComoJugar.InicialX = (int)(GameModel._ResolucionPantalla.Width * 0.77F);
+            CoordenadasComoJugar.InicialY = (int)(GameModel._ResolucionPantalla.Height * 0.60F);
+            CoordenadasComoJugar.FinalX = (int)(GameModel._ResolucionPantalla.Width * 0.96F);
+            CoordenadasComoJugar.FinalY = (int)(GameModel._ResolucionPantalla.Height * 0.72F);
 
 
             BoxBitmapBase = new CustomBitmap(PathTexturaMenuBase, D3DDevice.Instance.Device);
@@ -84,8 +84,8 @@ namespace TGC.Group.Model.Funciones.Objetos
 
             BoxSprite = new CustomSprite();
             BoxSprite.Bitmap = BoxBitmapIP;
-            sx = D3DDevice.Instance.Device.Viewport.Width;
-            sy = D3DDevice.Instance.Device.Viewport.Height;
+            sx = GameModel._ResolucionPantalla.Width;
+            sy = GameModel._ResolucionPantalla.Height;
             x = 0;
             y = 0;
             BoxSprite.SrcRect = new Rectangle(0, 0, BoxBitmapBase.Size.Width, BoxBitmapBase.Size.Height);

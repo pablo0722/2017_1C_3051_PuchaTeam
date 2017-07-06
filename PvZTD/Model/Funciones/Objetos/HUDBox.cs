@@ -82,7 +82,7 @@ namespace TGC.Group.Model
             BoxBitmapOff = new CustomBitmap(PathTexturaOff, D3DDevice.Instance.Device);
             BoxSprite = new CustomSprite();
             BoxSprite.Bitmap = BoxBitmapOff;
-            sx = (D3DDevice.Instance.Device.Viewport.Width/3)/8;
+            sx = (GameModel._ResolucionPantalla.Width/3)/8;
             sy = sx;
             x = sx * (n+1);
             y = sy/2;
@@ -96,9 +96,9 @@ namespace TGC.Group.Model
             SuperBitmapOff = new CustomBitmap(PATH_TEXTURA_SUPER_OFF, D3DDevice.Instance.Device);
             SuperSprite = new CustomSprite();
             SuperSprite.Bitmap = SuperBitmapOff;
-            super_sx = (D3DDevice.Instance.Device.Viewport.Width / 2) / 8;
+            super_sx = (GameModel._ResolucionPantalla.Width / 2) / 8;
             super_sy = super_sx;
-            super_x = D3DDevice.Instance.Device.Viewport.Width - (int)(super_sx * 1.5F);
+            super_x = GameModel._ResolucionPantalla.Width - (int)(super_sx * 1.5F);
             super_y = super_sy;
             SuperSprite.SrcRect = new Rectangle(0, 0, SuperBitmapOff.Size.Width, SuperBitmapOff.Size.Height);
             SuperSprite.Scaling = new Vector2((float)super_sx / SuperBitmapOff.Size.Width, (float)super_sy / SuperBitmapOff.Size.Height);

@@ -55,6 +55,7 @@ namespace TGC.Group.Model
         public t_Super _Super;
         public int FirstRender = 2;
         public t_shader shader = null;
+        public static Size _ResolucionPantalla;
 
 
 
@@ -82,6 +83,8 @@ namespace TGC.Group.Model
         /// </summary>
         public override void Init()
         {
+            _ResolucionPantalla = System.Windows.Forms.SystemInformation.PrimaryMonitorSize;
+
             shader = new t_shader(this);
 
             //Device de DirectX para crear primitivas.
@@ -116,10 +119,14 @@ namespace TGC.Group.Model
             _sonidos.Update();
 
             if (shader.time2 >= 0)
+            {
                 shader.time2 += ElapsedTime;
+            }
 
             if (shader.timeExplota >= 0)
+            {
                 shader.timeExplota += ElapsedTime;
+            }
 
             if (FirstRender == 0)
             {

@@ -98,8 +98,8 @@ namespace TGC.Group.Model
             HordaLlegada2Bitmap = new CustomBitmap(IMG_HORDA_LLEGADA_2_PATH, D3DDevice.Instance.Device);
             GameOverBitmap = new CustomBitmap(IMG_GAMEOVER_PATH, D3DDevice.Instance.Device);
 
-            img_width = D3DDevice.Instance.Device.Viewport.Width / 3;
-            img_height = D3DDevice.Instance.Device.Viewport.Height / 20;
+            img_width = GameModel._ResolucionPantalla.Width / 3;
+            img_height = GameModel._ResolucionPantalla.Height / 20;
 
 
             // Sprites de Barra de Hordas
@@ -107,24 +107,24 @@ namespace TGC.Group.Model
             HordaContornoSprite.Bitmap = HordaContornoBitmap;
             HordaContornoSprite.SrcRect = new Rectangle(0, 0, HordaContornoBitmap.Width, HordaContornoBitmap.Height);
             HordaContornoSprite.Scaling = new Vector2((float)img_width / HordaContornoBitmap.Width, (float)img_height*5 / HordaContornoBitmap.Height);
-            HordaContornoSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width - img_width * 1.1F,
-                    D3DDevice.Instance.Device.Viewport.Height - img_height * 5.2F);
+            HordaContornoSprite.Position = new Vector2(GameModel._ResolucionPantalla.Width - img_width * 1.1F,
+                    GameModel._ResolucionPantalla.Height - img_height * 5.2F);
             HordaContornoSprite.Rotation = 0;
 
             HordaRellenoSprite = new CustomSprite();
             HordaRellenoSprite.Bitmap = HordaRellenoBitmap;
             HordaRellenoSprite.SrcRect = new Rectangle(0, 0, HordaRellenoBitmap.Width, HordaRellenoBitmap.Height);
             HordaRellenoSprite.Scaling = new Vector2(0, (float)img_height / HordaRellenoBitmap.Height);
-            HordaRellenoSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width - img_width * 1.1F,
-                    D3DDevice.Instance.Device.Viewport.Height - img_height * 1.5F);
+            HordaRellenoSprite.Position = new Vector2(GameModel._ResolucionPantalla.Width - img_width * 1.1F,
+                    GameModel._ResolucionPantalla.Height - img_height * 1.5F);
             HordaRellenoSprite.Rotation = 0;
             
             HordaIndicadorSprite = new CustomSprite();
             HordaIndicadorSprite.Bitmap = HordaIndicadorBitmap;
             HordaIndicadorSprite.SrcRect = new Rectangle(0, 0, HordaIndicadorBitmap.Width, HordaIndicadorBitmap.Height);
             HordaIndicadorSprite.Scaling = new Vector2((float)img_height / HordaIndicadorBitmap.Height, (float)img_height / HordaIndicadorBitmap.Height);
-            HordaIndicadorSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width - img_height * 1.1F,
-                    D3DDevice.Instance.Device.Viewport.Height - img_height * 1.5F);
+            HordaIndicadorSprite.Position = new Vector2(GameModel._ResolucionPantalla.Width - img_height * 1.1F,
+                    GameModel._ResolucionPantalla.Height - img_height * 1.5F);
             HordaIndicadorSprite.Rotation = 0;
 
 
@@ -132,26 +132,26 @@ namespace TGC.Group.Model
             MensajeSprite = new CustomSprite();
             MensajeSprite.Bitmap = FinNivelBitmap;
             MensajeSprite.SrcRect = new Rectangle(0, 0, FinNivelBitmap.Width, FinNivelBitmap.Height);
-            MensajeSprite.Scaling = new Vector2((float)D3DDevice.Instance.Device.Viewport.Width/3 / FinNivelBitmap.Height, (float)D3DDevice.Instance.Device.Viewport.Height/3 / FinNivelBitmap.Height);
-            MensajeSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width/3,
-                    D3DDevice.Instance.Device.Viewport.Height/3);
+            MensajeSprite.Scaling = new Vector2((float)GameModel._ResolucionPantalla.Width/3 / FinNivelBitmap.Height, (float)GameModel._ResolucionPantalla.Height/3 / FinNivelBitmap.Height);
+            MensajeSprite.Position = new Vector2(GameModel._ResolucionPantalla.Width/3,
+                    GameModel._ResolucionPantalla.Height/3);
             MensajeSprite.Rotation = 0;
 
             // Otras posiciones y tamaños
-            PrimeraHordaSx = ((float)D3DDevice.Instance.Device.Viewport.Width - 100) / HordaLlegada1Bitmap.Width;
+            PrimeraHordaSx = ((float)GameModel._ResolucionPantalla.Width - 100) / HordaLlegada1Bitmap.Width;
             PrimeraHordaSy = PrimeraHordaSx;
             PrimeraHordaX = 50;
-            PrimeraHordaY = (D3DDevice.Instance.Device.Viewport.Height - PrimeraHordaSx * HordaLlegada1Bitmap.Height) / 2;
+            PrimeraHordaY = (GameModel._ResolucionPantalla.Height - PrimeraHordaSx * HordaLlegada1Bitmap.Height) / 2;
 
-            SegundaHordaSx = ((float)D3DDevice.Instance.Device.Viewport.Width * 1.5F / 2) / HordaLlegada2Bitmap.Width;
+            SegundaHordaSx = ((float)GameModel._ResolucionPantalla.Width * 1.5F / 2) / HordaLlegada2Bitmap.Width;
             SegundaHordaSy = SegundaHordaSx;
-            SegundaHordaX = ((float)D3DDevice.Instance.Device.Viewport.Width - SegundaHordaSx * HordaLlegada2Bitmap.Width) / 2;
-            SegundaHordaY = (D3DDevice.Instance.Device.Viewport.Height - SegundaHordaSy * HordaLlegada2Bitmap.Height) / 2;
+            SegundaHordaX = ((float)GameModel._ResolucionPantalla.Width - SegundaHordaSx * HordaLlegada2Bitmap.Width) / 2;
+            SegundaHordaY = (GameModel._ResolucionPantalla.Height - SegundaHordaSy * HordaLlegada2Bitmap.Height) / 2;
 
-            GameOverSx = ((float)D3DDevice.Instance.Device.Viewport.Width /4) / GameOverBitmap.Width;
+            GameOverSx = ((float)GameModel._ResolucionPantalla.Width /4) / GameOverBitmap.Width;
             GameOverSy = GameOverSx;
-            GameOverX = ((float)D3DDevice.Instance.Device.Viewport.Width - GameOverSx * GameOverBitmap.Width) / 2;
-            GameOverY = (D3DDevice.Instance.Device.Viewport.Height - GameOverSy * GameOverBitmap.Height) / 2;
+            GameOverX = ((float)GameModel._ResolucionPantalla.Width - GameOverSx * GameOverBitmap.Width) / 2;
+            GameOverY = (GameModel._ResolucionPantalla.Height - GameOverSy * GameOverBitmap.Height) / 2;
         }
 
 
@@ -252,12 +252,12 @@ namespace TGC.Group.Model
                 sx = (float)img_width / HordaRellenoBitmap.Width;
             HordaRellenoSprite.Scaling = new Vector2(sx, (float)img_height / HordaRellenoBitmap.Height);
 
-            float x = D3DDevice.Instance.Device.Viewport.Width - (img_width * 1.1F) + (float)img_width - sx * (float)HordaRellenoBitmap.Width;
+            float x = GameModel._ResolucionPantalla.Width - (img_width * 1.1F) + (float)img_width - sx * (float)HordaRellenoBitmap.Width;
             HordaRellenoSprite.Position = new Vector2(x,
-                    D3DDevice.Instance.Device.Viewport.Height - img_height * 1.5F);
+                    GameModel._ResolucionPantalla.Height - img_height * 1.5F);
 
             HordaIndicadorSprite.Position = new Vector2(x - img_height / 2,
-                    D3DDevice.Instance.Device.Viewport.Height - img_height * 1.5F);
+                    GameModel._ResolucionPantalla.Height - img_height * 1.5F);
 
 
             if (gameover)
@@ -328,13 +328,13 @@ namespace TGC.Group.Model
                 FinDeNivel = true;
                 _game._TiempoTranscurrido -= _game.ElapsedTime;
 
-                if (_game._mouse.Is_Position(D3DDevice.Instance.Device.Viewport.Width/3, D3DDevice.Instance.Device.Viewport.Width*2/3,
-                                             D3DDevice.Instance.Device.Viewport.Height/3, D3DDevice.Instance.Device.Viewport.Height*2/3))
+                if (_game._mouse.Is_Position(GameModel._ResolucionPantalla.Width/3, GameModel._ResolucionPantalla.Width*2/3,
+                                             GameModel._ResolucionPantalla.Height/3, GameModel._ResolucionPantalla.Height*2/3))
                 {
                     MensajeSprite.SrcRect = new Rectangle(0, 0, FinNivelBitmap.Width, FinNivelBitmap.Height);
-                    MensajeSprite.Scaling = new Vector2((float)D3DDevice.Instance.Device.Viewport.Width / 3 / FinNivelBitmap.Height, (float)D3DDevice.Instance.Device.Viewport.Height / 3 / FinNivelBitmap.Height);
-                    MensajeSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width / 3,
-                            D3DDevice.Instance.Device.Viewport.Height / 3);
+                    MensajeSprite.Scaling = new Vector2((float)GameModel._ResolucionPantalla.Width / 3 / FinNivelBitmap.Height, (float)GameModel._ResolucionPantalla.Height / 3 / FinNivelBitmap.Height);
+                    MensajeSprite.Position = new Vector2(GameModel._ResolucionPantalla.Width / 3,
+                            GameModel._ResolucionPantalla.Height / 3);
                     MensajeSprite.Bitmap = FinNivelOverBitmap;
 
                     if (_game._mouse.ClickIzq_RisingDown())
@@ -349,9 +349,9 @@ namespace TGC.Group.Model
                 else
                 {
                     MensajeSprite.SrcRect = new Rectangle(0, 0, FinNivelBitmap.Width, FinNivelBitmap.Height);
-                    MensajeSprite.Scaling = new Vector2((float)D3DDevice.Instance.Device.Viewport.Width / 3 / FinNivelBitmap.Height, (float)D3DDevice.Instance.Device.Viewport.Height / 3 / FinNivelBitmap.Height);
-                    MensajeSprite.Position = new Vector2(D3DDevice.Instance.Device.Viewport.Width / 3,
-                            D3DDevice.Instance.Device.Viewport.Height / 3);
+                    MensajeSprite.Scaling = new Vector2((float)GameModel._ResolucionPantalla.Width / 3 / FinNivelBitmap.Height, (float)GameModel._ResolucionPantalla.Height / 3 / FinNivelBitmap.Height);
+                    MensajeSprite.Position = new Vector2(GameModel._ResolucionPantalla.Width / 3,
+                            GameModel._ResolucionPantalla.Height / 3);
                     MensajeSprite.Bitmap = FinNivelBitmap;
                 }
             }

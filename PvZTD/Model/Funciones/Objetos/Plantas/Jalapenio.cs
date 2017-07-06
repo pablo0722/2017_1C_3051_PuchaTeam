@@ -14,7 +14,7 @@ namespace TGC.Group.Model
         private const string PATH_TEXTURA_ON = "..\\..\\Media\\Texturas\\pimiento_hudSelect.png";
         private const string PATH_TEXTURA_OFF = "..\\..\\Media\\Texturas\\pimiento_hud.png";
         private const float PLANTA_INIT_Y = 10;
-        private const int PLANTA_VALOR = 125;
+        private const int PLANTA_VALOR = 300;
         private const float VIDA_PLANTA = 3;
         private const float SUPER_TIEMPO_PREV = 3;
         private const float SUPER_TIEMPO_POST = 4;
@@ -291,7 +291,7 @@ namespace TGC.Group.Model
         {
             base.Render();
             
-            for (int i = 0; i < _InstJalapenio.Count; i++)
+            for (int i = _InstJalapenio.Count-1; i >= 0; i--)
             {
                 _InstJalapenio[i].render();
             }

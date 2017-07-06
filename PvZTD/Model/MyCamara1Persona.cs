@@ -37,8 +37,8 @@ namespace TGC.Group.Model
             Input = input;
             positionEye = new Vector3();
             mouseCenter = new Point(
-                D3DDevice.Instance.Device.Viewport.Width / 2,
-                D3DDevice.Instance.Device.Viewport.Height / 2);
+                GameModel._ResolucionPantalla.Width / 2,
+                GameModel._ResolucionPantalla.Height / 2);
             RotationSpeed = 0.1f;
             MovementSpeed = 500f;
             JumpSpeed = 500f;

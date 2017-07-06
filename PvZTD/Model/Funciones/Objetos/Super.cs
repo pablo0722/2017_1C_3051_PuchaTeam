@@ -72,15 +72,15 @@ namespace TGC.Group.Model
             SuperIndicadorBitmap = new CustomBitmap(IMG_INDICADOR_PATH, D3DDevice.Instance.Device);
             SuperIndicadorFinishBitmap = new CustomBitmap(IMG_INDICADOR_FINISH_PATH, D3DDevice.Instance.Device);
 
-            img_width = D3DDevice.Instance.Device.Viewport.Width / 30;
-            img_height = D3DDevice.Instance.Device.Viewport.Height / 2;
+            img_width = GameModel._ResolucionPantalla.Width / 30;
+            img_height = GameModel._ResolucionPantalla.Height / 2;
 
             SuperContornoSprite = new CustomSprite();
             SuperContornoSprite.Bitmap = SuperContornoBitmap;
             SuperContornoSprite.SrcRect = new Rectangle(0, 0, SuperContornoBitmap.Width, SuperContornoBitmap.Height);
             SuperContornoSprite.Scaling = new Vector2((float)img_width / SuperContornoBitmap.Width, (float)img_height / SuperContornoBitmap.Height);
             SuperContornoSprite.Position = new Vector2(img_width/2,
-                    D3DDevice.Instance.Device.Viewport.Height - img_height * 1.2F );
+                    GameModel._ResolucionPantalla.Height - img_height * 1.2F );
             SuperContornoSprite.Rotation = 0;
 
             SuperRellenoSprite = new CustomSprite();
@@ -88,7 +88,7 @@ namespace TGC.Group.Model
             SuperRellenoSprite.SrcRect = new Rectangle(0, 0, SuperRellenoBitmap.Width, SuperRellenoBitmap.Height);
             SuperRellenoSprite.Scaling = new Vector2((float)img_width / SuperRellenoBitmap.Width, 0);
             SuperRellenoSprite.Position = new Vector2(img_width / 2,
-                    D3DDevice.Instance.Device.Viewport.Height - img_height * 0.2F);
+                    GameModel._ResolucionPantalla.Height - img_height * 0.2F);
             SuperRellenoSprite.Rotation = 0;
 
             SuperIndicadorSprite = new CustomSprite();
@@ -96,7 +96,7 @@ namespace TGC.Group.Model
             SuperIndicadorSprite.SrcRect = new Rectangle(0, 0, SuperIndicadorBitmap.Width, SuperIndicadorBitmap.Height);
             SuperIndicadorSprite.Scaling = new Vector2((float)img_width / SuperIndicadorBitmap.Width, (float)img_width / SuperIndicadorBitmap.Width);
             SuperIndicadorSprite.Position = new Vector2(img_width / 2,
-                    D3DDevice.Instance.Device.Viewport.Height - img_height * 0.2F - img_width/2);
+                    GameModel._ResolucionPantalla.Height - img_height * 0.2F - img_width/2);
             SuperIndicadorSprite.Rotation = 0;
             SuperIndicadorSprite.RotationCenter = new Vector2((float)img_width/2, (float)img_width/2);
         }
@@ -156,7 +156,7 @@ namespace TGC.Group.Model
                 SuperRellenoSprite.Bitmap = SuperRellenoCompletoBitmap;
                 SuperRellenoSprite.SrcRect = new Rectangle(0, 0, SuperRellenoCompletoBitmap.Width, SuperRellenoCompletoBitmap.Height);
                 SuperRellenoSprite.Scaling = new Vector2((float)img_width / SuperRellenoCompletoBitmap.Width, sy);
-                y = D3DDevice.Instance.Device.Viewport.Height - (img_height * 0.2F) - sy * SuperRellenoCompletoBitmap.Height;
+                y = GameModel._ResolucionPantalla.Height - (img_height * 0.2F) - sy * SuperRellenoCompletoBitmap.Height;
                 SuperIndicadorSprite.Position = new Vector2(img_width / 2, y - img_width / 2);
             }
             else
@@ -169,7 +169,7 @@ namespace TGC.Group.Model
                 SuperRellenoSprite.Bitmap = SuperRellenoBitmap;
                 SuperRellenoSprite.SrcRect = new Rectangle(0, 0, SuperRellenoBitmap.Width, SuperRellenoBitmap.Height);
                 SuperRellenoSprite.Scaling = new Vector2((float)img_width / SuperRellenoBitmap.Width, sy);
-                y = D3DDevice.Instance.Device.Viewport.Height - (img_height * 0.2F) - sy * SuperRellenoBitmap.Height;
+                y = GameModel._ResolucionPantalla.Height - (img_height * 0.2F) - sy * SuperRellenoBitmap.Height;
                 SuperIndicadorSprite.Position = new Vector2(img_width / 2, y - img_width / 2);
             }
 

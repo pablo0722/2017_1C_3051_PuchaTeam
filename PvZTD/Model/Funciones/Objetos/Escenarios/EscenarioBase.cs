@@ -311,8 +311,8 @@ namespace TGC.Group.Model
             {
                 if (t_HUDBox.Is_AnyBoxPicked())
                 {
-                    MouseX = ((int)_game.Input.Xpos) * GameModel.CANT_COLUMNAS / (D3DDevice.Instance.Device.Viewport.Width + 1);
-                    MouseY = ((int)_game.Input.Ypos) * GameModel.CANT_FILAS / (D3DDevice.Instance.Device.Viewport.Height + 1);
+                    MouseX = ((int)_game.Input.Xpos) * GameModel.CANT_COLUMNAS / (GameModel._ResolucionPantalla.Width + 1);
+                    MouseY = ((int)_game.Input.Ypos) * GameModel.CANT_FILAS / (GameModel._ResolucionPantalla.Height + 1);
 
                     _game._EscenarioBase.Do_PastoSelect(MouseY, MouseX);
 

@@ -118,6 +118,17 @@ float4 CameraPos;
 		MAGFILTER = LINEAR;
 		MIPFILTER = LINEAR;
 	};
+
+	texture texSuperNuez;
+	sampler2D SuperNuezMap = sampler_state
+	{
+		Texture = (texSuperNuez);
+		ADDRESSU = WRAP;
+		ADDRESSV = WRAP;
+		MINFILTER = LINEAR;
+		MAGFILTER = LINEAR;
+		MIPFILTER = LINEAR;
+	};
 /******************************************************************************************/
 /*                                      ^^^^^ VARIABLES ^^^^^
 /******************************************************************************************/
@@ -786,7 +797,7 @@ technique TecnicaSuperGirasol
 
 
 /******************************************************************************************/
-/*                                      ^^^^^ SHADER GIRAR SOL ^^^^^
+/*                                      vvvvv SHADER GIRAR SOL vvvvv
 /******************************************************************************************/
 // Estructura Input del Vertex Shader
 struct VS_INPUT_GIRAR_SOL
@@ -863,13 +874,202 @@ technique RenderSol
 
 
 
+/******************************************************************************************/
+/*                                      vvvvv SHADER BOLA DE HIELO vvvvv
+/******************************************************************************************/
+// Estructura Input del Vertex Shader
+struct VS_INPUT_BOLA_DE_HIELO
+{
+	float4 Position :	POSITION;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Estructura Output del Vertex Shader
+struct VS_OUTPUT_BOLA_DE_HIELO
+{
+	float4 Position :	POSITION0;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Vertex Shader
+VS_OUTPUT_BOLA_DE_HIELO vs_BolaDeHielo(VS_INPUT_BOLA_DE_HIELO input)
+{
+	VS_OUTPUT_BOLA_DE_HIELO output;
+
+
+	//Proyectar posicion
+	output.Position = mul(input.Position, matWorldViewProj);
+
+	//Propago las coordenadas de textura
+	output.Texture = input.Texture;
+
+	float factor = fmod(abs(input.Position.z*(sin(time / 1.5))) + abs(input.Position.y*(sin(time / 1.7))), 2) / 2;
+
+	output.Color.r = 0;
+	output.Color.g = 0;
+	output.Color.b = factor;
+	output.Color.a = 1;
+
+
+	return output;
+}
+
+// Pixel Shader
+float4 ps_BolaDeHielo(VS_OUTPUT_BOLA_DE_HIELO input) : COLOR0
+{
+	// Obtener el texel de textura
+	// diffuseMap es el sampler, Texcoord son las coordenadas interpoladas
+	//float4 fvBaseColor = tex2D(diffuseMap, input.Texture);
+
+	return input.Color;
+}
+
+// TECNICA
+technique TecnicaBolaDeHielo
+{
+	pass Pass_0
+	{
+		VertexShader = compile vs_3_0 vs_BolaDeHielo();
+		PixelShader = compile ps_3_0 ps_BolaDeHielo();
+	}
+}
+/******************************************************************************************/
+/*                                      ^^^^^ SHADER BOLA DE HIELO ^^^^^
+/******************************************************************************************/
 
 
 
 
+/******************************************************************************************/
+/*                                      vvvvv SHADER Enfriar Zombie vvvvv
+/******************************************************************************************/
+// Estructura Input del Vertex Shader
+struct VS_INPUT_ENFRIAR
+{
+	float4 Position :	POSITION;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Estructura Output del Vertex Shader
+struct VS_OUTPUT_ENFRIAR
+{
+	float4 Position :	POSITION0;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Vertex Shader
+VS_OUTPUT_ENFRIAR vs_Enfriar(VS_INPUT_ENFRIAR input)
+{
+	VS_OUTPUT_ENFRIAR output;
+	
+
+	//Proyectar posicion
+	output.Position = mul(input.Position, matWorldViewProj);
+
+	//Propago las coordenadas de textura
+	output.Texture = input.Texture;
+
+	output.Color.r = 0;
+	output.Color.g = 0;
+	output.Color.b = 0.5;
+	output.Color.a = 1;
+
+
+	return output;
+}
+
+// Pixel Shader
+float4 ps_Enfriar(VS_OUTPUT_ENFRIAR input) : COLOR0
+{
+	// Obtener el texel de textura
+	// diffuseMap es el sampler, Texcoord son las coordenadas interpoladas
+	float4 fvBaseColor = tex2D(diffuseMap, input.Texture);
+
+	return fvBaseColor + input.Color;
+}
+
+// TECNICA
+technique TecnicaEnfriar
+{
+	pass Pass_0
+	{
+		VertexShader = compile vs_3_0 vs_Enfriar();
+		PixelShader = compile ps_3_0 ps_Enfriar();
+	}
+}
+/******************************************************************************************/
+/*                                      ^^^^^ SHADER Enfriar Zombie ^^^^^
+/******************************************************************************************/
 
 
 
+
+/******************************************************************************************/
+/*                                      vvvvv SHADER Congelar Zombie vvvvv
+/******************************************************************************************/
+// Estructura Input del Vertex Shader
+struct VS_INPUT_CONGELAR
+{
+	float4 Position :	POSITION;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Estructura Output del Vertex Shader
+struct VS_OUTPUT_CONGELAR
+{
+	float4 Position :	POSITION0;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Vertex Shader
+VS_OUTPUT_CONGELAR vs_Congelar(VS_INPUT_CONGELAR input)
+{
+	VS_OUTPUT_CONGELAR output;
+
+
+	//Proyectar posicion
+	output.Position = mul(input.Position, matWorldViewProj);
+
+	//Propago las coordenadas de textura
+	output.Texture = input.Texture;
+
+	output.Color.r = 0;
+	output.Color.g = 0;
+	output.Color.b = 0.5;
+	output.Color.a = 1;
+
+
+	return output;
+}
+
+// Pixel Shader
+float4 ps_Congelar(VS_OUTPUT_CONGELAR input) : COLOR0
+{
+	// Obtener el texel de textura
+	// diffuseMap es el sampler, Texcoord son las coordenadas interpoladas
+	float4 fvBaseColor = tex2D(diffuseMap, input.Texture);
+
+	return fvBaseColor + input.Color;
+}
+
+// TECNICA
+technique TecnicaCongelar
+{
+	pass Pass_0
+	{
+		VertexShader = compile vs_3_0 vs_Congelar();
+		PixelShader = compile ps_3_0 ps_Congelar();
+	}
+}
+/******************************************************************************************/
+/*                                      ^^^^^ SHADER Enfriar Zombie ^^^^^
+/******************************************************************************************/
 
 
 
@@ -1092,4 +1292,63 @@ technique TecnicaQuemado
 }
 /******************************************************************************************/
 /*                                      ^^^^^ SHADER QUEMADO ^^^^^
+/******************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+/******************************************************************************************/
+/*                                      vvvvv SHADER SUPER NUEZ vvvvv
+/******************************************************************************************/
+// Estructura Input del Vertex Shader
+struct VS_INPUT_SUPER_NUEZ
+{
+	float4 Position :	POSITION0;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Estructura Output del Vertex Shader
+struct VS_OUTPUT_SUPER_NUEZ
+{
+	float4 Position :	POSITION0;
+	float2 Texture :	TEXCOORD0;
+	float4 Color :		COLOR0;
+};
+
+// Vertex Shader
+VS_OUTPUT_SUPER_NUEZ vs_SuperNuez(VS_INPUT_SUPER_NUEZ input)
+{
+	VS_OUTPUT_SUPER_NUEZ output = input;
+
+	//Proyectar posicion
+	output.Position = mul(input.Position, matWorldViewProj);
+
+	return output;
+}
+
+// Pixel Shader
+float4 ps_SuperNuez(VS_OUTPUT_SUPER_NUEZ input) : COLOR0
+{
+	float4 output = tex2D(SuperNuezMap, input.Texture); // En FuegoAlphaMap los 3 canales tienen siempre el mismo valor (escala de grises)
+
+	return output;
+}
+
+technique TecnicaNuez
+{
+	pass Pass_0
+	{
+		VertexShader = compile vs_3_0 vs_SuperNuez();
+		PixelShader = compile ps_3_0 ps_SuperNuez();
+	}
+}
+/******************************************************************************************/
+/*                                      ^^^^^ SHADER SUPER NUEZ ^^^^^
 /******************************************************************************************/
