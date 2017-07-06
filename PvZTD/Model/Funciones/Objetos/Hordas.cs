@@ -188,6 +188,20 @@ namespace TGC.Group.Model
             _game._Girasol._Planta.Inst_DeleteAll();
             _game._Girasol._HUDBox._Is_BoxPicked = false;
 
+            _game._snowPea._InstLanzaguisantes.Clear();
+            _game._snowPea._InstPlanta.Clear();
+            _game._snowPea._Planta.Inst_DeleteAll();
+            _game._snowPea._HUDBox._Is_BoxPicked = false;
+
+            _game._Jalapenio._InstJalapenio.Clear();
+            _game._Jalapenio._InstPlanta.Clear();
+            _game._Jalapenio._Planta.Inst_DeleteAll();
+            _game._Jalapenio._HUDBox._Is_BoxPicked = false;
+
+            t_Super._TiempoTranscurrido = 0;
+
+            t_SolComun._SolN = 0;
+
             t_HUDBox._Is_AnyBoxPicked = false;
 
             _game._zombie._InstZombie.Clear();
@@ -343,6 +357,11 @@ namespace TGC.Group.Model
                         {
                             ClearScene();
                             _game._NivelActual = GameModel.TXT_NIVEL_2;
+                        }else
+                        if (String.Compare(_game._NivelActual, GameModel.TXT_NIVEL_2) == 0)
+                        {
+                            ClearScene();
+                            _game._NivelActual = GameModel.TXT_NIVEL_3;
                         }
                     }
                 }

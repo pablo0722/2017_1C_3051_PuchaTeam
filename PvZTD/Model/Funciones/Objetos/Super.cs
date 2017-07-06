@@ -17,7 +17,7 @@ namespace TGC.Group.Model
         public const string IMG_INDICADOR_PATH = "..\\..\\Media\\Texturas\\frijolito.png";
         public const string IMG_INDICADOR_FINISH_PATH = "..\\..\\Media\\Texturas\\atomoVerde.png";
         public const string TXT_HORDA_NIVEL = "total"; // Nombre que va a tener el zombie comun dentro del archivo de texto del nivel
-        public const int TIEMPO = 1;//30;
+        public const int TIEMPO = 30;//30;
         public const float ROTATION = 1F;
 
 
@@ -41,7 +41,7 @@ namespace TGC.Group.Model
         CustomSprite SuperRellenoSprite;
         CustomSprite SuperIndicadorSprite;
         GameModel _game;
-        float _TiempoTranscurrido;
+        public static float _TiempoTranscurrido;
         int img_width;
         int img_height;
         bool Finished;

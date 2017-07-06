@@ -26,7 +26,7 @@ namespace TGC.Group.Model
         // NIVELES
         public const string TXT_NIVEL_1 = "..\\..\\Media\\Txt\\Nivel_1.txt";
         public const string TXT_NIVEL_2 = "..\\..\\Media\\Txt\\Nivel_2.txt";
-
+        public const string TXT_NIVEL_3 = "..\\..\\Media\\Txt\\Nivel_3.txt";
 
 
 

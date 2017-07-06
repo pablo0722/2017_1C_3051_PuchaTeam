@@ -107,6 +107,11 @@ namespace TGC.Group.Model
                 {
                     _camara.Modo_Change();
                 }
+
+                if (Input.keyPressed(Key.M))
+                {
+                    t_Super._TiempoTranscurrido = 100;
+                }
             }
         }
 

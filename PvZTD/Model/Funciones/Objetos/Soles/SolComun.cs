@@ -28,7 +28,7 @@ namespace TGC.Group.Model
         /******************************************************************************************/
         private t_Objeto3D _Sol;
         private GameModel _game;
-        static int _SolN; // Se usa para ir creando los soles conforme transcurre el tiempo
+        static public int _SolN; // Se usa para ir creando los soles conforme transcurre el tiempo
 
 
 

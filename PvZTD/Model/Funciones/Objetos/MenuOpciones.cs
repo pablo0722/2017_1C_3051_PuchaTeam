@@ -76,6 +76,11 @@ namespace TGC.Group.Model.Funciones.Objetos
         CoordenadasOpcionesEfectoUP.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.23F);
         CoordenadasOpcionesEfectoUP.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.275F);
 
+        CoordenadasOpcionesEfectoDOWN.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.48F);
+        CoordenadasOpcionesEfectoDOWN.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.52F);
+        CoordenadasOpcionesEfectoDOWN.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.28F);
+        CoordenadasOpcionesEfectoDOWN.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.325F);
+
         MenuOpcionesConSombra = new CustomBitmap(PathTexturaMenuOpcionesConSombra, D3DDevice.Instance.Device);
         MenuOpcionesSinSombra = new CustomBitmap(PathTexturaMenuOpcionesSinSombra, D3DDevice.Instance.Device);
 
@@ -153,26 +158,26 @@ namespace TGC.Group.Model.Funciones.Objetos
             {
                 return 7;
             }
-            }
-            if (_game._mouse.ClickIzq_Down())
+        }
+        if (_game._mouse.ClickIzq_Down())
+        {
+            if (_game._mouse.Is_Position(CoordenadasOpcionesMusicaUP.InicialX, CoordenadasOpcionesMusicaUP.FinalX, CoordenadasOpcionesMusicaUP.InicialY, CoordenadasOpcionesMusicaUP.FinalY))
             {
-                if (_game._mouse.Is_Position(CoordenadasOpcionesMusicaUP.InicialX, CoordenadasOpcionesMusicaUP.FinalX, CoordenadasOpcionesMusicaUP.InicialY, CoordenadasOpcionesMusicaUP.FinalY))
-                {
-                    return 4;
-                }
-                if (_game._mouse.Is_Position(CoordenadasOpcionesMusicaDOWN.InicialX, CoordenadasOpcionesMusicaDOWN.FinalX, CoordenadasOpcionesMusicaDOWN.InicialY, CoordenadasOpcionesMusicaDOWN.FinalY))
-                {
-                    return 5;
-                }
-                if (_game._mouse.Is_Position(CoordenadasOpcionesEfectoUP.InicialX, CoordenadasOpcionesEfectoUP.FinalX, CoordenadasOpcionesEfectoUP.InicialY, CoordenadasOpcionesEfectoUP.FinalY))
-                {
-                    return 6;
-                }
-                if (_game._mouse.Is_Position(CoordenadasOpcionesEfectoDOWN.InicialX, CoordenadasOpcionesEfectoDOWN.FinalX, CoordenadasOpcionesEfectoDOWN.InicialY, CoordenadasOpcionesEfectoDOWN.FinalY))
-                {
-                    return 7;
-                }
+                return 4;
             }
+            if (_game._mouse.Is_Position(CoordenadasOpcionesMusicaDOWN.InicialX, CoordenadasOpcionesMusicaDOWN.FinalX, CoordenadasOpcionesMusicaDOWN.InicialY, CoordenadasOpcionesMusicaDOWN.FinalY))
+            {
+                return 5;
+            }
+            if (_game._mouse.Is_Position(CoordenadasOpcionesEfectoUP.InicialX, CoordenadasOpcionesEfectoUP.FinalX, CoordenadasOpcionesEfectoUP.InicialY, CoordenadasOpcionesEfectoUP.FinalY))
+            {
+                return 6;
+            }
+            if (_game._mouse.Is_Position(CoordenadasOpcionesEfectoDOWN.InicialX, CoordenadasOpcionesEfectoDOWN.FinalX, CoordenadasOpcionesEfectoDOWN.InicialY, CoordenadasOpcionesEfectoDOWN.FinalY))
+            {
+                return 7;
+            }
+        }
                 return 0;
     }
 
