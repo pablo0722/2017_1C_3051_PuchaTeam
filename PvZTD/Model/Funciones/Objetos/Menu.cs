@@ -47,7 +47,7 @@ namespace TGC.Group.Model.Funciones.Objetos
         Coordenadas CoordenadasComoJugar;
 
         MenuOpciones _menuOpciones;
-
+        MenuComoJugar _menuComoJugar;
         /******************************************************************************************/
         /*                                      CONSTRUCTOR
         /******************************************************************************************/
@@ -55,6 +55,7 @@ namespace TGC.Group.Model.Funciones.Objetos
         {
             _game = game;
             _menuOpciones = MenuOpciones.Crear(game);
+            _menuComoJugar = MenuComoJugar.Crear(game);
             CoordenadasIP.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.33F);
             CoordenadasIP.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.38F);
             CoordenadasIP.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.57F);
@@ -203,10 +204,13 @@ namespace TGC.Group.Model.Funciones.Objetos
         // Devuelve verdadero si se acaba de clickear sobre el HUDBox
         public void Update()
         {
-
             if (MenuOpciones.SalirOpciones)
             {
                 _menuOpciones.Update();
+            }
+            if (MenuComoJugar.SalirComoJugar)
+            {
+                _menuComoJugar.Update();
             }
             else
             {
@@ -256,6 +260,7 @@ namespace TGC.Group.Model.Funciones.Objetos
                         break;
 
                     case 4:
+                        MenuComoJugar.SalirComoJugar = true;
                         break;
 
                     default: break;
@@ -272,6 +277,11 @@ namespace TGC.Group.Model.Funciones.Objetos
         // Renderiza todos los objetos relativos a la clase
         public void Render()
         {
+            if (MenuComoJugar.SalirComoJugar)
+            {
+                _menuComoJugar.Render();
+            }
+            else
             if (MenuOpciones.SalirOpciones)
             {
                 _menuOpciones.Render();

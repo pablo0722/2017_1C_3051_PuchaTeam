@@ -5,6 +5,8 @@ using Microsoft.DirectX.DirectInput;
 using TGC.Group.Model.Funciones.Objetos;
 using System.Drawing;
 using TGC.Core.Direct3D;
+using TGC.Core.Example;
+using TGC.Core.Text;
 
 namespace TGC.Group.Model.Funciones.Objetos
 {
@@ -52,30 +54,31 @@ namespace TGC.Group.Model.Funciones.Objetos
     {
         _game = game;
 
+
         CoordenadasOpcionesAtras.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.03F);
         CoordenadasOpcionesAtras.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.41F);
-        CoordenadasOpcionesAtras.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.74F);
-        CoordenadasOpcionesAtras.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.90F);
+        CoordenadasOpcionesAtras.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.80F);
+        CoordenadasOpcionesAtras.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.95F);
 
-        CoordenadasOpcionesIluminacion.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.27F);
+        CoordenadasOpcionesIluminacion.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.26F);
         CoordenadasOpcionesIluminacion.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.32F);
-        CoordenadasOpcionesIluminacion.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.53F);
-        CoordenadasOpcionesIluminacion.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.62F);
+        CoordenadasOpcionesIluminacion.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.57F);
+        CoordenadasOpcionesIluminacion.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.67F);
 
-        CoordenadasOpcionesSombra.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.20F);
-        CoordenadasOpcionesSombra.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.24F);
-        CoordenadasOpcionesSombra.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.38F);
-        CoordenadasOpcionesSombra.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.46F);
+        CoordenadasOpcionesSombra.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.19F);
+        CoordenadasOpcionesSombra.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.25F);
+        CoordenadasOpcionesSombra.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.40F);
+        CoordenadasOpcionesSombra.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.50F);
 
         CoordenadasOpcionesMusicaUP.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.20F);
         CoordenadasOpcionesMusicaUP.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.24F);
         CoordenadasOpcionesMusicaUP.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.23F);
-        CoordenadasOpcionesMusicaUP.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.27F);
+        CoordenadasOpcionesMusicaUP.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.275F);
 
         CoordenadasOpcionesMusicaDOWN.InicialX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.20F);
         CoordenadasOpcionesMusicaDOWN.FinalX = (int)(D3DDevice.Instance.Device.Viewport.Width * 0.24F);
         CoordenadasOpcionesMusicaDOWN.InicialY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.28F);
-        CoordenadasOpcionesMusicaDOWN.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.32F);
+        CoordenadasOpcionesMusicaDOWN.FinalY = (int)(D3DDevice.Instance.Device.Viewport.Height * 0.325F);
 
         BoxBitmapMenuOpciones = new CustomBitmap(PathTexturaMenuOpciones, D3DDevice.Instance.Device);
         BoxBitmapIPMenuOpcionesLuz = new CustomBitmap(PathTexturaMenuOpcionesLuz, D3DDevice.Instance.Device);
@@ -92,7 +95,8 @@ namespace TGC.Group.Model.Funciones.Objetos
         BoxSprite.Scaling = new Vector2((float)sx / BoxBitmapMenuOpciones.Size.Width, (float)sy / BoxBitmapMenuOpciones.Size.Height);
         BoxSprite.Position = new Vector2(x, y);
         BoxSprite.Rotation = 0;
-    }
+
+        }
 
     public static MenuOpciones Crear(GameModel game)
     {
@@ -162,8 +166,18 @@ namespace TGC.Group.Model.Funciones.Objetos
             }
 
             }
-
-        return 0;
+            if (_game._mouse.ClickIzq_Down())
+            {
+                if (_game._mouse.Is_Position(CoordenadasOpcionesMusicaUP.InicialX, CoordenadasOpcionesMusicaUP.FinalX, CoordenadasOpcionesMusicaUP.InicialY, CoordenadasOpcionesMusicaUP.FinalY))
+                {
+                    return 4;
+                }
+                if (_game._mouse.Is_Position(CoordenadasOpcionesMusicaDOWN.InicialX, CoordenadasOpcionesMusicaDOWN.FinalX, CoordenadasOpcionesMusicaDOWN.InicialY, CoordenadasOpcionesMusicaDOWN.FinalY))
+                {
+                    return 5;
+                }
+            }
+                return 0;
     }
 
 
@@ -221,6 +235,30 @@ namespace TGC.Group.Model.Funciones.Objetos
                     Set_Textura_MenuOpciones();
                 }
                 break;
+            case 4:
+                    if (_game._sonidos.musicvolume < 100)
+                    {
+                        if (_game._sonidos.musicvolume < 0)
+                        {
+                            _game._sonidos.fxvolume = 1;
+                            _game._sonidos.musicvolume = 2;
+                        }
+                        else
+                        {
+                            _game._sonidos.fxvolume++;
+                            _game._sonidos.musicvolume += 2;
+                        }
+                    }
+                        break;
+
+            case 5:
+                    if (_game._sonidos.musicvolume > 0)
+                    {
+                        _game._sonidos.fxvolume--;
+                        _game._sonidos.musicvolume -= 2;
+                    }
+                    break;
+
                 default: break;
         }
 
@@ -237,9 +275,14 @@ namespace TGC.Group.Model.Funciones.Objetos
         _game._spriteDrawer.BeginDrawSprite();
         _game._spriteDrawer.DrawSprite(BoxSprite);
         _game._spriteDrawer.EndDrawSprite();
-    }
+        if(_game._sonidos.musicvolume>0)
+            _game.DrawText.drawText(_game._sonidos.musicvolume.ToString(), (int)(D3DDevice.Instance.Device.Viewport.Width * 0.175), (int)(D3DDevice.Instance.Device.Viewport.Height * 0.28), Color.Black);
+        else
+            _game.DrawText.drawText("0", (int)(D3DDevice.Instance.Device.Viewport.Width * 0.175), (int)(D3DDevice.Instance.Device.Viewport.Height * 0.28), Color.Black);
 
-}
+        }
+
+    }
 
 
 
